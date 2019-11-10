@@ -242,8 +242,8 @@ type is no longer assigned as a survey type.
 
 Content types may be designated as survey types, meaning that they contain data 
 collection fields and appear in the Data Entry Portal (and Data Search Portal, 
-if DIRT DataTable is installed). Refer to the[Overview](#overview) section for a 
-list of the core content types with their descriptions.
+if DIRT DataTable is installed). Refer to the [Overview](#overview) section for  
+a list of the core content types with their descriptions.
 
 Survey types may be added or removed via the admin config page at 
 admin/config/dirt/surveys. *Note:* Built-in content types may not be deleted 
