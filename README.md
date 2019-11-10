@@ -5,7 +5,7 @@
 The DIRT Citizen Science Core module provides a web-based data portal for 
 collecting data from citizen scientists.
 
-This module was created manage data collection for the 
+This module was created to manage data collection for the 
 [MO DIRT](https://modirt.missouriepscor.org/) (Missourians Doing Impact 
 Research Together) project, and thus is primarily set up to collect soil health 
 data such as soil respiration and chemical soil properties, as well as basic 
@@ -21,7 +21,7 @@ data entry portal pages and data collection surveys. The four survey types are:
 * *Group Information Survey*: Information about the Citizen Scientist 
   participants (e.g., group name, group members).
 * *Site Description Survey*: Information about the collection site (e.g., site 
-  address, GSP coordinates, habitat, land management practices).
+  address, GPS coordinates, habitat, land management practices).
 * *Monthly Data Survey*: Site variables collected monthly, such as soil 
   respiration and soil water content. Some fields are calculated automatically 
   for the participants on this survey.
@@ -37,21 +37,25 @@ county, and survey date range, and a map of collection sites (if enabled).
 
 ## Uses
 
-* Collecting Citizen Science survey data
+* *Collecting Citizen Science survey data*
+
 Citizen Scientists request data entry accounts via the web site. After setting 
 up an account and logging in, they have access to all of the surveys via the 
 Data Entry Portal.
 
-* Sharing Citizen Science data with the public
+* *Sharing Citizen Science data with the public*
+
 If the DIRT DataTable module is enabled, a Data Search Portal is created that
 displays all collected Citizen Science survey data in a searchable table and 
 optionally includes a map of all collection sites.
 
-* Exporting Citizen Science data
+* *Exporting Citizen Science data*
+
 If the DIRT DataTable module is enabled, the Data Search table includes 
 options to export all survey data as a spreadsheet in XLS or CSV format.
 
-* Managing data access
+* *Managing data access*
+
 The DIRT Core module provides a user profile field that allows participants to 
 control access to their data ("public", "semi-public", i.e., accessible to 
 other participants only, or "semi-private"). The most restrictive option is 
@@ -65,17 +69,20 @@ the data, including the "semi-private" data. The requests are stored in the
 database, pending admin approval. Approved accounts are given the "Data Viewing 
 Account" role, also created as part of the module.
 
-* Managing collection schedules
+* *Managing collection schedules*
+
 The Data Entry Portal keeps track of the collection start date for each site 
 and prompts participants to enter surveys as scheduled (e.g., every month for 
 monthly surveys).
 
-* Displaying survey history
+* *Displaying survey history*
+
 The Data Entry Portal keeps track of all surveys submitted for each site. 
 Participants may review all of their previously submitted surveys via the 
 portal and make changes to survey fields if necessary.
 
-* Educating the public about the project
+* *Educating the public about the project*
+
 The module provides a basic site layout with suggested content pages and menus 
 to describe the project to the public. Suggested pages include a page to upload 
 resources (such as a data entry manual), a page to keep track of upcoming or 
