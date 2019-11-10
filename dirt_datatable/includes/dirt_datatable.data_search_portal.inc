@@ -833,7 +833,6 @@ function dirt_datatable_add_variable_filter(&$build) {
   }
 
   $variables = $admin_only_vars + $variables;
-
   // Add a container for variable filter
   $build['variable_filter'] = array(
     '#type' => 'container',
@@ -914,13 +913,25 @@ function dirt_datatable_get_variable_filter_checkboxes($variables) {
   $markup .= t('Uncheck all');
   $markup .= '</a></div>';
 
+  $user_is_admin = user_access('administer nodes');
   // Iterate over variables and add the checkboxes
   foreach($variables as $id => $var_info) {
-    // First check if filter group is empty - if so, skip
     $fid = $var_info['fid'];
-    $cols_in_group = dirt_datatable_get_columns_in_filter_group($fid, user_access('administer nodes'), FALSE);
 
-    if (!empty($cols_in_group)) {
+    // Check whether to display variable group.
+    $display_var_group = FALSE; // Initialize to not display var group.
+    if ($id == 'group-info') {
+      // Special case: group info has no filter group, so display if admin.
+      $display_var_group = $user_is_admin;
+    }
+    else {
+      // In every other case, check if filter group is empty first, and if so, 
+      // skip.
+      $cols_in_group = dirt_datatable_get_columns_in_filter_group($fid, $user_is_admin, FALSE);
+      $display_var_group = !empty($cols_in_group);
+    }
+
+    if ($display_var_group) {
       // Get the collection frequency from the survey type
       $frequency_num = dirt_get_collection_frequency_of_survey_type($var_info['survey_type']);
       $frequency = _dirt_datatable_get_formatted_collection_frequency($frequency_num);

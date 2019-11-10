@@ -485,7 +485,7 @@ function dirt_datatable_get_all_data_from_data_table($max_access_level) {
 
   // Additionally, exclude group info rows UNLESS logged-in user is an admin
   if (!$user_is_admin)
-    $query->condition('t.survey_type', 'Group', '!=');
+    $query->condition('t.survey_type', 'dirt_group_information_survey', '!=');
 
   // Also only include surveys marked as included (default option) vs. excluded
   $query->condition('t.include', 'include');
