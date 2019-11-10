@@ -1,0 +1,239 @@
+\hypertarget{dirt_8survey__types_8inc}{}\section{dirt.\+survey\+\_\+types.\+inc File Reference}
+\label{dirt_8survey__types_8inc}\index{dirt.\+survey\+\_\+types.\+inc@{dirt.\+survey\+\_\+types.\+inc}}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{dirt_8survey__types_8inc_aed945245ecae97ebf2928aa638cc4828}{\+\_\+dirt\+\_\+add\+\_\+survey\+\_\+type}} (\$type, \$collection\+\_\+frequency, \$collection\+\_\+months=array(), \$is\+\_\+admin\+\_\+only=F\+A\+L\+SE)
+\item 
+\mbox{\hyperlink{dirt_8survey__types_8inc_a6d4ede5a8bdb2b158700756e4a1047f7}{\+\_\+dirt\+\_\+delete\+\_\+survey\+\_\+type}} (\$type)
+\item 
+\mbox{\hyperlink{dirt_8survey__types_8inc_a06d62ab3f3a014f5e671a65863ef0fc0}{\+\_\+dirt\+\_\+get\+\_\+survey\+\_\+types}} ()
+\item 
+\mbox{\hyperlink{dirt_8survey__types_8inc_aac3063bd86c2980e26a77c018c9b74d2}{\+\_\+dirt\+\_\+node\+\_\+type\+\_\+is\+\_\+survey\+\_\+type}} (\$type)
+\item 
+\mbox{\hyperlink{dirt_8survey__types_8inc_acd53a42111c9296d066116901bee3e0f}{\+\_\+dirt\+\_\+get\+\_\+most\+\_\+recent\+\_\+survey\+\_\+of\+\_\+type\+\_\+for\+\_\+user}} (\$uid, \$type)
+\item 
+\mbox{\hyperlink{dirt_8survey__types_8inc_a1a753b3547346d101c37efa99cc5d45c}{\+\_\+dirt\+\_\+get\+\_\+earliest\+\_\+survey\+\_\+date}} (\$uid)
+\item 
+\mbox{\hyperlink{dirt_8survey__types_8inc_ad4046b68c0497c09450d0f6501afdd7e}{\+\_\+dirt\+\_\+get\+\_\+collection\+\_\+frequency\+\_\+of\+\_\+survey\+\_\+type}} (\$type)
+\item 
+\mbox{\hyperlink{dirt_8survey__types_8inc_a4b269d84bb119501e44d68bd2a5a3b69}{\+\_\+dirt\+\_\+get\+\_\+collection\+\_\+frequency\+\_\+str\+\_\+of\+\_\+survey\+\_\+type}} (\$frequency\+\_\+num)
+\item 
+\mbox{\hyperlink{dirt_8survey__types_8inc_a9908be350a8871c2521d909c904de7e1}{\+\_\+dirt\+\_\+get\+\_\+collection\+\_\+months\+\_\+of\+\_\+survey\+\_\+type}} (\$type)
+\item 
+\mbox{\hyperlink{dirt_8survey__types_8inc_a07597d735c5cfacbeed7589343c5d5c6}{\+\_\+dirt\+\_\+get\+\_\+admin\+\_\+only\+\_\+status\+\_\+of\+\_\+survey\+\_\+type}} (\$type)
+\item 
+\mbox{\hyperlink{dirt_8survey__types_8inc_acb68757378550b5add8063d43eaef0bd}{\+\_\+dirt\+\_\+update\+\_\+survey\+\_\+type\+\_\+permissions\+\_\+for\+\_\+data\+\_\+entry\+\_\+users}} (\$type, \$op)
+\item 
+\mbox{\hyperlink{dirt_8survey__types_8inc_a0d11889da2902c97b3569f20acb0b4b9}{\+\_\+dirt\+\_\+add\+\_\+common\+\_\+field\+\_\+instances\+\_\+to\+\_\+survey\+\_\+type}} (\$type)
+\item 
+\mbox{\hyperlink{dirt_8survey__types_8inc_aca139cdf3507c1c7b4b67d21530518d5}{\+\_\+dirt\+\_\+delete\+\_\+common\+\_\+field\+\_\+instances\+\_\+from\+\_\+survey\+\_\+type}} (\$type)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file includes functions that handle adding and removing survey types and retrieving properties of survey types. 
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{dirt_8survey__types_8inc_a0d11889da2902c97b3569f20acb0b4b9}\label{dirt_8survey__types_8inc_a0d11889da2902c97b3569f20acb0b4b9}} 
+\index{dirt.\+survey\+\_\+types.\+inc@{dirt.\+survey\+\_\+types.\+inc}!\+\_\+dirt\+\_\+add\+\_\+common\+\_\+field\+\_\+instances\+\_\+to\+\_\+survey\+\_\+type@{\+\_\+dirt\+\_\+add\+\_\+common\+\_\+field\+\_\+instances\+\_\+to\+\_\+survey\+\_\+type}}
+\index{\+\_\+dirt\+\_\+add\+\_\+common\+\_\+field\+\_\+instances\+\_\+to\+\_\+survey\+\_\+type@{\+\_\+dirt\+\_\+add\+\_\+common\+\_\+field\+\_\+instances\+\_\+to\+\_\+survey\+\_\+type}!dirt.\+survey\+\_\+types.\+inc@{dirt.\+survey\+\_\+types.\+inc}}
+\subsubsection{\texorpdfstring{\+\_\+dirt\+\_\+add\+\_\+common\+\_\+field\+\_\+instances\+\_\+to\+\_\+survey\+\_\+type()}{\_dirt\_add\_common\_field\_instances\_to\_survey\_type()}}
+{\footnotesize\ttfamily \+\_\+dirt\+\_\+add\+\_\+common\+\_\+field\+\_\+instances\+\_\+to\+\_\+survey\+\_\+type (\begin{DoxyParamCaption}\item[{}]{\$type }\end{DoxyParamCaption})}
+
+Helper function to add field instances to new survey type that all survey types have in common. \mbox{\Hypertarget{dirt_8survey__types_8inc_aed945245ecae97ebf2928aa638cc4828}\label{dirt_8survey__types_8inc_aed945245ecae97ebf2928aa638cc4828}} 
+\index{dirt.\+survey\+\_\+types.\+inc@{dirt.\+survey\+\_\+types.\+inc}!\+\_\+dirt\+\_\+add\+\_\+survey\+\_\+type@{\+\_\+dirt\+\_\+add\+\_\+survey\+\_\+type}}
+\index{\+\_\+dirt\+\_\+add\+\_\+survey\+\_\+type@{\+\_\+dirt\+\_\+add\+\_\+survey\+\_\+type}!dirt.\+survey\+\_\+types.\+inc@{dirt.\+survey\+\_\+types.\+inc}}
+\subsubsection{\texorpdfstring{\+\_\+dirt\+\_\+add\+\_\+survey\+\_\+type()}{\_dirt\_add\_survey\_type()}}
+{\footnotesize\ttfamily \+\_\+dirt\+\_\+add\+\_\+survey\+\_\+type (\begin{DoxyParamCaption}\item[{}]{\$type,  }\item[{}]{\$collection\+\_\+frequency,  }\item[{}]{\$collection\+\_\+months = {\ttfamily array()},  }\item[{}]{\$is\+\_\+admin\+\_\+only = {\ttfamily FALSE} }\end{DoxyParamCaption})}
+
+Adds a new survey type (i.\+e., designates an existing content type as a survey type).
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$type} & Survey type machine name. \\
+\hline
+\mbox{\tt in}  & {\em \$collection\+\_\+frequency} & Number of times per year survey is collected. \\
+\hline
+\mbox{\tt in}  & {\em \$collection\+\_\+months} & {\itshape Optional} Array of collection months (1-\/12), if not evenly spaced throughout the calendar year. \\
+\hline
+\mbox{\tt in}  & {\em \$is\+\_\+admin\+\_\+only} & {\itshape Optional} Boolean whether survey is admin-\/only (default is false). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{dirt_8survey__types_8inc_aca139cdf3507c1c7b4b67d21530518d5}\label{dirt_8survey__types_8inc_aca139cdf3507c1c7b4b67d21530518d5}} 
+\index{dirt.\+survey\+\_\+types.\+inc@{dirt.\+survey\+\_\+types.\+inc}!\+\_\+dirt\+\_\+delete\+\_\+common\+\_\+field\+\_\+instances\+\_\+from\+\_\+survey\+\_\+type@{\+\_\+dirt\+\_\+delete\+\_\+common\+\_\+field\+\_\+instances\+\_\+from\+\_\+survey\+\_\+type}}
+\index{\+\_\+dirt\+\_\+delete\+\_\+common\+\_\+field\+\_\+instances\+\_\+from\+\_\+survey\+\_\+type@{\+\_\+dirt\+\_\+delete\+\_\+common\+\_\+field\+\_\+instances\+\_\+from\+\_\+survey\+\_\+type}!dirt.\+survey\+\_\+types.\+inc@{dirt.\+survey\+\_\+types.\+inc}}
+\subsubsection{\texorpdfstring{\+\_\+dirt\+\_\+delete\+\_\+common\+\_\+field\+\_\+instances\+\_\+from\+\_\+survey\+\_\+type()}{\_dirt\_delete\_common\_field\_instances\_from\_survey\_type()}}
+{\footnotesize\ttfamily \+\_\+dirt\+\_\+delete\+\_\+common\+\_\+field\+\_\+instances\+\_\+from\+\_\+survey\+\_\+type (\begin{DoxyParamCaption}\item[{}]{\$type }\end{DoxyParamCaption})}
+
+Helper function to delete common survey field instances from content type that is no longer a survey type. \mbox{\Hypertarget{dirt_8survey__types_8inc_a6d4ede5a8bdb2b158700756e4a1047f7}\label{dirt_8survey__types_8inc_a6d4ede5a8bdb2b158700756e4a1047f7}} 
+\index{dirt.\+survey\+\_\+types.\+inc@{dirt.\+survey\+\_\+types.\+inc}!\+\_\+dirt\+\_\+delete\+\_\+survey\+\_\+type@{\+\_\+dirt\+\_\+delete\+\_\+survey\+\_\+type}}
+\index{\+\_\+dirt\+\_\+delete\+\_\+survey\+\_\+type@{\+\_\+dirt\+\_\+delete\+\_\+survey\+\_\+type}!dirt.\+survey\+\_\+types.\+inc@{dirt.\+survey\+\_\+types.\+inc}}
+\subsubsection{\texorpdfstring{\+\_\+dirt\+\_\+delete\+\_\+survey\+\_\+type()}{\_dirt\_delete\_survey\_type()}}
+{\footnotesize\ttfamily \+\_\+dirt\+\_\+delete\+\_\+survey\+\_\+type (\begin{DoxyParamCaption}\item[{}]{\$type }\end{DoxyParamCaption})}
+
+Deletes a survey type.
+
+Note that this does not change the content type itself, only its status as a survey type.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$type} & String type machine name. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{dirt_8survey__types_8inc_a07597d735c5cfacbeed7589343c5d5c6}\label{dirt_8survey__types_8inc_a07597d735c5cfacbeed7589343c5d5c6}} 
+\index{dirt.\+survey\+\_\+types.\+inc@{dirt.\+survey\+\_\+types.\+inc}!\+\_\+dirt\+\_\+get\+\_\+admin\+\_\+only\+\_\+status\+\_\+of\+\_\+survey\+\_\+type@{\+\_\+dirt\+\_\+get\+\_\+admin\+\_\+only\+\_\+status\+\_\+of\+\_\+survey\+\_\+type}}
+\index{\+\_\+dirt\+\_\+get\+\_\+admin\+\_\+only\+\_\+status\+\_\+of\+\_\+survey\+\_\+type@{\+\_\+dirt\+\_\+get\+\_\+admin\+\_\+only\+\_\+status\+\_\+of\+\_\+survey\+\_\+type}!dirt.\+survey\+\_\+types.\+inc@{dirt.\+survey\+\_\+types.\+inc}}
+\subsubsection{\texorpdfstring{\+\_\+dirt\+\_\+get\+\_\+admin\+\_\+only\+\_\+status\+\_\+of\+\_\+survey\+\_\+type()}{\_dirt\_get\_admin\_only\_status\_of\_survey\_type()}}
+{\footnotesize\ttfamily \+\_\+dirt\+\_\+get\+\_\+admin\+\_\+only\+\_\+status\+\_\+of\+\_\+survey\+\_\+type (\begin{DoxyParamCaption}\item[{}]{\$type }\end{DoxyParamCaption})}
+
+Returns the admin-\/only entry status of a survey type.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$type} & String type machine name.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Integer} & admin-\/only status (1 if admin-\/only, 0 if not). \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt_8survey__types_8inc_ad4046b68c0497c09450d0f6501afdd7e}\label{dirt_8survey__types_8inc_ad4046b68c0497c09450d0f6501afdd7e}} 
+\index{dirt.\+survey\+\_\+types.\+inc@{dirt.\+survey\+\_\+types.\+inc}!\+\_\+dirt\+\_\+get\+\_\+collection\+\_\+frequency\+\_\+of\+\_\+survey\+\_\+type@{\+\_\+dirt\+\_\+get\+\_\+collection\+\_\+frequency\+\_\+of\+\_\+survey\+\_\+type}}
+\index{\+\_\+dirt\+\_\+get\+\_\+collection\+\_\+frequency\+\_\+of\+\_\+survey\+\_\+type@{\+\_\+dirt\+\_\+get\+\_\+collection\+\_\+frequency\+\_\+of\+\_\+survey\+\_\+type}!dirt.\+survey\+\_\+types.\+inc@{dirt.\+survey\+\_\+types.\+inc}}
+\subsubsection{\texorpdfstring{\+\_\+dirt\+\_\+get\+\_\+collection\+\_\+frequency\+\_\+of\+\_\+survey\+\_\+type()}{\_dirt\_get\_collection\_frequency\_of\_survey\_type()}}
+{\footnotesize\ttfamily \+\_\+dirt\+\_\+get\+\_\+collection\+\_\+frequency\+\_\+of\+\_\+survey\+\_\+type (\begin{DoxyParamCaption}\item[{}]{\$type }\end{DoxyParamCaption})}
+
+Returns the collection frequency for a survey type.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$type} & String type machine name.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Integer} & collection frequency (0 if none found). \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt_8survey__types_8inc_a4b269d84bb119501e44d68bd2a5a3b69}\label{dirt_8survey__types_8inc_a4b269d84bb119501e44d68bd2a5a3b69}} 
+\index{dirt.\+survey\+\_\+types.\+inc@{dirt.\+survey\+\_\+types.\+inc}!\+\_\+dirt\+\_\+get\+\_\+collection\+\_\+frequency\+\_\+str\+\_\+of\+\_\+survey\+\_\+type@{\+\_\+dirt\+\_\+get\+\_\+collection\+\_\+frequency\+\_\+str\+\_\+of\+\_\+survey\+\_\+type}}
+\index{\+\_\+dirt\+\_\+get\+\_\+collection\+\_\+frequency\+\_\+str\+\_\+of\+\_\+survey\+\_\+type@{\+\_\+dirt\+\_\+get\+\_\+collection\+\_\+frequency\+\_\+str\+\_\+of\+\_\+survey\+\_\+type}!dirt.\+survey\+\_\+types.\+inc@{dirt.\+survey\+\_\+types.\+inc}}
+\subsubsection{\texorpdfstring{\+\_\+dirt\+\_\+get\+\_\+collection\+\_\+frequency\+\_\+str\+\_\+of\+\_\+survey\+\_\+type()}{\_dirt\_get\_collection\_frequency\_str\_of\_survey\_type()}}
+{\footnotesize\ttfamily \+\_\+dirt\+\_\+get\+\_\+collection\+\_\+frequency\+\_\+str\+\_\+of\+\_\+survey\+\_\+type (\begin{DoxyParamCaption}\item[{}]{\$frequency\+\_\+num }\end{DoxyParamCaption})}
+
+Returns the collection frequency number as a string, e.\+g., \char`\"{}once a year\char`\"{}, \char`\"{}twice a year\char`\"{}, etc.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$frequency\+\_\+num} & Integer collection frequency.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em String} & collection frequency. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt_8survey__types_8inc_a9908be350a8871c2521d909c904de7e1}\label{dirt_8survey__types_8inc_a9908be350a8871c2521d909c904de7e1}} 
+\index{dirt.\+survey\+\_\+types.\+inc@{dirt.\+survey\+\_\+types.\+inc}!\+\_\+dirt\+\_\+get\+\_\+collection\+\_\+months\+\_\+of\+\_\+survey\+\_\+type@{\+\_\+dirt\+\_\+get\+\_\+collection\+\_\+months\+\_\+of\+\_\+survey\+\_\+type}}
+\index{\+\_\+dirt\+\_\+get\+\_\+collection\+\_\+months\+\_\+of\+\_\+survey\+\_\+type@{\+\_\+dirt\+\_\+get\+\_\+collection\+\_\+months\+\_\+of\+\_\+survey\+\_\+type}!dirt.\+survey\+\_\+types.\+inc@{dirt.\+survey\+\_\+types.\+inc}}
+\subsubsection{\texorpdfstring{\+\_\+dirt\+\_\+get\+\_\+collection\+\_\+months\+\_\+of\+\_\+survey\+\_\+type()}{\_dirt\_get\_collection\_months\_of\_survey\_type()}}
+{\footnotesize\ttfamily \+\_\+dirt\+\_\+get\+\_\+collection\+\_\+months\+\_\+of\+\_\+survey\+\_\+type (\begin{DoxyParamCaption}\item[{}]{\$type }\end{DoxyParamCaption})}
+
+Returns the collection months for a survey type.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$type} & String type machine name.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Array} & of collection months (empty if none found). \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt_8survey__types_8inc_a1a753b3547346d101c37efa99cc5d45c}\label{dirt_8survey__types_8inc_a1a753b3547346d101c37efa99cc5d45c}} 
+\index{dirt.\+survey\+\_\+types.\+inc@{dirt.\+survey\+\_\+types.\+inc}!\+\_\+dirt\+\_\+get\+\_\+earliest\+\_\+survey\+\_\+date@{\+\_\+dirt\+\_\+get\+\_\+earliest\+\_\+survey\+\_\+date}}
+\index{\+\_\+dirt\+\_\+get\+\_\+earliest\+\_\+survey\+\_\+date@{\+\_\+dirt\+\_\+get\+\_\+earliest\+\_\+survey\+\_\+date}!dirt.\+survey\+\_\+types.\+inc@{dirt.\+survey\+\_\+types.\+inc}}
+\subsubsection{\texorpdfstring{\+\_\+dirt\+\_\+get\+\_\+earliest\+\_\+survey\+\_\+date()}{\_dirt\_get\_earliest\_survey\_date()}}
+{\footnotesize\ttfamily \+\_\+dirt\+\_\+get\+\_\+earliest\+\_\+survey\+\_\+date (\begin{DoxyParamCaption}\item[{}]{\$uid }\end{DoxyParamCaption})}
+
+Return the earliest survey date of all surveys submitted by a user.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$uid} & User ID (uid).\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Start} & date of earliest survey, or empty string if none found. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt_8survey__types_8inc_acd53a42111c9296d066116901bee3e0f}\label{dirt_8survey__types_8inc_acd53a42111c9296d066116901bee3e0f}} 
+\index{dirt.\+survey\+\_\+types.\+inc@{dirt.\+survey\+\_\+types.\+inc}!\+\_\+dirt\+\_\+get\+\_\+most\+\_\+recent\+\_\+survey\+\_\+of\+\_\+type\+\_\+for\+\_\+user@{\+\_\+dirt\+\_\+get\+\_\+most\+\_\+recent\+\_\+survey\+\_\+of\+\_\+type\+\_\+for\+\_\+user}}
+\index{\+\_\+dirt\+\_\+get\+\_\+most\+\_\+recent\+\_\+survey\+\_\+of\+\_\+type\+\_\+for\+\_\+user@{\+\_\+dirt\+\_\+get\+\_\+most\+\_\+recent\+\_\+survey\+\_\+of\+\_\+type\+\_\+for\+\_\+user}!dirt.\+survey\+\_\+types.\+inc@{dirt.\+survey\+\_\+types.\+inc}}
+\subsubsection{\texorpdfstring{\+\_\+dirt\+\_\+get\+\_\+most\+\_\+recent\+\_\+survey\+\_\+of\+\_\+type\+\_\+for\+\_\+user()}{\_dirt\_get\_most\_recent\_survey\_of\_type\_for\_user()}}
+{\footnotesize\ttfamily \+\_\+dirt\+\_\+get\+\_\+most\+\_\+recent\+\_\+survey\+\_\+of\+\_\+type\+\_\+for\+\_\+user (\begin{DoxyParamCaption}\item[{}]{\$uid,  }\item[{}]{\$type }\end{DoxyParamCaption})}
+
+Returns the most recently submitted survey node ID for a user. (Primarily used to get the unique nid for one of the one-\/time survey types.) Returns empty string if no nid found.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$uid} & User ID. \\
+\hline
+\mbox{\tt in}  & {\em \$type} & Survey type (machine name).\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em String} & Node ID of survey node if found, or empty string otherwise. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt_8survey__types_8inc_a06d62ab3f3a014f5e671a65863ef0fc0}\label{dirt_8survey__types_8inc_a06d62ab3f3a014f5e671a65863ef0fc0}} 
+\index{dirt.\+survey\+\_\+types.\+inc@{dirt.\+survey\+\_\+types.\+inc}!\+\_\+dirt\+\_\+get\+\_\+survey\+\_\+types@{\+\_\+dirt\+\_\+get\+\_\+survey\+\_\+types}}
+\index{\+\_\+dirt\+\_\+get\+\_\+survey\+\_\+types@{\+\_\+dirt\+\_\+get\+\_\+survey\+\_\+types}!dirt.\+survey\+\_\+types.\+inc@{dirt.\+survey\+\_\+types.\+inc}}
+\subsubsection{\texorpdfstring{\+\_\+dirt\+\_\+get\+\_\+survey\+\_\+types()}{\_dirt\_get\_survey\_types()}}
+{\footnotesize\ttfamily \+\_\+dirt\+\_\+get\+\_\+survey\+\_\+types (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Returns list of machine names of all survey types in the system.
+
+
+\begin{DoxyRetVals}{Return values}
+{\em Array} & of survey type names (empty if none found). \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt_8survey__types_8inc_aac3063bd86c2980e26a77c018c9b74d2}\label{dirt_8survey__types_8inc_aac3063bd86c2980e26a77c018c9b74d2}} 
+\index{dirt.\+survey\+\_\+types.\+inc@{dirt.\+survey\+\_\+types.\+inc}!\+\_\+dirt\+\_\+node\+\_\+type\+\_\+is\+\_\+survey\+\_\+type@{\+\_\+dirt\+\_\+node\+\_\+type\+\_\+is\+\_\+survey\+\_\+type}}
+\index{\+\_\+dirt\+\_\+node\+\_\+type\+\_\+is\+\_\+survey\+\_\+type@{\+\_\+dirt\+\_\+node\+\_\+type\+\_\+is\+\_\+survey\+\_\+type}!dirt.\+survey\+\_\+types.\+inc@{dirt.\+survey\+\_\+types.\+inc}}
+\subsubsection{\texorpdfstring{\+\_\+dirt\+\_\+node\+\_\+type\+\_\+is\+\_\+survey\+\_\+type()}{\_dirt\_node\_type\_is\_survey\_type()}}
+{\footnotesize\ttfamily \+\_\+dirt\+\_\+node\+\_\+type\+\_\+is\+\_\+survey\+\_\+type (\begin{DoxyParamCaption}\item[{}]{\$type }\end{DoxyParamCaption})}
+
+Determines whether a content type is a survey type.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$type} & Node type machine name string.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Boolean} & true if survey type, false otherwise. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt_8survey__types_8inc_acb68757378550b5add8063d43eaef0bd}\label{dirt_8survey__types_8inc_acb68757378550b5add8063d43eaef0bd}} 
+\index{dirt.\+survey\+\_\+types.\+inc@{dirt.\+survey\+\_\+types.\+inc}!\+\_\+dirt\+\_\+update\+\_\+survey\+\_\+type\+\_\+permissions\+\_\+for\+\_\+data\+\_\+entry\+\_\+users@{\+\_\+dirt\+\_\+update\+\_\+survey\+\_\+type\+\_\+permissions\+\_\+for\+\_\+data\+\_\+entry\+\_\+users}}
+\index{\+\_\+dirt\+\_\+update\+\_\+survey\+\_\+type\+\_\+permissions\+\_\+for\+\_\+data\+\_\+entry\+\_\+users@{\+\_\+dirt\+\_\+update\+\_\+survey\+\_\+type\+\_\+permissions\+\_\+for\+\_\+data\+\_\+entry\+\_\+users}!dirt.\+survey\+\_\+types.\+inc@{dirt.\+survey\+\_\+types.\+inc}}
+\subsubsection{\texorpdfstring{\+\_\+dirt\+\_\+update\+\_\+survey\+\_\+type\+\_\+permissions\+\_\+for\+\_\+data\+\_\+entry\+\_\+users()}{\_dirt\_update\_survey\_type\_permissions\_for\_data\_entry\_users()}}
+{\footnotesize\ttfamily \+\_\+dirt\+\_\+update\+\_\+survey\+\_\+type\+\_\+permissions\+\_\+for\+\_\+data\+\_\+entry\+\_\+users (\begin{DoxyParamCaption}\item[{}]{\$type,  }\item[{}]{\$op }\end{DoxyParamCaption})}
+
+Helper function to update permissions for survey type being added or removed.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$type} & Survey type machine name. \\
+\hline
+\mbox{\tt in}  & {\em \$op} & Update operator (\textquotesingle{}grant\textquotesingle{} or \textquotesingle{}revoke\textquotesingle{}). \\
+\hline
+\end{DoxyParams}

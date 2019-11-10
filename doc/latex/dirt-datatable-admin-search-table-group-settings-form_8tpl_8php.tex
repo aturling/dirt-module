@@ -1,0 +1,69 @@
+\hypertarget{dirt-datatable-admin-search-table-group-settings-form_8tpl_8php}{}\section{dirt-\/datatable-\/admin-\/search-\/table-\/group-\/settings-\/form.tpl.\+php File Reference}
+\label{dirt-datatable-admin-search-table-group-settings-form_8tpl_8php}\index{dirt-\/datatable-\/admin-\/search-\/table-\/group-\/settings-\/form.\+tpl.\+php@{dirt-\/datatable-\/admin-\/search-\/table-\/group-\/settings-\/form.\+tpl.\+php}}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{dirt-datatable-admin-search-table-group-settings-form_8tpl_8php_ae5fae780d45f223f2020dde2f4f908d7}\label{dirt-datatable-admin-search-table-group-settings-form_8tpl_8php_ae5fae780d45f223f2020dde2f4f908d7}} 
+print {\bfseries \$edit\+\_\+column\+\_\+groups\+\_\+header}
+\item 
+\mbox{\Hypertarget{dirt-datatable-admin-search-table-group-settings-form_8tpl_8php_aa1d731aa570613e5bcff831bb10e9b87}\label{dirt-datatable-admin-search-table-group-settings-form_8tpl_8php_aa1d731aa570613e5bcff831bb10e9b87}} 
+{\bfseries \$row} = 0
+\item 
+\mbox{\Hypertarget{dirt-datatable-admin-search-table-group-settings-form_8tpl_8php_a20834a2722e9090e9b2b2bd125c437c5}\label{dirt-datatable-admin-search-table-group-settings-form_8tpl_8php_a20834a2722e9090e9b2b2bd125c437c5}} 
+foreach(\$group\+\_\+list as \$idx=$>$ \$data) print \$data row\+\_\+class \$data {\bfseries row\+\_\+class}
+\item 
+\mbox{\Hypertarget{dirt-datatable-admin-search-table-group-settings-form_8tpl_8php_ad56bbd35b0b19a6913ef4b3d7a8a6a36}\label{dirt-datatable-admin-search-table-group-settings-form_8tpl_8php_ad56bbd35b0b19a6913ef4b3d7a8a6a36}} 
+print \$data {\bfseries label}
+\item 
+\mbox{\Hypertarget{dirt-datatable-admin-search-table-group-settings-form_8tpl_8php_a1317c2a993afcc9094c904696bf545a3}\label{dirt-datatable-admin-search-table-group-settings-form_8tpl_8php_a1317c2a993afcc9094c904696bf545a3}} 
+print \$data {\bfseries weight\+\_\+select}
+\item 
+\mbox{\Hypertarget{dirt-datatable-admin-search-table-group-settings-form_8tpl_8php_aa3070057d05f5b222229e92bd1fa2482}\label{dirt-datatable-admin-search-table-group-settings-form_8tpl_8php_aa3070057d05f5b222229e92bd1fa2482}} 
+print \$data {\bfseries filter\+\_\+group\+\_\+select}
+\item 
+\mbox{\Hypertarget{dirt-datatable-admin-search-table-group-settings-form_8tpl_8php_a672d9707ef91db026c210f98cc601123}\label{dirt-datatable-admin-search-table-group-settings-form_8tpl_8php_a672d9707ef91db026c210f98cc601123}} 
+{\bfseries endforeach}
+\item 
+\mbox{\Hypertarget{dirt-datatable-admin-search-table-group-settings-form_8tpl_8php_a2fd5621e5e8e39deaa5aa2e693654ab7}\label{dirt-datatable-admin-search-table-group-settings-form_8tpl_8php_a2fd5621e5e8e39deaa5aa2e693654ab7}} 
+print {\bfseries \$group\+\_\+form\+\_\+submit}
+\item 
+\mbox{\Hypertarget{dirt-datatable-admin-search-table-group-settings-form_8tpl_8php_a6f454b4e06999839d9e889a84305dc63}\label{dirt-datatable-admin-search-table-group-settings-form_8tpl_8php_a6f454b4e06999839d9e889a84305dc63}} 
+print {\bfseries \$edit\+\_\+filter\+\_\+groups\+\_\+header}
+\item 
+\mbox{\Hypertarget{dirt-datatable-admin-search-table-group-settings-form_8tpl_8php_ab85612d677b6a0c43e5212dad43d1acc}\label{dirt-datatable-admin-search-table-group-settings-form_8tpl_8php_ab85612d677b6a0c43e5212dad43d1acc}} 
+print {\bfseries \$filter\+\_\+group\+\_\+form\+\_\+submit}
+\item 
+\mbox{\Hypertarget{dirt-datatable-admin-search-table-group-settings-form_8tpl_8php_a781a0b4540f3c04b33978b845353b2ab}\label{dirt-datatable-admin-search-table-group-settings-form_8tpl_8php_a781a0b4540f3c04b33978b845353b2ab}} 
+print {\bfseries \$form\+\_\+submit}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Default theme implementation to configure Data\+Table column groups.
+
+Modeled after block-\/admin-\/display-\/form.\+tpl.\+php from Block module.
+
+Available variables\+:
+\begin{DoxyItemize}
+\item \$group\+\_\+list\+: An array of column groups.
+\item \$filter\+\_\+group\+\_\+list\+: An array of variable filter groups.
+\item \$edit\+\_\+column\+\_\+groups\+\_\+header\+: Header for edit column groups table
+\item \$edit\+\_\+filter\+\_\+groups\+\_\+header\+: Header for edit filter groups table
+\item \$group\+\_\+form\+\_\+submit\+: Form submit button for column groups.
+\item \$filter\+\_\+group\+\_\+form\+\_\+submit\+: Form submit button for filter groups.
+\end{DoxyItemize}
+
+Each \$data in \$group\+\_\+list contains\+:
+\begin{DoxyItemize}
+\item \$data-\/$>$row\+\_\+class\+: Row C\+SS class.
+\item \$data-\/$>$label\+: Column label.
+\item \$data-\/$>$filter\+\_\+group\+\_\+select\+: Drop-\/down menu for assigning a filter group (optional).
+\item \$data-\/$>$weight\+\_\+select\+: Drop-\/down menu for setting weights.
+\end{DoxyItemize}
+
+Each \$data in \$filter\+\_\+list contains\+:
+\begin{DoxyItemize}
+\item \$data-\/$>$row\+\_\+class\+: Row C\+SS class.
+\item \$data-\/$>$label\+: Filter group label.
+\item \$data-\/$>$weight\+\_\+select\+: Drop-\/down menu for setting weights. 
+\end{DoxyItemize}

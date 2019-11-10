@@ -1,0 +1,298 @@
+\hypertarget{dirt__datatable_8table__schema_8inc}{}\section{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc File Reference}
+\label{dirt__datatable_8table__schema_8inc}\index{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc@{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc}}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{dirt__datatable_8table__schema_8inc_a449f729d1e50c581e40927f5ed37e5bb}{dirt\+\_\+datatable\+\_\+get\+\_\+table\+\_\+schema}} ()
+\item 
+\mbox{\hyperlink{dirt__datatable_8table__schema_8inc_a5d2b9b69a657e7621354e0098fc3ada3}{dirt\+\_\+datatable\+\_\+get\+\_\+table\+\_\+survey\+\_\+fields}} ()
+\item 
+\mbox{\hyperlink{dirt__datatable_8table__schema_8inc_ac1f9a7bc5d7feaccafb207bb82e91f66}{dirt\+\_\+datatable\+\_\+get\+\_\+schema\+\_\+info\+\_\+from\+\_\+field}} (\$field\+\_\+name, \$delta=N\+U\+LL)
+\item 
+\mbox{\hyperlink{dirt__datatable_8table__schema_8inc_ad42887cff32d2bf1f63b6ac9cb67de60}{dirt\+\_\+datatable\+\_\+get\+\_\+column\+\_\+info\+\_\+from\+\_\+field}} (\$entity\+\_\+type, \$field\+\_\+name, \$bundle\+\_\+name, \$survey\+\_\+type=N\+U\+LL, \$delta=N\+U\+LL, \$max\+\_\+delta=N\+U\+LL)
+\item 
+\mbox{\hyperlink{dirt__datatable_8table__schema_8inc_a6c6181508a273c5cf2c61f6c18727e5e}{dirt\+\_\+datatable\+\_\+get\+\_\+column\+\_\+metadata\+\_\+from\+\_\+active\+\_\+node\+\_\+fields}} (\$schema\+\_\+only=F\+A\+L\+SE)
+\item 
+\mbox{\hyperlink{dirt__datatable_8table__schema_8inc_aa2bc2ba96af1c727040c5968114c5598}{\+\_\+dirt\+\_\+datatable\+\_\+get\+\_\+column\+\_\+metadata\+\_\+from\+\_\+active\+\_\+node\+\_\+field}} (\$field\+\_\+name, \$schema\+\_\+only)
+\item 
+\mbox{\hyperlink{dirt__datatable_8table__schema_8inc_aa7b7fb145809b5d03fd4ca88f513e72c}{\+\_\+dirt\+\_\+datatable\+\_\+add\+\_\+column\+\_\+to\+\_\+data\+\_\+table\+\_\+schema}} (\$schema\+\_\+info, \&\$schema)
+\item 
+\mbox{\hyperlink{dirt__datatable_8table__schema_8inc_ac72f76262f32a91445409599dba21090}{dirt\+\_\+datatable\+\_\+get\+\_\+suggested\+\_\+length\+\_\+for\+\_\+field}} (\$field\+\_\+name)
+\item 
+\mbox{\hyperlink{dirt__datatable_8table__schema_8inc_ab441635bc7da4323a7810bdd2541163b}{dirt\+\_\+datatable\+\_\+get\+\_\+suggested\+\_\+label}} (\$label, \$field\+\_\+name, \$bundle\+\_\+name, \$delta)
+\item 
+\mbox{\hyperlink{dirt__datatable_8table__schema_8inc_ab527de6cffbcf5664354269dacc6757f}{dirt\+\_\+datatable\+\_\+get\+\_\+suggested\+\_\+group\+\_\+for\+\_\+field}} (\$field\+\_\+name)
+\item 
+\mbox{\hyperlink{dirt__datatable_8table__schema_8inc_afd9f0909a04d9c05d36d30086f482733}{dirt\+\_\+datatable\+\_\+get\+\_\+suggested\+\_\+filter\+\_\+groups}} ()
+\item 
+\mbox{\hyperlink{dirt__datatable_8table__schema_8inc_a3030e2c6bb10f5407fe9b013a145eb61}{dirt\+\_\+datatable\+\_\+get\+\_\+suggested\+\_\+column\+\_\+groups}} ()
+\item 
+\mbox{\hyperlink{dirt__datatable_8table__schema_8inc_aff79e117540ff2f265041fbd3a313f94}{\+\_\+dirt\+\_\+datatable\+\_\+get\+\_\+column\+\_\+name\+\_\+from\+\_\+field\+\_\+name}} (\$field\+\_\+name, \$delta=N\+U\+LL)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file specifies the definitions for custom database tables created by this module. 
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{dirt__datatable_8table__schema_8inc_aa7b7fb145809b5d03fd4ca88f513e72c}\label{dirt__datatable_8table__schema_8inc_aa7b7fb145809b5d03fd4ca88f513e72c}} 
+\index{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc@{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc}!\+\_\+dirt\+\_\+datatable\+\_\+add\+\_\+column\+\_\+to\+\_\+data\+\_\+table\+\_\+schema@{\+\_\+dirt\+\_\+datatable\+\_\+add\+\_\+column\+\_\+to\+\_\+data\+\_\+table\+\_\+schema}}
+\index{\+\_\+dirt\+\_\+datatable\+\_\+add\+\_\+column\+\_\+to\+\_\+data\+\_\+table\+\_\+schema@{\+\_\+dirt\+\_\+datatable\+\_\+add\+\_\+column\+\_\+to\+\_\+data\+\_\+table\+\_\+schema}!dirt\+\_\+datatable.\+table\+\_\+schema.\+inc@{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc}}
+\subsubsection{\texorpdfstring{\+\_\+dirt\+\_\+datatable\+\_\+add\+\_\+column\+\_\+to\+\_\+data\+\_\+table\+\_\+schema()}{\_dirt\_datatable\_add\_column\_to\_data\_table\_schema()}}
+{\footnotesize\ttfamily \+\_\+dirt\+\_\+datatable\+\_\+add\+\_\+column\+\_\+to\+\_\+data\+\_\+table\+\_\+schema (\begin{DoxyParamCaption}\item[{}]{\$schema\+\_\+info,  }\item[{\&}]{\$schema }\end{DoxyParamCaption})}
+
+Adds a field as a column in the data search table schema by examining its field info and instance info.
+
+Assumes D\+I\+R\+T\+\_\+\+S\+E\+A\+R\+C\+H\+\_\+\+T\+A\+B\+L\+E\+\_\+\+D\+A\+TA already exists as a key in \$schema and the key \$schema\mbox{[}D\+I\+R\+T\+\_\+\+S\+E\+A\+R\+C\+H\+\_\+\+T\+A\+B\+L\+E\+\_\+\+D\+A\+TA\mbox{]}\mbox{[}\textquotesingle{}fields\textquotesingle{}\mbox{]} also exists before this function is called.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$schema\+\_\+info} & Array containing column name, description, and sql data for table schema \\
+\hline
+\mbox{\tt in,out}  & {\em \$schema} & Array representing table schema. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{dirt__datatable_8table__schema_8inc_aa2bc2ba96af1c727040c5968114c5598}\label{dirt__datatable_8table__schema_8inc_aa2bc2ba96af1c727040c5968114c5598}} 
+\index{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc@{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc}!\+\_\+dirt\+\_\+datatable\+\_\+get\+\_\+column\+\_\+metadata\+\_\+from\+\_\+active\+\_\+node\+\_\+field@{\+\_\+dirt\+\_\+datatable\+\_\+get\+\_\+column\+\_\+metadata\+\_\+from\+\_\+active\+\_\+node\+\_\+field}}
+\index{\+\_\+dirt\+\_\+datatable\+\_\+get\+\_\+column\+\_\+metadata\+\_\+from\+\_\+active\+\_\+node\+\_\+field@{\+\_\+dirt\+\_\+datatable\+\_\+get\+\_\+column\+\_\+metadata\+\_\+from\+\_\+active\+\_\+node\+\_\+field}!dirt\+\_\+datatable.\+table\+\_\+schema.\+inc@{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc}}
+\subsubsection{\texorpdfstring{\+\_\+dirt\+\_\+datatable\+\_\+get\+\_\+column\+\_\+metadata\+\_\+from\+\_\+active\+\_\+node\+\_\+field()}{\_dirt\_datatable\_get\_column\_metadata\_from\_active\_node\_field()}}
+{\footnotesize\ttfamily \+\_\+dirt\+\_\+datatable\+\_\+get\+\_\+column\+\_\+metadata\+\_\+from\+\_\+active\+\_\+node\+\_\+field (\begin{DoxyParamCaption}\item[{}]{\$field\+\_\+name,  }\item[{}]{\$schema\+\_\+only }\end{DoxyParamCaption})}
+
+Returns column metadata information for an active survey type field. This information is used to set/update the table schema for the data table and populate the table column metadata table.
+
+In the case of field collection fields, multiple columns may be returned, each keyed by their column name (to handle all of the fields belonging to the field collection).
+
+This function only handles supported field types. Furthermore, it is assumed that each survey field is only attached to one survey type (bundle). Any fields attached to more than one survey (e.\+g., date of survey field) must be handled as special cases.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$field\+\_\+name} & Field name string. \\
+\hline
+\mbox{\tt in}  & {\em \$schema\+\_\+only} & Whether to return schema info only, or return all column metadata fields.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Array} & of column information keyed by column name. If \$schema\+\_\+only is T\+R\+UE, this array contains schema info. Otherwise it contains column metadata fields. Returns an empty array if no information could be found or the field type is not supported. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt__datatable_8table__schema_8inc_aff79e117540ff2f265041fbd3a313f94}\label{dirt__datatable_8table__schema_8inc_aff79e117540ff2f265041fbd3a313f94}} 
+\index{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc@{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc}!\+\_\+dirt\+\_\+datatable\+\_\+get\+\_\+column\+\_\+name\+\_\+from\+\_\+field\+\_\+name@{\+\_\+dirt\+\_\+datatable\+\_\+get\+\_\+column\+\_\+name\+\_\+from\+\_\+field\+\_\+name}}
+\index{\+\_\+dirt\+\_\+datatable\+\_\+get\+\_\+column\+\_\+name\+\_\+from\+\_\+field\+\_\+name@{\+\_\+dirt\+\_\+datatable\+\_\+get\+\_\+column\+\_\+name\+\_\+from\+\_\+field\+\_\+name}!dirt\+\_\+datatable.\+table\+\_\+schema.\+inc@{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc}}
+\subsubsection{\texorpdfstring{\+\_\+dirt\+\_\+datatable\+\_\+get\+\_\+column\+\_\+name\+\_\+from\+\_\+field\+\_\+name()}{\_dirt\_datatable\_get\_column\_name\_from\_field\_name()}}
+{\footnotesize\ttfamily \+\_\+dirt\+\_\+datatable\+\_\+get\+\_\+column\+\_\+name\+\_\+from\+\_\+field\+\_\+name (\begin{DoxyParamCaption}\item[{}]{\$field\+\_\+name,  }\item[{}]{\$delta = {\ttfamily NULL} }\end{DoxyParamCaption})}
+
+Helper function to retrieve column name (in data search table) from field name.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$field\+\_\+name} & String field machine name. \\
+\hline
+\mbox{\tt in}  & {\em \$delta} & {\itshape Optional} Integer representing delta in case of field collection fields (optional, defaults to N\+U\+LL). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{dirt__datatable_8table__schema_8inc_ad42887cff32d2bf1f63b6ac9cb67de60}\label{dirt__datatable_8table__schema_8inc_ad42887cff32d2bf1f63b6ac9cb67de60}} 
+\index{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc@{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc}!dirt\+\_\+datatable\+\_\+get\+\_\+column\+\_\+info\+\_\+from\+\_\+field@{dirt\+\_\+datatable\+\_\+get\+\_\+column\+\_\+info\+\_\+from\+\_\+field}}
+\index{dirt\+\_\+datatable\+\_\+get\+\_\+column\+\_\+info\+\_\+from\+\_\+field@{dirt\+\_\+datatable\+\_\+get\+\_\+column\+\_\+info\+\_\+from\+\_\+field}!dirt\+\_\+datatable.\+table\+\_\+schema.\+inc@{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+datatable\+\_\+get\+\_\+column\+\_\+info\+\_\+from\+\_\+field()}{dirt\_datatable\_get\_column\_info\_from\_field()}}
+{\footnotesize\ttfamily dirt\+\_\+datatable\+\_\+get\+\_\+column\+\_\+info\+\_\+from\+\_\+field (\begin{DoxyParamCaption}\item[{}]{\$entity\+\_\+type,  }\item[{}]{\$field\+\_\+name,  }\item[{}]{\$bundle\+\_\+name,  }\item[{}]{\$survey\+\_\+type = {\ttfamily NULL},  }\item[{}]{\$delta = {\ttfamily NULL},  }\item[{}]{\$max\+\_\+delta = {\ttfamily NULL} }\end{DoxyParamCaption})}
+
+Returns information about the field given as input, as an output array, specifying fields for the column metadata database table and the data search table database schema.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$entity\+\_\+type} & String entity type for field instance. \\
+\hline
+\mbox{\tt in}  & {\em \$field\+\_\+name} & String field machine name to add as table column. \\
+\hline
+\mbox{\tt in}  & {\em \$bundle\+\_\+name} & String bundle name for field instance. \\
+\hline
+\mbox{\tt in}  & {\em \$survey\+\_\+type} & {\itshape Optional} If \$entity\+\_\+type==\textquotesingle{}field\+\_\+collection\+\_\+item\textquotesingle{}, this field specifies the overall survey type the field belongs to (optional, defaults to N\+U\+LL). \\
+\hline
+\mbox{\tt in}  & {\em \$delta} & {\itshape Optional} Integer representing delta in case of field collection fields (optional, defaults to N\+U\+LL). \\
+\hline
+\mbox{\tt in}  & {\em \$max\+\_\+delta} & {\itshape Optional} Integer representing max delta value, i.\+e., cardinality of overall field collection (optional, defaults to N\+U\+LL).\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Array} & of column info. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt__datatable_8table__schema_8inc_a6c6181508a273c5cf2c61f6c18727e5e}\label{dirt__datatable_8table__schema_8inc_a6c6181508a273c5cf2c61f6c18727e5e}} 
+\index{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc@{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc}!dirt\+\_\+datatable\+\_\+get\+\_\+column\+\_\+metadata\+\_\+from\+\_\+active\+\_\+node\+\_\+fields@{dirt\+\_\+datatable\+\_\+get\+\_\+column\+\_\+metadata\+\_\+from\+\_\+active\+\_\+node\+\_\+fields}}
+\index{dirt\+\_\+datatable\+\_\+get\+\_\+column\+\_\+metadata\+\_\+from\+\_\+active\+\_\+node\+\_\+fields@{dirt\+\_\+datatable\+\_\+get\+\_\+column\+\_\+metadata\+\_\+from\+\_\+active\+\_\+node\+\_\+fields}!dirt\+\_\+datatable.\+table\+\_\+schema.\+inc@{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+datatable\+\_\+get\+\_\+column\+\_\+metadata\+\_\+from\+\_\+active\+\_\+node\+\_\+fields()}{dirt\_datatable\_get\_column\_metadata\_from\_active\_node\_fields()}}
+{\footnotesize\ttfamily dirt\+\_\+datatable\+\_\+get\+\_\+column\+\_\+metadata\+\_\+from\+\_\+active\+\_\+node\+\_\+fields (\begin{DoxyParamCaption}\item[{}]{\$schema\+\_\+only = {\ttfamily FALSE} }\end{DoxyParamCaption})}
+
+This function returns column metadata information for every active survey type field (i.\+e., field belonging to a node type that is designated as a survey type) that is a supported field type.
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{dirt__datatable_8module_a76e7c95dbdc9c29ce2108bb34ae64604}{dirt\+\_\+datatable\+\_\+get\+\_\+column\+\_\+metadata\+\_\+from\+\_\+active\+\_\+node\+\_\+field()}}
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$schema\+\_\+only} & {\itshape Optional} Whether to return schema info only, or return all column metadata fields.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Array} & of column information keyed by column name. If \$schema\+\_\+only is T\+R\+UE, each subarray contains schema info. Otherwise the subarrays contain column metadata fields. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt__datatable_8table__schema_8inc_ac1f9a7bc5d7feaccafb207bb82e91f66}\label{dirt__datatable_8table__schema_8inc_ac1f9a7bc5d7feaccafb207bb82e91f66}} 
+\index{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc@{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc}!dirt\+\_\+datatable\+\_\+get\+\_\+schema\+\_\+info\+\_\+from\+\_\+field@{dirt\+\_\+datatable\+\_\+get\+\_\+schema\+\_\+info\+\_\+from\+\_\+field}}
+\index{dirt\+\_\+datatable\+\_\+get\+\_\+schema\+\_\+info\+\_\+from\+\_\+field@{dirt\+\_\+datatable\+\_\+get\+\_\+schema\+\_\+info\+\_\+from\+\_\+field}!dirt\+\_\+datatable.\+table\+\_\+schema.\+inc@{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+datatable\+\_\+get\+\_\+schema\+\_\+info\+\_\+from\+\_\+field()}{dirt\_datatable\_get\_schema\_info\_from\_field()}}
+{\footnotesize\ttfamily dirt\+\_\+datatable\+\_\+get\+\_\+schema\+\_\+info\+\_\+from\+\_\+field (\begin{DoxyParamCaption}\item[{}]{\$field\+\_\+name,  }\item[{}]{\$delta = {\ttfamily NULL} }\end{DoxyParamCaption})}
+
+Returns schema information for a field.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$field\+\_\+name} & String field machine name. \\
+\hline
+\mbox{\tt in}  & {\em \$delta} & {\itshape Optional} Integer representing delta in case of field collection fields (optional, defaults to N\+U\+LL).\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Array} & of schema info. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt__datatable_8table__schema_8inc_a3030e2c6bb10f5407fe9b013a145eb61}\label{dirt__datatable_8table__schema_8inc_a3030e2c6bb10f5407fe9b013a145eb61}} 
+\index{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc@{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc}!dirt\+\_\+datatable\+\_\+get\+\_\+suggested\+\_\+column\+\_\+groups@{dirt\+\_\+datatable\+\_\+get\+\_\+suggested\+\_\+column\+\_\+groups}}
+\index{dirt\+\_\+datatable\+\_\+get\+\_\+suggested\+\_\+column\+\_\+groups@{dirt\+\_\+datatable\+\_\+get\+\_\+suggested\+\_\+column\+\_\+groups}!dirt\+\_\+datatable.\+table\+\_\+schema.\+inc@{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+datatable\+\_\+get\+\_\+suggested\+\_\+column\+\_\+groups()}{dirt\_datatable\_get\_suggested\_column\_groups()}}
+{\footnotesize\ttfamily dirt\+\_\+datatable\+\_\+get\+\_\+suggested\+\_\+column\+\_\+groups (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Returns suggested group columns for D\+I\+RT project; assumes few (if any) changes have been made to the pre-\/installed D\+I\+RT fields. Group columns may be altered later via the admin interface.
+
+
+\begin{DoxyRetVals}{Return values}
+{\em Array} & of group info. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt__datatable_8table__schema_8inc_afd9f0909a04d9c05d36d30086f482733}\label{dirt__datatable_8table__schema_8inc_afd9f0909a04d9c05d36d30086f482733}} 
+\index{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc@{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc}!dirt\+\_\+datatable\+\_\+get\+\_\+suggested\+\_\+filter\+\_\+groups@{dirt\+\_\+datatable\+\_\+get\+\_\+suggested\+\_\+filter\+\_\+groups}}
+\index{dirt\+\_\+datatable\+\_\+get\+\_\+suggested\+\_\+filter\+\_\+groups@{dirt\+\_\+datatable\+\_\+get\+\_\+suggested\+\_\+filter\+\_\+groups}!dirt\+\_\+datatable.\+table\+\_\+schema.\+inc@{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+datatable\+\_\+get\+\_\+suggested\+\_\+filter\+\_\+groups()}{dirt\_datatable\_get\_suggested\_filter\_groups()}}
+{\footnotesize\ttfamily dirt\+\_\+datatable\+\_\+get\+\_\+suggested\+\_\+filter\+\_\+groups (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Returns suggested variable filter groups for D\+I\+RT project; assumes few (if any) changes have been made to the pre-\/installed D\+I\+RT fields.
+
+
+\begin{DoxyRetVals}{Return values}
+{\em Array} & of filter group info. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt__datatable_8table__schema_8inc_ab527de6cffbcf5664354269dacc6757f}\label{dirt__datatable_8table__schema_8inc_ab527de6cffbcf5664354269dacc6757f}} 
+\index{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc@{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc}!dirt\+\_\+datatable\+\_\+get\+\_\+suggested\+\_\+group\+\_\+for\+\_\+field@{dirt\+\_\+datatable\+\_\+get\+\_\+suggested\+\_\+group\+\_\+for\+\_\+field}}
+\index{dirt\+\_\+datatable\+\_\+get\+\_\+suggested\+\_\+group\+\_\+for\+\_\+field@{dirt\+\_\+datatable\+\_\+get\+\_\+suggested\+\_\+group\+\_\+for\+\_\+field}!dirt\+\_\+datatable.\+table\+\_\+schema.\+inc@{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+datatable\+\_\+get\+\_\+suggested\+\_\+group\+\_\+for\+\_\+field()}{dirt\_datatable\_get\_suggested\_group\_for\_field()}}
+{\footnotesize\ttfamily dirt\+\_\+datatable\+\_\+get\+\_\+suggested\+\_\+group\+\_\+for\+\_\+field (\begin{DoxyParamCaption}\item[{}]{\$field\+\_\+name }\end{DoxyParamCaption})}
+
+Returns suggested column group for input field; assumes few (if any) changes have been made to the pre-\/installed D\+I\+RT fields. Group columns may be altered later via the admin interface.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$field\+\_\+name} & Field name (machine name).\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Column} & group number (gid). \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt__datatable_8table__schema_8inc_ab441635bc7da4323a7810bdd2541163b}\label{dirt__datatable_8table__schema_8inc_ab441635bc7da4323a7810bdd2541163b}} 
+\index{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc@{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc}!dirt\+\_\+datatable\+\_\+get\+\_\+suggested\+\_\+label@{dirt\+\_\+datatable\+\_\+get\+\_\+suggested\+\_\+label}}
+\index{dirt\+\_\+datatable\+\_\+get\+\_\+suggested\+\_\+label@{dirt\+\_\+datatable\+\_\+get\+\_\+suggested\+\_\+label}!dirt\+\_\+datatable.\+table\+\_\+schema.\+inc@{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+datatable\+\_\+get\+\_\+suggested\+\_\+label()}{dirt\_datatable\_get\_suggested\_label()}}
+{\footnotesize\ttfamily dirt\+\_\+datatable\+\_\+get\+\_\+suggested\+\_\+label (\begin{DoxyParamCaption}\item[{}]{\$label,  }\item[{}]{\$field\+\_\+name,  }\item[{}]{\$bundle\+\_\+name,  }\item[{}]{\$delta }\end{DoxyParamCaption})}
+
+Returns suggested label for cases where the table column label differs from the field instance label (e.\+g., adding replicate numbers or hour numbers).
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$label} & String the field instance label that column label is based off of. \\
+\hline
+\mbox{\tt in}  & {\em \$field\+\_\+name} & String field machine name. \\
+\hline
+\mbox{\tt in}  & {\em \$bundle\+\_\+name} & String bundle machine name. \\
+\hline
+\mbox{\tt in}  & {\em \$delta} & Integer delta.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em String} & suggested label. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt__datatable_8table__schema_8inc_ac72f76262f32a91445409599dba21090}\label{dirt__datatable_8table__schema_8inc_ac72f76262f32a91445409599dba21090}} 
+\index{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc@{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc}!dirt\+\_\+datatable\+\_\+get\+\_\+suggested\+\_\+length\+\_\+for\+\_\+field@{dirt\+\_\+datatable\+\_\+get\+\_\+suggested\+\_\+length\+\_\+for\+\_\+field}}
+\index{dirt\+\_\+datatable\+\_\+get\+\_\+suggested\+\_\+length\+\_\+for\+\_\+field@{dirt\+\_\+datatable\+\_\+get\+\_\+suggested\+\_\+length\+\_\+for\+\_\+field}!dirt\+\_\+datatable.\+table\+\_\+schema.\+inc@{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+datatable\+\_\+get\+\_\+suggested\+\_\+length\+\_\+for\+\_\+field()}{dirt\_datatable\_get\_suggested\_length\_for\_field()}}
+{\footnotesize\ttfamily dirt\+\_\+datatable\+\_\+get\+\_\+suggested\+\_\+length\+\_\+for\+\_\+field (\begin{DoxyParamCaption}\item[{}]{\$field\+\_\+name }\end{DoxyParamCaption})}
+
+Returns suggested length for database storage.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$field\+\_\+name} & String field machine name.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Integer} & suggested length for field name, or 0 if no suggested length found. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt__datatable_8table__schema_8inc_a449f729d1e50c581e40927f5ed37e5bb}\label{dirt__datatable_8table__schema_8inc_a449f729d1e50c581e40927f5ed37e5bb}} 
+\index{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc@{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc}!dirt\+\_\+datatable\+\_\+get\+\_\+table\+\_\+schema@{dirt\+\_\+datatable\+\_\+get\+\_\+table\+\_\+schema}}
+\index{dirt\+\_\+datatable\+\_\+get\+\_\+table\+\_\+schema@{dirt\+\_\+datatable\+\_\+get\+\_\+table\+\_\+schema}!dirt\+\_\+datatable.\+table\+\_\+schema.\+inc@{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+datatable\+\_\+get\+\_\+table\+\_\+schema()}{dirt\_datatable\_get\_table\_schema()}}
+{\footnotesize\ttfamily dirt\+\_\+datatable\+\_\+get\+\_\+table\+\_\+schema (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Returns database table schema for this module This table stores information from data access request forms so that site admins may review them later and decide to approve the account or delete the request.
+
+This table stores information on the variable filter groups. The data search portal will allow the user to filter the search table by variable group, i.\+e., a set of variables collected within a survey type. The variable group filter options will be based on column groups (specified in the next table definition following this one).
+
+This table stores information on the data search portal table column groups. Fields (table columns) will be assigned to one of these column groups.
+
+Rules for column groups\+:
+\begin{DoxyEnumerate}
+\item Every field must be assigned to a column group. Fields that are not assigned to a group will not be displayed in the search table.
+\item Every column group must contain fields from only one survey type, as it is assumed that all fields within a column group are collected at the same frequency.
+\item (Optional) A column group may be assigned to a filter group. Any column group which is not assigned to a filter group will always be displayed in the search table, e.\+g., the common group fields. Assigning a column group to a filter group allows the user to search the table for variables of interest, e.\+g., soil respiration. Multiple column groups may be assigned to the same filter group, but only if the fields within the column groups are all of the same survey type (due to the way the filter is implemented).
+\end{DoxyEnumerate}
+
+This table stores information on the columns of the data search portal table. Note that it does not store the table data itself, but rather metadata about the table columns (e.\+g., which column group the column belongs to, which database field does it correspond to, whether it is visible to admins only, the order to display the columns in the table, etc.)
+
+The following field denotes whether this table column is also a column in the dirt\+\_\+datatable\+\_\+table\+\_\+data table (defined below) or its value is derived from other columns in some way. For example, \char`\"{}nids\char`\"{} is a table column that collects all nids when the table rows are grouped together by survey and month and date. It is not in the dirt\+\_\+datatable\+\_\+table\+\_\+data table itself but derived from the nid field, hence nids is denoted a non-\/primary field.
+
+primary\+\_\+field = 1 (T\+R\+UE)\+: this column is present in the table dirt\+\_\+datatable\+\_\+table\+\_\+data. primary\+\_\+field = 0 (F\+A\+L\+SE)\+: this column is not present in the table dirt\+\_\+datatable\+\_\+table\+\_\+data.
+
+The following field helps to group columns together based on database query type (prior to performing the query to populate the table).
+
+The types are\+: Standard\+: The value for this column will come straight from the database query on the corresponding field. Special\+: Additional formatting or other manipulation required while or after performing the database query, before the final value is stored in the table column (e.\+g., deriving the survey month from the date of survey). Most survey fields will be \char`\"{}standard\char`\"{}; the \char`\"{}special\char`\"{} fields are primarily the fields belonging to the common column group that are handled separately. Float\+: The value for this column is a float, so additional formatting will be added to the database query (e.\+g., rounding to two decimal places).
+
+Similar to the fields above, the following field helps to group columns based on the field type (prior to performing the query to populate the table). For instance, if the field is single-\/valued, only one result will be pulled from the database. In the case case of field collection fields, additional info is needed to perform the database query\+: fc\+\_\+name (field collection machine name), delta (delta to query), max\+\_\+delta (overall number of values expected).
+
+This table stores the data search table data. Each row represents a survey node in the system. When the data search portal page is loaded, the table data is pulled from this table with a single database query. This table is dynamically updated every time a survey is created, edited, or deleted, so that the most up-\/to-\/date version is always loaded upon page refresh. While this goes against the spirit of an S\+QL database, it speeds up the page load time considerably to pull all of the information from one table, vs. joining in 100+ different tables to get the survey values for all surveys in the system upon page load.
+
+For now, define the columns common to all surveys (e.\+g., survey node ID, site ID, survey date, etc.) Later we\textquotesingle{}ll fill in the rest of the columns based on which fields are active.\mbox{\Hypertarget{dirt__datatable_8table__schema_8inc_a5d2b9b69a657e7621354e0098fc3ada3}\label{dirt__datatable_8table__schema_8inc_a5d2b9b69a657e7621354e0098fc3ada3}} 
+\index{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc@{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc}!dirt\+\_\+datatable\+\_\+get\+\_\+table\+\_\+survey\+\_\+fields@{dirt\+\_\+datatable\+\_\+get\+\_\+table\+\_\+survey\+\_\+fields}}
+\index{dirt\+\_\+datatable\+\_\+get\+\_\+table\+\_\+survey\+\_\+fields@{dirt\+\_\+datatable\+\_\+get\+\_\+table\+\_\+survey\+\_\+fields}!dirt\+\_\+datatable.\+table\+\_\+schema.\+inc@{dirt\+\_\+datatable.\+table\+\_\+schema.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+datatable\+\_\+get\+\_\+table\+\_\+survey\+\_\+fields()}{dirt\_datatable\_get\_table\_survey\_fields()}}
+{\footnotesize\ttfamily dirt\+\_\+datatable\+\_\+get\+\_\+table\+\_\+survey\+\_\+fields (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Returns an array of all active fields attached to survey types. These fields are potential columns in the data search table.
+
+Note that the assumption is that each field (other than special cases, such as date of survey) is assigned to only one survey type. Fields attached to more than one survey must be handled separately.
+
+Also, group information survey fields are excluded, as they are not shown in the data search table.
+
+
+\begin{DoxyRetVals}{Return values}
+{\em Array} & of field names. \\
+\hline
+\end{DoxyRetVals}

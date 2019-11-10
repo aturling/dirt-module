@@ -1,0 +1,63 @@
+\hypertarget{dirt_8table__schema_8inc}{}\section{dirt.\+table\+\_\+schema.\+inc File Reference}
+\label{dirt_8table__schema_8inc}\index{dirt.\+table\+\_\+schema.\+inc@{dirt.\+table\+\_\+schema.\+inc}}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{dirt_8table__schema_8inc_aca1fa6c60ceaf1a0d104bed6355379f3}{dirt\+\_\+get\+\_\+table\+\_\+schema}} ()
+\item 
+\mbox{\hyperlink{dirt_8table__schema_8inc_a9b7118c6199293f2aaf242a8af05d49e}{dirt\+\_\+get\+\_\+installed\+\_\+survey\+\_\+types}} ()
+\item 
+\mbox{\hyperlink{dirt_8table__schema_8inc_a57c3e0268306a5544b8a92f07799c161}{dirt\+\_\+get\+\_\+installed\+\_\+survey\+\_\+type\+\_\+info}} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file specifies the definitions for custom database tables created by this module. Includes initial database table values for module installation. 
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{dirt_8table__schema_8inc_a57c3e0268306a5544b8a92f07799c161}\label{dirt_8table__schema_8inc_a57c3e0268306a5544b8a92f07799c161}} 
+\index{dirt.\+table\+\_\+schema.\+inc@{dirt.\+table\+\_\+schema.\+inc}!dirt\+\_\+get\+\_\+installed\+\_\+survey\+\_\+type\+\_\+info@{dirt\+\_\+get\+\_\+installed\+\_\+survey\+\_\+type\+\_\+info}}
+\index{dirt\+\_\+get\+\_\+installed\+\_\+survey\+\_\+type\+\_\+info@{dirt\+\_\+get\+\_\+installed\+\_\+survey\+\_\+type\+\_\+info}!dirt.\+table\+\_\+schema.\+inc@{dirt.\+table\+\_\+schema.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+get\+\_\+installed\+\_\+survey\+\_\+type\+\_\+info()}{dirt\_get\_installed\_survey\_type\_info()}}
+{\footnotesize\ttfamily dirt\+\_\+get\+\_\+installed\+\_\+survey\+\_\+type\+\_\+info (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Returns array of survey types installed in this module, keyed by survey type machine name, with values being an array of survey info with keys\+:
+\begin{DoxyItemize}
+\item name\+: Type machine name,
+\item description\+: Type description (same as in node\+\_\+info()),
+\item collection\+\_\+frequency\+: Number of times per year survey is to be collected, or D\+I\+R\+T\+\_\+\+O\+N\+E\+\_\+\+T\+I\+M\+E\+\_\+\+C\+O\+L\+L\+E\+C\+T\+I\+ON if only collected one time.
+\item collection\+\_\+months\+: (optional) Specifies the months of collection. For instance, monthly surveys are expected to be collected every month except December and January (too cold), and twice a year surveys are expected to be collected in May and August. If collection\+\_\+months not specified, surveys will be collected at evenly spaced intervals throughout the year according to their collection frequency.
+\end{DoxyItemize}
+
+
+\begin{DoxyRetVals}{Return values}
+{\em Array} & with keys as survey type machine names and values as array of survey type information. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt_8table__schema_8inc_a9b7118c6199293f2aaf242a8af05d49e}\label{dirt_8table__schema_8inc_a9b7118c6199293f2aaf242a8af05d49e}} 
+\index{dirt.\+table\+\_\+schema.\+inc@{dirt.\+table\+\_\+schema.\+inc}!dirt\+\_\+get\+\_\+installed\+\_\+survey\+\_\+types@{dirt\+\_\+get\+\_\+installed\+\_\+survey\+\_\+types}}
+\index{dirt\+\_\+get\+\_\+installed\+\_\+survey\+\_\+types@{dirt\+\_\+get\+\_\+installed\+\_\+survey\+\_\+types}!dirt.\+table\+\_\+schema.\+inc@{dirt.\+table\+\_\+schema.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+get\+\_\+installed\+\_\+survey\+\_\+types()}{dirt\_get\_installed\_survey\_types()}}
+{\footnotesize\ttfamily dirt\+\_\+get\+\_\+installed\+\_\+survey\+\_\+types (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Returns list of machine names of custom survey types installed in this module.
+
+
+\begin{DoxyRetVals}{Return values}
+{\em Array} & of survey type machine names. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt_8table__schema_8inc_aca1fa6c60ceaf1a0d104bed6355379f3}\label{dirt_8table__schema_8inc_aca1fa6c60ceaf1a0d104bed6355379f3}} 
+\index{dirt.\+table\+\_\+schema.\+inc@{dirt.\+table\+\_\+schema.\+inc}!dirt\+\_\+get\+\_\+table\+\_\+schema@{dirt\+\_\+get\+\_\+table\+\_\+schema}}
+\index{dirt\+\_\+get\+\_\+table\+\_\+schema@{dirt\+\_\+get\+\_\+table\+\_\+schema}!dirt.\+table\+\_\+schema.\+inc@{dirt.\+table\+\_\+schema.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+get\+\_\+table\+\_\+schema()}{dirt\_get\_table\_schema()}}
+{\footnotesize\ttfamily dirt\+\_\+get\+\_\+table\+\_\+schema (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Returns database table schema for this module.
+
+
+\begin{DoxyRetVals}{Return values}
+{\em Array} & containing schema definition whose keys are table names and values are table structure definitions. \\
+\hline
+\end{DoxyRetVals}
+This table stores the custom survey types and their collection frequencies and months (if applicable).

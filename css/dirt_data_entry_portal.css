@@ -1,0 +1,27 @@
+#dirt-entry-insructions-para {
+  font-size: 16px;
+}
+
+.dirt-survey-schedule-list,
+.dirt-survey-schedule-list ul { 
+  list-style:none
+}
+
+.dirt-survey-schedule-list {
+  margin: 0!important;
+  padding: 0!important;
+}
+
+.dirt-survey-schedule-list li {
+  padding-bottom: 0.2em!important;
+}
+
+.dirt-survey-schedule-list ul {
+  margin: 0!important;
+}
+
+.dirt-survey-schedule-list ul li:before {
+  content: "\2023";
+  color: #aaaaaa;
+  margin-right: 3px;
+}

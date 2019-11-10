@@ -1,0 +1,486 @@
+#map-placement {
+  height: 300px;
+  width: 100%;
+}
+
+#about-login {
+  float: right;
+  padding-left: 20px;
+}
+
+#about-login.logged-in {
+  width: 25%;
+}
+
+#about-login.not-logged-in {
+  width: 35%;
+}
+
+.login-header {
+  margin: 0;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+#about-login form {
+  margin-bottom: 20px;
+}
+
+#user-login-form .form-item label {
+  font-size: 14px;
+}
+
+#user-login-form .form-item input {
+  width: 80%;
+  min-height: 12px;
+}
+
+.login-item:first-of-type {
+  margin-top: 0px;
+}
+
+fieldset.login-item {
+  background: #efefef;
+  font-weight: bold;
+}
+
+.data-access  {
+  font-size: 14px;
+  border: 1px solid #efefef;
+  padding: 10px;
+  margin-bottom: 0px;
+}
+
+#table-and-filters-container {
+  float: left;
+  width: 100%;
+}
+
+/* appearance of table while waiting for js to load */
+#table-container {
+  width: 920px; /* this will be reset via js to maximize width according to screen size */
+}
+
+#dirt-data-table_processing {
+  border: 1px solid #afafaf;
+  font-size: large;
+  top: 40%;
+}
+
+table.dataTable.no-footer {
+  border-bottom: none!important;
+}
+
+table.dataTable thead th, table.dataTable tfoot th {
+  font-weight: normal!important;
+}
+
+div.dataTables_wrapper {
+  margin: 0 auto;
+}
+
+td.dataTables_empty {
+  text-align: left!important;
+}
+
+.empty-table-message {
+  color: #a94442;
+  border-radius: 4px;
+}
+
+.survey-link {
+  min-width: 265px;
+}
+
+#table-filters {
+  float: left;
+  width: 224px;
+}
+
+#table-filters a.dt-button {
+  width: 100%;
+  text-align: center;
+}
+
+#dirt-data-table_wrapper .dt-buttons {
+  margin-bottom: 1px;
+}
+
+#dirt-data-table_wrapper select,
+#dirt-data-table_filter input {
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  padding: 3px;
+}
+
+
+#instructions h4,
+#instructions h5,
+#instructions h6,
+#date-range-filter h5,
+#date-range-filter,
+#hide-show-filters,
+#search-type-radios .search-type-label-div,
+#search-type-radios,
+#search-type-radios h3 {
+  margin-bottom: 10px;
+}
+
+.tablet-width,
+#table-container .column-hidden,
+#table-filters.hidden,
+.small-width-filter,
+.DTFC_RightWrapper,
+tr.DTFC_NoData td.dataTables_empty {
+  display: none;
+}
+
+.DTFC_LeftBodyLiner {
+  overflow-x: hidden; /* firefox fix */
+}
+
+#table-container {
+  float: left;
+  margin-left: 20px;
+}
+
+#hide-show-filters {
+  font-size: 16px;
+}
+
+#table-filters h5,
+.fieldset-legend {
+  font-weight: bold!important;
+}
+
+#table-filters .fieldset-wrapper div {
+  float: left;
+  margin-bottom: 10px;
+}
+
+#table-filters .fieldset-wrapper h5 {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 5px;
+}
+
+.check-all {
+  margin-bottom: 5px!important;
+  margin-top: 0px;
+  font-size: 12px;
+}
+
+#table-filters span.variable-description {
+  color:#666666;
+  font-size: 12px;
+}
+
+#habitat-type-filter,
+#site-id-filter,
+#variable-filter,
+#date-range-filter,
+#county-filter,
+.large-width-filter {
+  width: 100%;
+}
+
+#reset-search-button,
+.large-width-filter,
+.small-width-filter,
+#site-id-chosen-select-container,
+#habitat-type-filter,
+#county-chosen-select-container,
+#variable-checkboxes-container,
+#visibility-checkboxes,
+.checkbox-container,
+#search-type-radios .radio-container {
+  margin-bottom: 0px!important;
+}
+
+#reset-search-button {
+  margin-top: 10px;
+}
+
+#refresh-table-button,
+#refresh-table-loading-status,
+#refresh-table-button .dt-buttons {
+  margin-bottom: 0px!important;
+}
+
+#refresh-table-button .dt-buttons,
+#reset-search-button .dt-buttons {
+  width: 132px;
+}
+
+#refresh-table-loading-status {
+  display: block;
+  width: 100%;
+  height: 20px;
+}
+
+li.variable-description {
+  margin-left: 15px;
+}
+
+.button-disabled {
+  display: none;
+  color: #888888!important;
+  background: #dfdfdf!important;
+  border-color: #888888!important;
+}
+
+.checkbox-container,
+#search-type-radios .radio-container,
+#search-type-radios {
+  width: 100%;
+}
+
+#site-info-visibility-checkboxes h5,
+#habitat-type-filter h5,
+#site-id-filter h5,
+#variable-filter h5,
+#county-filter h5 {
+  margin-bottom: 5px;
+}
+
+.checkbox-container input {
+  float: left;
+  margin-right: 5px;
+}
+
+.checkbox-container label {
+  font-weight: inherit;
+  line-height: 1.8;
+}
+
+#date-range-filter label {
+  font-weight: inherit;
+  margin-bottom: 3px;
+}
+
+#date-range-filter select {
+  margin-right: 10px;
+  margin-bottom: 20px;
+}
+
+#visibility-checkboxes label {
+  white-space: nowrap;
+}
+
+#search-type-radios {
+  margin-top: 10px;
+}
+
+#search-type-radios label {
+  line-height: 1.5;
+}
+
+#search-type-radios .search-type-label-div {
+  margin-left: 24px;
+}
+
+#search-type-radios h3 {
+  border-bottom: 1px solid #afafaf;
+  padding-bottom: 7px;
+  font-weight: bold;
+}
+
+#search-type-radios .checkbox-container {
+  font-size: 14px;
+}
+
+
+table th  {
+  white-space: nowrap!important;
+}
+
+table td {
+  padding-left: 20px!important;
+}
+
+/* Fixed row heights */
+table th,
+table td {
+  white-space: nowrap;
+}
+table tr {
+  height: 40px;
+}
+
+.admin-only {
+  color: #AA0000!important;
+}
+
+
+/* tablet and mobile styles */
+/* have to hide a lot because some functionality doesn't make sense on mobile (e.g., file export) */
+
+@media only screen and (min-width: 720px) and (max-width: 1024px) {
+  #map-search {
+    position: absolute;
+    left: -500%;
+  }
+
+  #table-filters,
+  #table-container {
+    margin: 0px;
+    margin-top: 10px;
+  }
+
+  #table-filters {
+    float: left;
+    width: 100%;
+  }
+
+  #table-container {
+    margin-left: 0px;
+  }
+
+  .small-width-filter {
+    display: block;
+  }
+
+  .full-screen-width,
+  .large-width-filter,
+  #search-display-export,
+  #table-container .dt-buttons,
+  #hide-show-filters,
+  span.variable-description {
+    display: none;
+  }
+
+  /* un-hide tablet instructions */
+  .tablet-width {
+    display: block;
+  }
+
+  #table-filters .fieldset-wrapper div {
+    margin-bottom: 5px;
+    margin-right: 20px;
+  }
+
+  #habitat-type-filter,
+  #site-id-filter,
+  #county-filter,
+  #variable-filter,
+  #date-range-filter {
+    width: auto;
+  }
+
+  #table-filters .fieldset-wrapper h5 {
+    font-size: inherit;
+    border-bottom: 0px;
+    padding-bottom: 0;
+    margin-top: 0;
+  }
+}
+
+
+@media only screen and (max-width: 720px)  {
+  #page {
+    padding: 20px 10px!important;
+  }
+
+  #search-display-export,
+  #table-container .dt-buttons,
+  #hide-show-filters,
+  .large-width-filter,
+  #date-range-filter,
+  .full-screen-width,
+  #about-login,
+  span.variable-description {
+    display: none;
+  }
+
+  #map-search {
+    position: absolute;
+    left: -500%;
+  }
+
+  /* re-hide tablet instructions */
+  .tablet-width {
+    display: none;
+  }
+
+  #table-filters {
+    float: left;
+    width: 100%;
+  }
+
+  #habitat-type-filter,
+  #site-id-filter,
+  #county-filter,
+  #variable-filter,
+  #date-range-filter {
+    width: auto;
+  }
+
+  .small-width-filter {
+    display: block;
+  }
+
+  #table-filters .fieldset-wrapper div {
+    margin-bottom: 5px;
+  }
+
+  #dirt-data-table_filter {
+    margin-bottom: 10px;
+  }
+
+  #table-container {
+    margin-left: 0px;
+  }
+
+  #dirt-data-table tr {
+    border-top: 1px solid #333333;
+  }
+
+  table tr {
+    height: auto;
+  }
+
+  /* Mobile-friendly tables                                        */
+  /* Adapted from: https://css-tricks.com/responsive-data-tables/  */
+  table, thead, tbody, th, td, tr { 
+    display: block;
+  }
+
+  thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  td { 
+    border-bottom: 1px solid #eee!important; 
+    position: relative;
+    padding: 0px!important;
+    padding-left: 50%!important; 
+    padding-top: 3px!important;
+  } 
+
+  td:before { 
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    width: 45%; 
+    padding:0px;
+    padding-right: 10px; 
+    /*white-space: nowrap;*/
+  }
+
+  #dirt-data-table td {
+    min-height: 44px;
+    min-width: 0px!important;
+  }
+
+  #dirt-data-table .table-left-col,
+  #dirt-data-table .table-right-col {
+    float: left;
+    width: 50%;
+    white-space: normal;
+  }
+
+  #dirt-data-table td:before {
+    top: 3px;
+  }
+}

@@ -1,0 +1,21 @@
+.dirt-submitted-by {
+  font-weight: bold;
+}
+
+#dirt-submitted-by-container {
+  float: left;
+  width: 100%;
+  padding-bottom: 10px;
+}
+
+/* hide co2c fields calculated */
+/* didn't play well with field_groups to make instance hidden */
+.field-name-field-dirt-co2c-room-temp-lower,
+.field-name-field-dirt-co2c-room-temp-upper,
+.field-name-field-dirt-co2c-room-temp-avg,
+.field-name-field-dirt-co2c-field-temp-lower,
+.field-name-field-dirt-co2c-field-temp-upper,
+.field-name-field-dirt-co2c-field-temp-avg {
+  display: none;
+}
+

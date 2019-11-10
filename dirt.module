@@ -1,0 +1,1151 @@
+<?php
+
+/**
+ * @file
+ * This is the main module file.
+ */
+
+// Define custom date types and formats
+define('DIRT_SURVEY_DATE_TYPE', 'dirt_survey_date_type');
+define('DIRT_SURVEY_DATE_FORMAT', 'm/d/Y');
+define('DIRT_SURVEY_DATE_SHORT_TYPE', 'dirt_survey_date_short_type');
+define('DIRT_SURVEY_DATE_SHORT_FORMAT', 'Y-m');
+define('DIRT_RESP_TIME_TYPE', 'dirt_resp_time_type');
+define('DIRT_RESP_TIME_FORMAT', 'H:i');
+
+// Define date format suggestions (e.g., for form fields)
+define('DIRT_SURVEY_DATE_HINT', 'MM/DD/YYYY');
+define('DIRT_SURVEY_DATE_SHORT_HINT', 'YYYY-MM');
+define('DIRT_RESP_TIME_HINT', 'HH:MM');
+
+// Define constant for one-time survey collection
+define('DIRT_ONE_TIME_COLLECTION', -1);
+
+// Define default paths for citizen science portions of site
+define('DIRT_CITIZEN_SCI_PATH_DEFAULT', 'soilhealthsurveys');
+define('DIRT_DATA_ENTRY_PATH_DEFAULT', 'soilhealthsurveys/soilsurveydataentry');
+
+
+/**
+ * Implements hook_node_info().
+ *
+ * Add custom content types for soil health surveys and soil health data portal
+ * pages.
+ *
+ * @retval Array of information defining the module's node types.
+ */
+function dirt_node_info() {
+  module_load_include('inc', 'dirt', 'includes/dirt.table_schema');
+
+  $node_info = array();
+
+  // Add the survey content types
+  foreach(dirt_get_installed_survey_type_info() as $type => $info) {
+    $node_info[$type] = array(
+      'name' => $info['name'],
+      'base' => 'node_content',
+      'description' => $info['description'],
+      'has_title' => TRUE,
+      'locked' => TRUE,
+    );
+  }
+
+  // Add the data entry portal page type
+  $node_info['dirt_data_entry_portal_page'] = array( 
+    'name' => t('Data Entry Portal Page'),
+    'base' => 'node_content',
+    'description' => t('This is a basic content type to be used for <em>Data Entry Portal Pages</em>.'),
+    'has_title' => TRUE,
+    'locked' => FALSE,
+  );
+
+  return $node_info;
+}
+
+
+/**
+ * Implements hook_menu().
+ *
+ * @retval Associative array whose keys define paths and whose values are an
+ *   associative array of properties for each path.
+ */
+function dirt_menu() {
+  // Create admin config pages
+
+  $items['admin/config/dirt'] = array(
+    'title' => 'DIRT Citizen Science Module',
+    'description' => 'Configuration settings for DIRT Citizen Science Module',
+    'access arguments' => array('administer site configuration'),
+    'page callback' => 'system_admin_menu_block_page',
+    'page arguments' => array('dirt_admin_config_form'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  );
+
+  $items['admin/config/dirt/surveys'] = array(
+    'title' => 'DIRT Survey Configuration',
+    'description' => 'Configuration settings for DIRT surveys',
+    'access arguments' => array('access administration pages'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('dirt_admin_set_survey_types_form'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'includes/dirt.admin.inc',
+    'weight' => 0,
+  );
+
+  $items['admin/config/dirt/surveys/survey-types'] = array(
+    'title' => t('Survey Types'),
+    'access arguments' => array('access administration pages'),
+    'weight' => 0,
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'file' => 'includes/dirt.admin.inc',
+  );
+
+  $items['admin/config/dirt/surveys/survey-edits'] = array(
+    'title' => t('Site Description Surveys'),
+    'access arguments' => array('access administration pages'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('dirt_admin_survey_config_form'),
+    'weight' => 1,
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'includes/dirt.admin.inc',
+  );
+
+  $items['admin/config/dirt/dataentry'] = array(
+    'title' => t('DIRT Data Entry Portal Configuration'),
+    'description' => 'Configuration settings for DIRT Data Entry Portal',
+    'access arguments' => array('access administration pages'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('dirt_admin_data_entry_portal_config_form'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'includes/dirt.admin.inc',
+    'weight' => 1,
+  );
+
+  $items['admin/config/dirt/dataentry/portal'] = array(
+    'title' => t('Data Entry Portal Settings'),
+    'access arguments' => array('access administration pages'),
+    'weight' => 0,
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'file' => 'includes/dirt.admin.inc',
+  );
+
+  $items['admin/config/dirt/dataentry/lookups'] = array(
+    'title' => t('Site ID Lookup'),
+    'access arguments' => array('access administration pages'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('dirt_admin_site_id_lookup_form'),
+    'weight' => 1,
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'includes/dirt.admin.inc',
+  );
+
+  // Create data entry portal page
+
+  $items[variable_get('dirt_data_entry_portal_path', DIRT_DATA_ENTRY_PATH_DEFAULT)] = array(
+    'type' => MENU_CALLBACK,
+    //'access arguments' => array('access data entry portal'),
+    'access arguments' => array('access content'),
+    'page callback' => 'dirt_data_entry_portal_page',
+    'file' => 'includes/dirt.data_entry_portal.inc',
+    );
+
+  return $items;
+}
+
+
+/**
+ * Implements hook_date_format_types().
+ *
+ * @retval Array of date types where keys are machine-readable names and values
+ *   are human-readable labels.
+ */
+function dirt_date_format_types() {
+  return array(
+    DIRT_SURVEY_DATE_TYPE => t('DIRT survey date'),
+    DIRT_SURVEY_DATE_SHORT_TYPE => t('DIRT survey date short'),
+    DIRT_RESP_TIME_TYPE => t('DIRT soil respiration hour'),
+  );
+}
+
+
+/**
+ * Implements hook_date_formats().
+ *
+ * @retval Array of date formats to offer as choices in the admin interface.
+ */
+function dirt_date_formats() {
+  return array(
+    array(
+      'type' => DIRT_SURVEY_DATE_TYPE,
+      'format' => DIRT_SURVEY_DATE_FORMAT,
+    ),
+    array(
+      'type' => DIRT_SURVEY_DATE_SHORT_TYPE,
+      'format' => DIRT_SURVEY_DATE_SHORT_FORMAT,
+    ),
+    array(
+      'type' => DIRT_RESP_TIME_TYPE,
+      'format' => DIRT_RESP_TIME_FORMAT,
+    ),
+  );
+}
+
+
+/**
+ * Implements hook_permission().
+ *
+ * @retval Array whose keys are permission names and corresponding values are
+ *   arrays containing permission information.
+ */
+function dirt_permission() {
+  return array(
+    'access data entry portal' => array(
+      'title' => t('Access the data entry portal'),
+    ),
+    'access semi-public survey data' => array(
+      'title' => t('Access any survey data marked as "Semipublic"'),
+    ),
+    'access private survey data' => array(
+      'title' => t('Access any survey data marked as "Semiprivate"'),
+    ),
+  );
+}
+
+
+/**
+ * Implements hook_node_access().
+ *
+ * Sets permissions for survey nodes depending on whether user has selected to
+ * make their survey data public or private.
+ *
+ * @param[in] $node Node object or machine name of content type to perform
+ *   access check operation on.
+ * @param[in] $op Operation performed ('create', 'delete', 'update', or 'view').
+ * @param[in] $account User object to perform access check operation on.
+ *
+ * @retval One of NODE_ACCESS_ALLOW, NODE_ACCESS_DENY, or NODE_ACCESS_IGNORE to
+ *   either specify operation is allowed, operation is denied, or operation is
+ *   unaffected.
+ */
+function dirt_node_access($node, $op, $account) {
+  // Set permissions for survey content types
+  $survey_types = dirt_get_survey_types();
+
+  // Group info will always be semi-private, others will respect survey viewing
+  // permissions set in accounts:
+  $public_types = array_diff($survey_types, array('dirt_group_information_survey')); 
+
+  // Control access for custom types node view:
+  if (is_object($node) && in_array($node->type, $survey_types) && ($op == 'view')) {
+    $uid = $node->uid;
+
+    // If node's author uid is the same as the logged in user's uid,
+    // allow access (it's their own survey!)
+    // Additionally, if user can view private data (e.g., site admin),
+    // allow access always
+    global $user;
+    if (($uid == $user->uid) || user_access('access private survey data')) {
+      return NODE_ACCESS_ALLOW;
+    }
+
+    // If form type is public/semi-public, check sharing permissions
+    if (in_array($node->type, $public_types)) {
+      // Get whether this user has made their survey data public or private
+      try {
+        $user_wrapper = entity_metadata_wrapper('user', $uid);
+        $sharing_permissions = $user_wrapper->field_dirt_user_sharing_perms->value();
+        unset($user_wrapper);
+
+        if ($sharing_permissions == 'public') {
+          // Survey is public:
+          return NODE_ACCESS_ALLOW;
+        }
+        elseif (($sharing_permissions == 'semipublic') && (user_access('access semi-public survey data'))) {
+          // Survey is semi-public and user may view semi-public data:
+          return NODE_ACCESS_ALLOW;
+        }
+        else {
+          // User does not have permissions to view survey data:
+          return NODE_ACCESS_DENY;
+        }
+      }
+      catch (EntityMetadataWrapperException $e) {
+        watchdog_exception('dirt', $e);
+
+        // Something went wrong, to be safe let's deny access
+        return NODE_ACCESS_DENY;
+      }
+    }
+    else {
+      // Otherwise treat as semi-private
+      return (user_access('access private survey data')) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
+    }
+  }
+ 
+  // Otherwise defer to default permissions for this node
+  return NODE_ACCESS_IGNORE;
+}
+
+
+/**
+ * Implements hook_node_view().
+ *
+ * Customize node views for surveys and data entry portal pages.
+ *
+ * @param[in] $node Node object being assembled for rendering.
+ * @param[in] $view_mode View mode parameter from node_view().
+ * @param[in] $langcode Language code used for rendering.
+ */
+function dirt_node_view($node, $view_mode, $langcode) {
+  $type = $node->type;
+
+  if (dirt_node_type_is_survey_type($type)) {
+    // Add CSS
+    drupal_add_css(drupal_get_path('module', 'dirt') . '/css/dirt_nodes.css');
+
+    // Set breadcrumbs
+    module_load_include('inc', 'dirt', 'includes/dirt.nodes');
+    dirt_set_survey_node_view_breadcrumbs($node);
+  }
+  elseif ($type == 'dirt_data_entry_portal_page') {
+    // Set breadcrumbs
+    module_load_include('inc', 'dirt', 'includes/dirt.nodes');
+    dirt_set_data_entry_portal_page_breadcrumbs($node);
+  }
+}
+
+
+/**
+ * Implements hook_node_view_alter().
+ *
+ * @param[in,out] $build: Renderable array representing the node content.
+ */
+function dirt_node_view_alter(&$build) {
+  // Get node type, if possible.
+  $type = array_key_exists('#bundle', $build) ? $build['#bundle'] : '';
+
+  // Modifications to survey node views:
+  if ($type && dirt_node_type_is_survey_type($type)) {
+    module_load_include('inc', 'dirt', 'includes/dirt.nodes');
+
+    // Add "submitted by" at top of survey node (visible up to "view
+    // semi-public data").
+    if (user_access('access semi-public survey data'))
+      dirt_add_submitted_by_tag_to_survey_node_view($build);
+
+    // Add "back to data portal" link at bottom of survey node
+    dirt_add_back_to_data_portal_link_to_survey_node_view($build);
+
+    // Additional modifications depending on survey type:
+    switch ($type) {
+      /* Uncomment to display bulk density formulas on node view */
+      //case 'dirt_monthly_data_survey':
+      //  // Set bulk density column titles (formulas)
+      //  dirt_set_bulk_density_node_view_column_titles($build);
+      //  break;
+
+      case 'dirt_twice_year_data_survey':
+        // Hide all of the calculated components of N, P, K, pH, etc.
+        // fields and only display the summary fields.
+        dirt_hide_twice_year_component_fields_in_survey_node_view($build);
+        break;
+    }
+  }
+}
+
+
+/**
+ * Implements hook_field_info_alter().
+ *
+ * Adds privacy options to field properties:
+ * - designates some fields as admin-only (for edit and/or view operations),
+ * - designates some fields as private, meaning visible to admins and survey
+ *   author but no one else (including other participants).
+ *
+ * Note that admin-only fields are necessarily private (even if not explicitly
+ * set as private in field settings).
+ *
+ * @param[in,out] $info Array of information on field types exposed by
+ *   hook_field_info() implementations.
+ */
+function dirt_field_info_alter(&$info) {
+  foreach ($info as $field_type => $field_type_info) {
+    $info[$field_type]['settings'] += array(
+      'dirt_admin_only' => array(
+        'edit' => FALSE,
+        'view' => FALSE,
+      ),
+      // For private fields, only one value needed (for view operation)
+      'dirt_private_field' => FALSE,
+    );
+  }
+}
+
+
+/**
+ * Implements hook_field_access().
+ *
+ * Sets field permissions for admin-only and private fields.
+ *
+ * @param[in] $op Operation to be performed.
+ * @param[in] $field Field on which operation is to be performed.
+ * @param[in] $entity_type Type of entity (e.g., 'node', 'user').
+ * @param[in] $entity *Optional* Entity for the operation.
+ * @param[in] $account *Optional* Account to check (defaults to currently
+ *   logged-in user).
+ *
+ * @retval Boolean whether operation is allowed.
+ */
+function dirt_field_access($op, $field, $entity_type, $entity, $account) {
+  // Admin-only fields:
+  if ($field && $field['settings']['dirt_admin_only'][$op])
+    return user_access('administer site configuration');
+
+  // Private fields: depend on entity type and operation (view)
+  if (($op == 'view') && $field['settings']['dirt_private_field']) {
+    switch ($entity_type) {
+      case 'user':
+        $userid = arg(1);
+        $viewing_own_profile = ($account->uid == $userid);
+        $is_site_admin = user_access('administer site configuration');
+
+        return ($is_site_admin || $viewing_own_profile);
+
+      case 'node':
+        $viewing_own_content = ($entity && ($entity->uid == $account->uid));
+        $is_site_admin = user_access('administer site configuration');
+
+        return ($is_site_admin || $viewing_own_content);
+    }
+  }
+}
+
+
+/**
+ * Implements hook_user_view().
+ *
+ * Alter user profile view to display data entry fields when applicable.
+ *
+ * @param[in] $account User object on which operation is performed.
+ * @param[in] $view_mode View mode, e.g., 'full'.
+ * @param[in] $langcode Language code used for rendering.
+ */
+function dirt_user_view($account, $view_mode, $langcode) {
+  // Requires checking the role of the account being viewed and thus is more
+  // natural to implement here than in user_view_alter().
+
+  module_load_include('inc', 'dirt', 'includes/dirt.fields');
+
+  // Display data entry fields for data entry accounts, hide for all other
+  // account types.
+  dirt_toggle_data_entry_fields_display($account);
+}
+
+
+/**
+ * Implements hook_user_view_alter().
+ *
+ * Customizes user profile display after user profile content built.
+ *
+ * @param[in,out] $build Renderable array representing the user.
+ */
+function dirt_user_view_alter(&$build) {
+  // Customize user profile titles to add first & last names for site admins and
+  // when viewing own profile
+  global $user;
+  $profile_account = $build['#account'];
+  $profile_userid = $profile_account->uid;
+
+  $is_site_admin = user_access('administer site configuration');
+  $viewing_own_profile = ($user->uid == $profile_userid);
+
+  if ($is_site_admin || $viewing_own_profile) {
+    $first_name = (array_key_exists('field_dirt_user_first_name', $build)) ? $build['field_dirt_user_first_name'][0]['#markup'] : '';
+    $last_name = (array_key_exists('field_dirt_user_last_name', $build)) ? $build['field_dirt_user_last_name'][0]['#markup'] : '';
+    $username = $profile_account->name;
+
+    if ($first_name && $last_name) {
+      $title = $first_name . ' ' . $last_name . ' (' . $username . ')';
+      drupal_set_title($title);
+    }
+  } 
+}
+
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Alter user register form. Assumes that only potential data entry users will
+ * be registering via the web form.
+ * 
+ * @param[in,out] $form Form array.
+ * @param[in,out] $form_state Form state array.
+ * @param[in] $form_id Form ID string.
+ */
+function dirt_form_user_register_form_alter(&$form, &$form_state, $form_id) {
+  form_load_include($form_state, 'inc', 'dirt', 'includes/dirt.forms');
+
+  // Make data entry fields required
+  dirt_require_user_data_entry_fields($form, $form_state);
+
+  // Customize the survey data sharing preferences field 
+  dirt_customize_sharing_preferences_field($form, $form_state);
+
+  // Display reason for account field when registering (admin-only otherwise)
+  $form['field_dirt_user_account_reason']['#access'] = TRUE;
+}
+
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Alter user profile form to display data entry fields when applicable.
+ * 
+ * @param[in,out] $form Form array.
+ * @param[in,out] $form_state Form state array.
+ * @param[in] $form_id Form ID string.
+ */
+function dirt_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
+  form_load_include($form_state, 'inc', 'dirt', 'includes/dirt.forms');
+
+  // Display data entry fields for data entry accounts only, hide otherwise
+  dirt_toggle_data_entry_fields_form($form, $form_state);
+}
+
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ *
+ * Alters form for all survey content types. Additionally makes customized
+ * changes to survey types installed with this module.
+ *
+ * @param[in,out] $form Form array.
+ * @param[in,out] $form_state Form state array.
+ * @param[in] $form_id Form ID string.
+ */
+function dirt_form_node_form_alter(&$form, &$form_state, $form_id) {
+  $content_type = $form['#node']->type;
+  if (dirt_node_type_is_survey_type($content_type)) {
+    form_load_include($form_state, 'inc', 'dirt', 'includes/dirt.forms');
+
+    // Apply changes to all survey forms
+    dirt_alter_all_survey_forms($form, $form_state);
+
+    // Other modifications to forms:
+    switch($content_type) {
+      case 'dirt_group_information_survey':
+        // Add additional validation
+        $form['#validate'][] = 'dirt_group_information_survey_node_validate';
+
+        // Apply group information survey form modifications
+        dirt_alter_dirt_group_information_survey_form($form, $form_state);
+        break;
+
+      case 'dirt_site_description_survey':
+        // Add additional validation
+        $form['#validate'][] = 'dirt_site_description_survey_node_validate';
+
+        // Apply site description form modifications
+        dirt_alter_dirt_site_description_survey_form($form, $form_state);
+        break;
+
+      case 'dirt_monthly_data_survey':
+        // Attach custom JS to form
+        $form['#attached']['js'][] = drupal_get_path('module', 'dirt') . '/js/dirt_monthly_form.js';
+
+        // Apply monthly form modifications
+        dirt_alter_dirt_monthly_data_survey_form($form, $form_state);
+        break;
+
+      case 'dirt_twice_year_data_survey':
+        // Attach custom JS to form
+        $form['#attached']['js'][] = drupal_get_path('module', 'dirt') . '/js/dirt_twice_year_form.js';
+
+        // Apply twice/year form modifications
+        dirt_alter_dirt_twice_year_data_survey_form($form, $form_state);
+        break;
+    }
+  }
+}
+
+
+/**
+ * Implements hook_node_presave().
+ *
+ * @param[in] $node Node object about to be saved.
+ */
+function dirt_node_presave($node) {
+  // Set survey node title
+  if (dirt_node_type_is_survey_type($node->type)) {
+    module_load_include('inc', 'dirt', 'includes/dirt.nodes');
+    dirt_set_survey_title($node);
+  }
+}
+
+
+/**
+ * Implements hook_node_insert().
+ *
+ * Registers a function to be called after new survey node inserted.
+ *
+ * @param[in] $node Node object recently inserted.
+ */
+function dirt_node_insert($node) {
+  // Upon user entering first soil survey for a collection site, set the
+  // collection start date for the account to be the date of survey.
+  // If a survey with an earlier date is submitted later, the collection
+  // start date will be updated to this new survey's date.
+
+  if (dirt_node_type_is_survey_type($node->type)) {
+    // Register function to be called after successfully saving new node
+    drupal_register_shutdown_function('dirt_set_collection_start_date', $node);
+  }
+}
+
+
+/**
+ * Implements hook_node_update().
+ *
+ * Registers a function to be called after a survey node is updated.
+ *
+ * @param[in] $node Node object updated.
+ */
+function dirt_node_update($node) {
+  // Upon editing a survey, check if the collection start date needs to be
+  // updated for the user submitting the survey.
+  // (This function is necessary to handle case when survey is updated and date of
+  // survey is changed.)
+
+  if (dirt_node_type_is_survey_type($node->type)) {
+    // Register function to be called after successfully saving new node
+    drupal_register_shutdown_function('dirt_set_collection_start_date', $node);
+  }
+}
+
+
+/**
+ * Implements hook_node_delete().
+ * Registers a function to be called after a node is deleted.
+ *
+ * @param[in] $node Node object recently deleted.
+ */
+function dirt_node_delete($node) {
+  // Upon deleting a survey, check if the collection start date needs to be
+  // updated for the user submitting the survey.
+
+  if (dirt_node_type_is_survey_type($node->type)) {
+    // Register function to be called after successfully saving new node
+    drupal_register_shutdown_function('dirt_set_collection_start_date', $node);
+  }
+}
+
+
+/**
+ * Set collection start date according to earliest submitted survey
+ * for an account.
+ *
+ * @param[in] $node Node object for survey being created.
+ */
+function dirt_set_collection_start_date($node) {
+  // Survey author user ID
+  $uid = $node->uid;
+
+  $user_obj = user_load($uid);
+  $is_data_entry_account = (!empty($user_obj) && user_has_role($data_entry_user_rid, $user_obj));
+
+  if ($is_data_entry_account) {
+    // Get the earliest date of survey for this site
+    $datestamp = dirt_get_earliest_survey_date($uid);
+    $earliest_survey_date = (!empty($datestamp)) ? strtotime($datestamp) : NULL;
+
+    // Get the user's current collection start date, if possible.
+    try {
+      $user_wrapper = entity_metadata_wrapper('user', $uid);
+      $start_date = $user_wrapper->field_dirt_user_collection_start->value();
+
+      // If the dates are the same, no update is needed. Otherwise, need to 
+      // change collection start date to earliest survey date.
+      if ($earliest_survey_date != $start_date) {
+        // Set start date = earliest survey date
+        $user_wrapper->field_dirt_user_collection_start = $earliest_survey_date;
+        $user_wrapper->save();
+
+        // Log start date change
+        if (empty($earliest_survey_date)) $earliest_survey_date = '(empty)';
+        watchdog('dirt', 'Saved new start date for site ID #%id as %date',
+          array('%id' => $uid, '%date' => $earliest_survey_date), WATCHDOG_INFO);
+      }
+    }
+    catch (EntityMetadataWrapperException $e) {
+      watchdog_exception('dirt', $e);
+    }
+  }
+
+  unset($user_obj);
+}
+
+
+/**
+ * Implements hook_field_group_info().
+ *
+ * @retval Array of field group objects keyed by field group identifier string.
+ */
+function dirt_field_group_info() {
+  module_load_include('inc', 'dirt', 'includes/dirt.field_groups');
+
+  $export = array();
+
+  $field_groups = dirt_get_field_group_info();
+
+  foreach($field_groups as $group_info) {
+    $group = dirt_get_field_group_object($group_info['basename'], $group_info['bundle'], $group_info['mode']);
+    $key = $group->identifier;
+    if (!empty($group)) $export[$key] = $group;
+  }
+
+  return $export;
+}
+
+
+/**
+ * Implements hook_ctools_plugin_api().
+ *
+ * @retval Array with version info for ctools. Required when implementing
+ *   hook_field_group_info().
+ */
+function dirt_ctools_plugin_api($owner, $api) {
+  if ($owner == 'field_group' && $api == 'field_group') {
+    return array('version' => 1);
+  }
+}
+
+
+/**
+ * Implements hook_node_type_delete().
+ *
+ * Automatically remove a survey type from the database when its content type is
+ * deleted.
+ *
+ * @param[in] $info The node type object that is being deleted.
+ */
+function dirt_node_type_delete($info) {
+  $type = $info->type;
+
+  if (dirt_node_type_is_survey_type($type)) {
+    try {
+      dirt_delete_survey_type($type);
+
+      watchdog('dirt', 'Automatically removed %type as a survey type upon ' .
+        'content type deletion.', array('%type' => $type), WATCHDOG_INFO);
+    }
+    catch (Exception $e) {
+      watchdog('dirt', 'An error occurred while attempting to remove %type ' .
+        'as a survey type upon content type deletion.',
+        array('%type' => $type), WATCHDOG_ERROR);
+    }
+  }
+}
+
+
+/**
+ * Implements hook_block_info().
+ * 
+ * Creates custom blocks for this module.
+ *
+ * @retval Associative array whose keys define the delta for each block and
+ *   whose values contain the block descriptions.
+ */
+function dirt_block_info() {
+  module_load_include('inc', 'dirt', 'includes/dirt.blocks');
+
+  return dirt_get_installed_blocks();
+}
+
+
+/**
+ * Implements hook_block_configure().
+ *
+ * @param[in] $delta *Optional* Which block is being configured.
+ *
+ * @retval Configuration form for block.
+ */
+function dirt_block_configure($delta='') {
+  module_load_include('inc', 'dirt', 'includes/dirt.blocks');
+
+  return dirt_get_block_form($delta);
+}
+
+
+/**
+ * Implements hook_block_save().
+ *
+ * @param[in] $delta *Optional* Which block is being saved.
+ * @param[in] $edit Submitted form data from the configuration form.
+ */
+function dirt_block_save($delta = '', $edit = array()) {
+  module_load_include('inc', 'dirt', 'includes/dirt.blocks');
+
+  dirt_save_block_form_variables($delta, $edit);
+}
+
+
+/**
+ * Implements hook_block_view().
+ *
+ * @param[in] $delta *Optional* Which block to render.
+ *
+ * @retval Array containing block content (if empty, block is not shown).
+ */
+function dirt_block_view($delta='') {
+  module_load_include('inc', 'dirt', 'includes/dirt.blocks');
+
+  return dirt_set_block_view($delta);
+}
+
+
+/** 
+ * Implements hook_help().
+ *
+ * @param[in] $path Router menu path, as defined in hook_menu(), for the help
+ *   that is being requested.
+ * @param[in] $arg Array that corresponds to the return value of the arg()
+ *   function.
+ *
+ * @retval String containing the help text.
+ */
+function dirt_help($path, $arg) {
+  switch($path) {
+    case 'admin/help#dirt':
+      $output  = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('The DIRT Citizen Science Core module provides a ' .
+        'web-based data portal for collecting data from Citizen Scientists.') .
+        '</p>';
+      $output .= '<p>' . t('This module was created manage data collection ' .
+        'for the ' .
+        l(t('MO DIRT (Missourians Doing Impact Research Together)'), 'https://modirt.missouriepscor.org') .
+        ' project, and thus is primarily set up to collect soil health data ' .
+        'such as soil respiration and chemical soil properties, as well as ' .
+        'basic information about the collection sites themselves (location, ' .
+        'habitat type, land management practices, etc.) However, there is ' . 
+        'some (limited) ability to add new fields and modify existing ' .
+        'fields. More advanced site administrators may wish to add their own ' .
+        'new survey types as well (requires modifying the underlying code ' .
+        'and/or creating a sub-module).') . '</p>';
+      $output .= '<p>' . t('After installing the module, the web site is ' .
+        'initially populated with suggested data entry portal pages and ' .
+        'data collection surveys. The four survey types are: ') . '</p>';
+      $output .= '<ul><li><strong>' . t('Group Information Survey' .
+        '</strong>: Information about the Citizen Scientist participants ' .
+        '(e.g., group name, group members).') . '</li>';
+      $output .= '<li><strong>' . t('Site Description Survey') . '</strong>' .
+        t(': Information about the collection site (e.g., site address, GSP ' .
+        'coordinates, habitat, land management practices)') . '</li>';
+      $output .= '<li><strong>' . t('Monthly Data Survey') . '</strong>: ' .
+        t('Site variables collected monthly, such as soil respiration and ' .
+        'soil water content. Some fields are calculated automatically for ' .
+        'the participants on this survey.') . '</li>';
+      $output .= '<li><strong>' . t('Twice a Year Survey') . '</strong>: ' .
+        t('Site variables collected twice a year (defaults to May and ' .
+        'August of the calendar year), such as soil pH and active carbon.') .
+        '</li></ul>';
+      $output .= '<h3>' . t('Uses') . '</h3>';
+      $output .= '<dl>';
+      $output .= '<dt>' . t('Collecting Citizen Science survey data') . '</dt>';
+      $output .= '<dd>' . t('Citizen Scientists request data entry accounts ' .
+        'via the web site. After setting up an account and logging in, they ' .
+        'have access to all of the surveys via the ') .
+        l(t('Data Entry Portal'), variable_get('dirt_data_entry_portal_path', DIRT_DATA_ENTRY_PATH_DEFAULT)) .
+        '.</dd>';
+      $output .= '<dt>' . t('Managing data access') . '</dt>';
+      $output .= '<dd>' . t('The DIRT Core module provides a user ' .
+        'profile field that allows participants to control access ' .
+        'to their data ("public", "semi-public", i.e., accessible to other ' .
+        'participants only, or "semi-private"). The most restrictive option ' .
+        'is called "semi-private" because site administrators have ' .
+        'access to all data submitted. The "Data Entry Account" role ' .
+        'is created as part of this module to assign to Citizen ' .
+        'Scientist participants, allowing them to view all other ' .
+        '"semi-public" surveys.') . '</dd>';
+      $output .= '<dt>' . t('Managing collection schedules') . '</dt>';
+      $output .= '<dd>' . t('The Data Entry Portal keeps track of the ' .
+        'collection start date for each site and prompts participants ' .
+        'to enter surveys as scheduled (e.g., every month for monthly ' .
+        'surveys).') . '</dd>';
+      $output .= '<dt>' . t('Displaying survey history') . '</dt>';
+      $output .= '<dd>' . t('The Data Entry Portal keeps track of ' .
+        'all surveys submitted for each site. Participants may review ' .
+        'all of their previously submitted surveys via the portal ' .
+        'and make changes to survey fields if necessary.') . '</dd>';
+      $output .= '<dt>' . t('Educating the public about the project') . 
+        '</dt>';
+      $output .= '<dd>' . t('The module provides a basic site layout ' .
+        'with suggested content pages and menus to describe the ' .
+        'project to the public. Suggested pages include a page to ' .
+        'upload resources (such as a data entry manual), a page to ' .
+        'keep track of upcoming or past training sessions (if ' .
+        'applicable), and a page to provide basic statistics on ' .
+        'the project demographics, such as number of active sites, ' .
+        'number of participating institutions/organizations, etc.') . 
+        '</dt>';
+      $output .= '</dl>';
+         
+      return $output;
+  }
+}
+
+
+/**
+ * Returns a list of all custom content types (machine names) created in this
+ * module.
+ *
+ * @retval Array of custom content type names.
+ */
+function dirt_get_all_custom_content_types() {
+  return array_keys(dirt_node_info());
+}
+
+
+/**
+ * Returns array of valid habitat type selections from the habitat type
+ * drop-down field.
+ *
+ * @retval Array of habitat type option strings.
+ */
+function dirt_get_habitat_type_options() {
+  $habitat_type_options = array();
+
+  $instance = field_info_instance('node', 'field_dirt_site_habitat_type', 'dirt_site_description_survey');
+  if ($instance && ($instance['widget']['module'] == 'select_or_other')) {
+    $habitat_type_options = explode("\n", $instance['widget']['settings']['available_options']);
+  }
+
+  return $habitat_type_options;
+}
+
+
+//-------------------------------------------------------------------------------
+// Survey type-related functions.
+//
+// Functions in main module file to be available to other modules extending this
+// one, with implementations in includes/dirt.survey_types.inc file.
+//------------------------------------------------------------------------------/
+
+/**
+ * Adds a new survey type (i.e., designates an existing content type as a survey
+ * type).
+ *
+ * @param[in] $type Survey type machine name.
+ * @param[in] $collection_frequency Number of times per year survey is
+ *   collected.
+ * @param[in] $collection_months *Optional* Array of collection months (1-12),
+ *   if not evenly spaced throughout the calendar year.
+ * @param[in] $is_admin_only *Optional* Boolean whether survey is admin-only
+ *   (default is false).
+ */
+function dirt_add_survey_type($type, $collection_frequency, $collection_months=array(), $is_admin_only=FALSE) {
+  module_load_include('inc', 'dirt', 'includes/dirt.survey_types');
+
+  _dirt_add_survey_type($type, $collection_frequency, $collection_months, $is_admin_only);
+}
+
+
+/**
+ * Deletes a survey type.
+ *
+ * Note that this does not change the content type itself, only its status as a
+ * survey type.
+ *
+ * @param[in] $type String type machine name.
+ */
+function dirt_delete_survey_type($type) {
+  module_load_include('inc', 'dirt', 'includes/dirt.survey_types');
+
+  _dirt_delete_survey_type($type);
+}
+
+
+/**
+ * Returns list of machine names of all survey types in the system.
+ *
+ * @retval Array of survey type names (empty if none found).
+ */
+function dirt_get_survey_types() {
+  module_load_include('inc', 'dirt', 'includes/dirt.survey_types');
+
+  return _dirt_get_survey_types();
+}
+
+
+/**
+ * Determines whether a content type is a survey type.
+ *
+ * @param[in] $type Node type machine name string.
+ * 
+ * @retval Boolean true if survey type, false otherwise.
+ */
+function dirt_node_type_is_survey_type($type) {
+  module_load_include('inc', 'dirt', 'includes/dirt.survey_types');
+
+  return _dirt_node_type_is_survey_type($type);
+}
+
+
+/**
+ * Returns the most recently submitted survey node ID for a
+ * user. (Primarily used to get the unique nid for one of the
+ * one-time survey types.)
+ * Returns empty string if no nid found.
+ *
+ * @param[in] $uid User ID.
+ * @param[in] $type Survey type (machine name).
+ *
+ * @retval String Node ID of survey node if found, or empty string
+ *  otherwise.
+ */
+function dirt_get_most_recent_survey_of_type_for_user($uid, $type) {
+  module_load_include('inc', 'dirt', 'includes/dirt.survey_types');
+
+  return _dirt_get_most_recent_survey_of_type_for_user($uid, $type);
+}
+
+
+/**
+ * Return the earliest survey date of all surveys submitted by a user.
+ *
+ * @param[in] $uid User ID.
+ * 
+ * @retval Start date of earliest survey, or empty string if none found.
+ */
+function dirt_get_earliest_survey_date($uid) {
+  module_load_include('inc', 'dirt', 'includes/dirt.survey_types');
+
+  return _dirt_get_earliest_survey_date($uid);
+}
+
+
+/**
+ * Returns the human-readable name of a survey type.
+ *
+ * @param[in] $type String type machine name.
+ *
+ * @retval String human-readable name of survey type (empty string
+ *  if none found).
+ */
+function dirt_get_name_of_survey_type($type) {
+  return node_type_get_name($type);
+}
+
+
+/**
+ * Returns the collection frequency for a survey type.
+ *
+ * @param[in] $type String type machine name.
+ *
+ * @retval Integer collection frequency (0 if none found).
+ */
+function dirt_get_collection_frequency_of_survey_type($type) {
+  module_load_include('inc', 'dirt', 'includes/dirt.survey_types');
+
+  return _dirt_get_collection_frequency_of_survey_type($type);
+}
+
+
+/**
+ * Returns the collection frequency number as a string, e.g., "once a year",
+ * "twice a year", etc.
+ *
+ * @param[in] $frequency_num Integer collection frequency.
+ *
+ * @retval String collection frequency.
+ */
+function dirt_get_collection_frequency_str_of_survey_type($frequency_num) {
+  module_load_include('inc', 'dirt', 'includes/dirt.survey_types');
+
+  return _dirt_get_collection_frequency_str_of_survey_type($frequency_num);
+}
+
+
+/**
+ * Returns the collection months for a survey type.
+ *
+ * @param[in] $type String type machine name.
+ *
+ * @retval Array of collection months (empty if none found).
+ */
+function dirt_get_collection_months_of_survey_type($type) {
+  module_load_include('inc', 'dirt', 'includes/dirt.survey_types');
+
+  return _dirt_get_collection_months_of_survey_type($type);
+}
+
+
+//------------------------------------------------------------------------------
+// Database operation wrapper functions.
+//
+// Functions in main module file to be available to other modules extending this
+// one, with implementations in includes/dirt.db_ops.inc file.
+//------------------------------------------------------------------------------/
+
+/**
+ * Returns the admin-only entry status of a survey type.
+ *
+ * @param[in] $type String type machine name.
+ *
+ * @retval Integer admin-only status (1 if admin-only, 0 if not).
+ */
+function dirt_get_admin_only_status_of_survey_type($type) {
+  module_load_include('inc', 'dirt', 'includes/dirt.survey_types');
+
+  return _dirt_get_admin_only_status_of_survey_type($type);
+}
+
+
+/**
+ * Wrapper function for database insertions.
+ *
+ * @param[in] $table_name Table name string to insert row into.
+ * @param[in] $fields Array of field_name => value for the row insertion.
+ *
+ * @retval Integer auto-increment ID field value of inserted row.
+ */
+function dirt_insert_into_database_table($table_name, $fields) {
+  module_load_include('inc', 'dirt', 'includes/dirt.db_ops');
+
+  return _dirt_insert_into_database_table($table_name, $fields);
+}
+
+
+/**
+ * Wrapper function for database updates.
+ *
+ * @param[in] $table_name Table name string to insert row into.
+ * @param[in] $fields Array of field_name => value for the row update.
+ * @param[in] $conditions Array of conditions with keys 'field',
+ *   'value', 'operator'.
+ *
+ * @retval Integer number of rows updated in table.
+ */
+function dirt_update_database_table($table_name, $fields, $conditions) {
+  module_load_include('inc', 'dirt', 'includes/dirt.db_ops');
+
+  return _dirt_update_database_table($table_name, $fields, $conditions);
+}
+
+
+/**
+ * Wrapper function for database deletions.
+ *
+ * @param[in] $table_name Table name string to delete row(s) from.
+ * @param[in] $conditions Array of conditions with keys 'field',
+ *   'value', 'operator', used to identify row(s) to delete.
+ *
+ * @retval Integer number of rows deleted from table.
+ */
+function dirt_delete_from_database_table($table_name, $conditions) {
+  module_load_include('inc', 'dirt', 'includes/dirt.db_ops');
+
+  return _dirt_delete_from_database_table($table_name, $conditions);
+}
+

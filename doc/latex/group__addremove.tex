@@ -1,0 +1,55 @@
+\hypertarget{group__addremove}{}\section{Add/remove survey type functions}
+\label{group__addremove}\index{Add/remove survey type functions@{Add/remove survey type functions}}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{group__addremove_gaed945245ecae97ebf2928aa638cc4828}{\+\_\+dirt\+\_\+add\+\_\+survey\+\_\+type}} (\$type, \$collection\+\_\+frequency, \$collection\+\_\+months=array(), \$is\+\_\+admin\+\_\+only=F\+A\+L\+SE)
+\item 
+\mbox{\hyperlink{group__addremove_ga6d4ede5a8bdb2b158700756e4a1047f7}{\+\_\+dirt\+\_\+delete\+\_\+survey\+\_\+type}} (\$type)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+
+
+Functions to handle adding or removing survey types from the system. Adding a content type as a survey type makes it available to citizen scientists \subsubsection*{for data collection via the data entry portal. }
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{group__addremove_gaed945245ecae97ebf2928aa638cc4828}\label{group__addremove_gaed945245ecae97ebf2928aa638cc4828}} 
+\index{Add/remove survey type functions@{Add/remove survey type functions}!\+\_\+dirt\+\_\+add\+\_\+survey\+\_\+type@{\+\_\+dirt\+\_\+add\+\_\+survey\+\_\+type}}
+\index{\+\_\+dirt\+\_\+add\+\_\+survey\+\_\+type@{\+\_\+dirt\+\_\+add\+\_\+survey\+\_\+type}!Add/remove survey type functions@{Add/remove survey type functions}}
+\subsubsection{\texorpdfstring{\+\_\+dirt\+\_\+add\+\_\+survey\+\_\+type()}{\_dirt\_add\_survey\_type()}}
+{\footnotesize\ttfamily \+\_\+dirt\+\_\+add\+\_\+survey\+\_\+type (\begin{DoxyParamCaption}\item[{}]{\$type,  }\item[{}]{\$collection\+\_\+frequency,  }\item[{}]{\$collection\+\_\+months = {\ttfamily array()},  }\item[{}]{\$is\+\_\+admin\+\_\+only = {\ttfamily FALSE} }\end{DoxyParamCaption})}
+
+@
+
+Adds a new survey type (i.\+e., designates an existing content type as a survey type).
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$type} & Survey type machine name. \\
+\hline
+\mbox{\tt in}  & {\em \$collection\+\_\+frequency} & Number of times per year survey is collected. \\
+\hline
+\mbox{\tt in}  & {\em \$collection\+\_\+months} & {\itshape Optional} Array of collection months (1-\/12), if not evenly spaced throughout the calendar year. \\
+\hline
+\mbox{\tt in}  & {\em \$is\+\_\+admin\+\_\+only} & {\itshape Optional} Boolean whether survey is admin-\/only (default is false). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__addremove_ga6d4ede5a8bdb2b158700756e4a1047f7}\label{group__addremove_ga6d4ede5a8bdb2b158700756e4a1047f7}} 
+\index{Add/remove survey type functions@{Add/remove survey type functions}!\+\_\+dirt\+\_\+delete\+\_\+survey\+\_\+type@{\+\_\+dirt\+\_\+delete\+\_\+survey\+\_\+type}}
+\index{\+\_\+dirt\+\_\+delete\+\_\+survey\+\_\+type@{\+\_\+dirt\+\_\+delete\+\_\+survey\+\_\+type}!Add/remove survey type functions@{Add/remove survey type functions}}
+\subsubsection{\texorpdfstring{\+\_\+dirt\+\_\+delete\+\_\+survey\+\_\+type()}{\_dirt\_delete\_survey\_type()}}
+{\footnotesize\ttfamily \+\_\+dirt\+\_\+delete\+\_\+survey\+\_\+type (\begin{DoxyParamCaption}\item[{}]{\$type }\end{DoxyParamCaption})}
+
+Deletes a survey type.
+
+Note that this does not change the content type itself, only its status as a survey type.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$type} & String type machine name. \\
+\hline
+\end{DoxyParams}

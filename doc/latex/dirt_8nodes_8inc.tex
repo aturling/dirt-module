@@ -1,0 +1,158 @@
+\hypertarget{dirt_8nodes_8inc}{}\section{dirt.\+nodes.\+inc File Reference}
+\label{dirt_8nodes_8inc}\index{dirt.\+nodes.\+inc@{dirt.\+nodes.\+inc}}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{dirt_8nodes_8inc_aea18b078b62c937a9574d17c3a4a2805}{dirt\+\_\+get\+\_\+installed\+\_\+nodes}} ()
+\item 
+\mbox{\hyperlink{dirt_8nodes_8inc_ae9947827b646698ed3ee6d30b6534deb}{dirt\+\_\+add\+\_\+submitted\+\_\+by\+\_\+tag\+\_\+to\+\_\+survey\+\_\+node\+\_\+view}} (\&\$build)
+\item 
+\mbox{\hyperlink{dirt_8nodes_8inc_a41735ec0b898c6b9f1466c2b8257cd66}{dirt\+\_\+hide\+\_\+twice\+\_\+year\+\_\+component\+\_\+fields\+\_\+in\+\_\+survey\+\_\+node\+\_\+view}} (\&\$build)
+\item 
+\mbox{\hyperlink{dirt_8nodes_8inc_a93ce27c1f19a85b6a559d6c6d2814df1}{dirt\+\_\+add\+\_\+back\+\_\+to\+\_\+data\+\_\+portal\+\_\+link\+\_\+to\+\_\+survey\+\_\+node\+\_\+view}} (\&\$build)
+\item 
+\mbox{\hyperlink{dirt_8nodes_8inc_a2d57703b53cc2810f86c61fc63f803fa}{dirt\+\_\+set\+\_\+survey\+\_\+title}} (\&\$node)
+\item 
+\mbox{\hyperlink{dirt_8nodes_8inc_aa974b5cea01ee587230f557ead98ca04}{dirt\+\_\+set\+\_\+survey\+\_\+node\+\_\+view\+\_\+breadcrumbs}} (\&\$node)
+\item 
+\mbox{\hyperlink{dirt_8nodes_8inc_afe9e72362dff7c79e38ba49e5dba000e}{dirt\+\_\+set\+\_\+data\+\_\+entry\+\_\+portal\+\_\+page\+\_\+breadcrumbs}} (\&\$node)
+\item 
+\mbox{\hyperlink{dirt_8nodes_8inc_aca88938dc96db1edcffa882c5ee57645}{dirt\+\_\+set\+\_\+bulk\+\_\+density\+\_\+node\+\_\+view\+\_\+column\+\_\+titles}} (\&\$build)
+\item 
+\mbox{\hyperlink{dirt_8nodes_8inc_a6bebfa4e5a4b84fd7e2bcb436ecf276b}{\+\_\+dirt\+\_\+get\+\_\+page\+\_\+title}} (\$path)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file specifies the definitions for custom nodes created by this module and contains functions related to handling nodes (e.\+g., altering node view). 
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{dirt_8nodes_8inc_a6bebfa4e5a4b84fd7e2bcb436ecf276b}\label{dirt_8nodes_8inc_a6bebfa4e5a4b84fd7e2bcb436ecf276b}} 
+\index{dirt.\+nodes.\+inc@{dirt.\+nodes.\+inc}!\+\_\+dirt\+\_\+get\+\_\+page\+\_\+title@{\+\_\+dirt\+\_\+get\+\_\+page\+\_\+title}}
+\index{\+\_\+dirt\+\_\+get\+\_\+page\+\_\+title@{\+\_\+dirt\+\_\+get\+\_\+page\+\_\+title}!dirt.\+nodes.\+inc@{dirt.\+nodes.\+inc}}
+\subsubsection{\texorpdfstring{\+\_\+dirt\+\_\+get\+\_\+page\+\_\+title()}{\_dirt\_get\_page\_title()}}
+{\footnotesize\ttfamily \+\_\+dirt\+\_\+get\+\_\+page\+\_\+title (\begin{DoxyParamCaption}\item[{}]{\$path }\end{DoxyParamCaption})}
+
+Helper function to get title of a node given its path alias.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$path} & Path to node (alias).\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em String} & title of node (empty string if none found). \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt_8nodes_8inc_a93ce27c1f19a85b6a559d6c6d2814df1}\label{dirt_8nodes_8inc_a93ce27c1f19a85b6a559d6c6d2814df1}} 
+\index{dirt.\+nodes.\+inc@{dirt.\+nodes.\+inc}!dirt\+\_\+add\+\_\+back\+\_\+to\+\_\+data\+\_\+portal\+\_\+link\+\_\+to\+\_\+survey\+\_\+node\+\_\+view@{dirt\+\_\+add\+\_\+back\+\_\+to\+\_\+data\+\_\+portal\+\_\+link\+\_\+to\+\_\+survey\+\_\+node\+\_\+view}}
+\index{dirt\+\_\+add\+\_\+back\+\_\+to\+\_\+data\+\_\+portal\+\_\+link\+\_\+to\+\_\+survey\+\_\+node\+\_\+view@{dirt\+\_\+add\+\_\+back\+\_\+to\+\_\+data\+\_\+portal\+\_\+link\+\_\+to\+\_\+survey\+\_\+node\+\_\+view}!dirt.\+nodes.\+inc@{dirt.\+nodes.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+add\+\_\+back\+\_\+to\+\_\+data\+\_\+portal\+\_\+link\+\_\+to\+\_\+survey\+\_\+node\+\_\+view()}{dirt\_add\_back\_to\_data\_portal\_link\_to\_survey\_node\_view()}}
+{\footnotesize\ttfamily dirt\+\_\+add\+\_\+back\+\_\+to\+\_\+data\+\_\+portal\+\_\+link\+\_\+to\+\_\+survey\+\_\+node\+\_\+view (\begin{DoxyParamCaption}\item[{\&}]{\$build }\end{DoxyParamCaption})}
+
+Adds a \char`\"{}\+Back to the data portal\char`\"{} link at the bottom of each survey node.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em \$build} & A renderable array representing the node content. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{dirt_8nodes_8inc_ae9947827b646698ed3ee6d30b6534deb}\label{dirt_8nodes_8inc_ae9947827b646698ed3ee6d30b6534deb}} 
+\index{dirt.\+nodes.\+inc@{dirt.\+nodes.\+inc}!dirt\+\_\+add\+\_\+submitted\+\_\+by\+\_\+tag\+\_\+to\+\_\+survey\+\_\+node\+\_\+view@{dirt\+\_\+add\+\_\+submitted\+\_\+by\+\_\+tag\+\_\+to\+\_\+survey\+\_\+node\+\_\+view}}
+\index{dirt\+\_\+add\+\_\+submitted\+\_\+by\+\_\+tag\+\_\+to\+\_\+survey\+\_\+node\+\_\+view@{dirt\+\_\+add\+\_\+submitted\+\_\+by\+\_\+tag\+\_\+to\+\_\+survey\+\_\+node\+\_\+view}!dirt.\+nodes.\+inc@{dirt.\+nodes.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+add\+\_\+submitted\+\_\+by\+\_\+tag\+\_\+to\+\_\+survey\+\_\+node\+\_\+view()}{dirt\_add\_submitted\_by\_tag\_to\_survey\_node\_view()}}
+{\footnotesize\ttfamily dirt\+\_\+add\+\_\+submitted\+\_\+by\+\_\+tag\+\_\+to\+\_\+survey\+\_\+node\+\_\+view (\begin{DoxyParamCaption}\item[{\&}]{\$build }\end{DoxyParamCaption})}
+
+Adds \char`\"{}submitted by \mbox{[}username\mbox{]}\char`\"{} tag to survey nodes above survey content.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em \$build} & A renderable array representing the node content. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{dirt_8nodes_8inc_aea18b078b62c937a9574d17c3a4a2805}\label{dirt_8nodes_8inc_aea18b078b62c937a9574d17c3a4a2805}} 
+\index{dirt.\+nodes.\+inc@{dirt.\+nodes.\+inc}!dirt\+\_\+get\+\_\+installed\+\_\+nodes@{dirt\+\_\+get\+\_\+installed\+\_\+nodes}}
+\index{dirt\+\_\+get\+\_\+installed\+\_\+nodes@{dirt\+\_\+get\+\_\+installed\+\_\+nodes}!dirt.\+nodes.\+inc@{dirt.\+nodes.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+get\+\_\+installed\+\_\+nodes()}{dirt\_get\_installed\_nodes()}}
+{\footnotesize\ttfamily dirt\+\_\+get\+\_\+installed\+\_\+nodes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Returns info on nodes created by this module.
+
+
+\begin{DoxyRetVals}{Return values}
+{\em Array} & of node information. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt_8nodes_8inc_a41735ec0b898c6b9f1466c2b8257cd66}\label{dirt_8nodes_8inc_a41735ec0b898c6b9f1466c2b8257cd66}} 
+\index{dirt.\+nodes.\+inc@{dirt.\+nodes.\+inc}!dirt\+\_\+hide\+\_\+twice\+\_\+year\+\_\+component\+\_\+fields\+\_\+in\+\_\+survey\+\_\+node\+\_\+view@{dirt\+\_\+hide\+\_\+twice\+\_\+year\+\_\+component\+\_\+fields\+\_\+in\+\_\+survey\+\_\+node\+\_\+view}}
+\index{dirt\+\_\+hide\+\_\+twice\+\_\+year\+\_\+component\+\_\+fields\+\_\+in\+\_\+survey\+\_\+node\+\_\+view@{dirt\+\_\+hide\+\_\+twice\+\_\+year\+\_\+component\+\_\+fields\+\_\+in\+\_\+survey\+\_\+node\+\_\+view}!dirt.\+nodes.\+inc@{dirt.\+nodes.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+hide\+\_\+twice\+\_\+year\+\_\+component\+\_\+fields\+\_\+in\+\_\+survey\+\_\+node\+\_\+view()}{dirt\_hide\_twice\_year\_component\_fields\_in\_survey\_node\_view()}}
+{\footnotesize\ttfamily dirt\+\_\+hide\+\_\+twice\+\_\+year\+\_\+component\+\_\+fields\+\_\+in\+\_\+survey\+\_\+node\+\_\+view (\begin{DoxyParamCaption}\item[{\&}]{\$build }\end{DoxyParamCaption})}
+
+Hides all of the calculated N, P, K, pH, and Active Carbon field components on the survey node view so that only the summary fields are displayed.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em \$build} & A renderable array representing the node content. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{dirt_8nodes_8inc_aca88938dc96db1edcffa882c5ee57645}\label{dirt_8nodes_8inc_aca88938dc96db1edcffa882c5ee57645}} 
+\index{dirt.\+nodes.\+inc@{dirt.\+nodes.\+inc}!dirt\+\_\+set\+\_\+bulk\+\_\+density\+\_\+node\+\_\+view\+\_\+column\+\_\+titles@{dirt\+\_\+set\+\_\+bulk\+\_\+density\+\_\+node\+\_\+view\+\_\+column\+\_\+titles}}
+\index{dirt\+\_\+set\+\_\+bulk\+\_\+density\+\_\+node\+\_\+view\+\_\+column\+\_\+titles@{dirt\+\_\+set\+\_\+bulk\+\_\+density\+\_\+node\+\_\+view\+\_\+column\+\_\+titles}!dirt.\+nodes.\+inc@{dirt.\+nodes.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+set\+\_\+bulk\+\_\+density\+\_\+node\+\_\+view\+\_\+column\+\_\+titles()}{dirt\_set\_bulk\_density\_node\_view\_column\_titles()}}
+{\footnotesize\ttfamily dirt\+\_\+set\+\_\+bulk\+\_\+density\+\_\+node\+\_\+view\+\_\+column\+\_\+titles (\begin{DoxyParamCaption}\item[{\&}]{\$build }\end{DoxyParamCaption})}
+
+Sets the bulk density column titles in the monthly survey node view.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em \$build} & Renderable array representing the node content. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{dirt_8nodes_8inc_afe9e72362dff7c79e38ba49e5dba000e}\label{dirt_8nodes_8inc_afe9e72362dff7c79e38ba49e5dba000e}} 
+\index{dirt.\+nodes.\+inc@{dirt.\+nodes.\+inc}!dirt\+\_\+set\+\_\+data\+\_\+entry\+\_\+portal\+\_\+page\+\_\+breadcrumbs@{dirt\+\_\+set\+\_\+data\+\_\+entry\+\_\+portal\+\_\+page\+\_\+breadcrumbs}}
+\index{dirt\+\_\+set\+\_\+data\+\_\+entry\+\_\+portal\+\_\+page\+\_\+breadcrumbs@{dirt\+\_\+set\+\_\+data\+\_\+entry\+\_\+portal\+\_\+page\+\_\+breadcrumbs}!dirt.\+nodes.\+inc@{dirt.\+nodes.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+set\+\_\+data\+\_\+entry\+\_\+portal\+\_\+page\+\_\+breadcrumbs()}{dirt\_set\_data\_entry\_portal\_page\_breadcrumbs()}}
+{\footnotesize\ttfamily dirt\+\_\+set\+\_\+data\+\_\+entry\+\_\+portal\+\_\+page\+\_\+breadcrumbs (\begin{DoxyParamCaption}\item[{\&}]{\$node }\end{DoxyParamCaption})}
+
+Sets breadcrumbs for data entry portal page content types.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em \$node} & Node object. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{dirt_8nodes_8inc_aa974b5cea01ee587230f557ead98ca04}\label{dirt_8nodes_8inc_aa974b5cea01ee587230f557ead98ca04}} 
+\index{dirt.\+nodes.\+inc@{dirt.\+nodes.\+inc}!dirt\+\_\+set\+\_\+survey\+\_\+node\+\_\+view\+\_\+breadcrumbs@{dirt\+\_\+set\+\_\+survey\+\_\+node\+\_\+view\+\_\+breadcrumbs}}
+\index{dirt\+\_\+set\+\_\+survey\+\_\+node\+\_\+view\+\_\+breadcrumbs@{dirt\+\_\+set\+\_\+survey\+\_\+node\+\_\+view\+\_\+breadcrumbs}!dirt.\+nodes.\+inc@{dirt.\+nodes.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+set\+\_\+survey\+\_\+node\+\_\+view\+\_\+breadcrumbs()}{dirt\_set\_survey\_node\_view\_breadcrumbs()}}
+{\footnotesize\ttfamily dirt\+\_\+set\+\_\+survey\+\_\+node\+\_\+view\+\_\+breadcrumbs (\begin{DoxyParamCaption}\item[{\&}]{\$node }\end{DoxyParamCaption})}
+
+Sets breadcrumbs for survey content types.
+
+Adds links back to\+:
+\begin{DoxyItemize}
+\item Site homepage
+\item Citizen Science data entry homepage
+\item Data Entry Portal
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em \$node} & Node object. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{dirt_8nodes_8inc_a2d57703b53cc2810f86c61fc63f803fa}\label{dirt_8nodes_8inc_a2d57703b53cc2810f86c61fc63f803fa}} 
+\index{dirt.\+nodes.\+inc@{dirt.\+nodes.\+inc}!dirt\+\_\+set\+\_\+survey\+\_\+title@{dirt\+\_\+set\+\_\+survey\+\_\+title}}
+\index{dirt\+\_\+set\+\_\+survey\+\_\+title@{dirt\+\_\+set\+\_\+survey\+\_\+title}!dirt.\+nodes.\+inc@{dirt.\+nodes.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+set\+\_\+survey\+\_\+title()}{dirt\_set\_survey\_title()}}
+{\footnotesize\ttfamily dirt\+\_\+set\+\_\+survey\+\_\+title (\begin{DoxyParamCaption}\item[{\&}]{\$node }\end{DoxyParamCaption})}
+
+Sets title of survey node according to survey type and date of survey.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em \$node} & Node object (assumed to be of survey type). \\
+\hline
+\end{DoxyParams}

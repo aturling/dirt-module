@@ -1,0 +1,819 @@
+<?php
+
+/**
+ * Implements hook_install().
+ */
+function dirt_install() {
+  // Custom date formats
+  variable_set('date_format_' . DIRT_SURVEY_DATE_TYPE, DIRT_SURVEY_DATE_FORMAT);
+  variable_set('date_format_' . DIRT_SURVEY_DATE_SHORT_TYPE, DIRT_SURVEY_DATE_SHORT_FORMAT);
+  variable_set('date_format_' . DIRT_RESP_TIME_TYPE, DIRT_RESP_TIME_FORMAT);
+
+  // Default config settings
+  variable_set('dirt_citizen_science_portal_path', DIRT_CITIZEN_SCI_PATH_DEFAULT);
+  variable_set('dirt_data_entry_portal_path', DIRT_DATA_ENTRY_PATH_DEFAULT);
+  variable_set('dirt_config_site_desc_changes_allowed', FALSE);
+  variable_set('dirt_project_start_year', date('Y'));
+
+  node_types_rebuild();
+  $types = node_type_get_types();
+
+  // This module contains a lot of custom fields and node types, which can
+  // take a while to install. Use the Batch API to carry out installation
+  // functions while user watches progress bar via UI.
+  $batch = array(
+    'title' => t('DIRT Citizen Science Core Module Installation'),
+    'operations' => array(
+      array('dirt_add_custom_node_types', array()),
+      array('dirt_add_custom_fields', array()),
+      array('dirt_add_custom_nodes', array()),     
+      array('dirt_add_custom_roles', array()),
+      array('dirt_add_custom_survey_types', array()),
+      array('dirt_add_custom_menus', array()),
+      array('dirt_add_custom_blocks', array()),
+    ),
+    'finished' => 'dirt_batch_install_finished',
+    'init_message' => t('Installing DIRT Citizen Science Core Module...'),
+    'progress_message' => t('Installing module content...'),
+    'error_message' => t('An error occurred while installing DIRT Citizen Science Core Module.'),
+    'file' => drupal_get_path('module', 'dirt') . '/dirt.install',
+  );
+
+  batch_set($batch);
+}
+
+
+/**
+ * Implements hook_uninstall().
+ */
+function dirt_uninstall() {
+  // Similar to installation, there are a lot of custom fields and node types to
+  // remove, which can take a while to uninstall.
+  // Use the Batch API to carry out the uninstall.
+
+  $batch = array(
+    'title' => t('DIRT Citizen Science Core Module Removal'),
+    'operations' => array(
+      array('dirt_delete_custom_nodes', array()),
+      array('dirt_delete_custom_fields', array()),
+      array('dirt_delete_custom_field_groups', array()),
+      array('dirt_delete_custom_node_types', array()),
+      array('dirt_delete_custom_roles', array()),
+      array('dirt_delete_custom_date_formats', array()),
+      array('dirt_delete_custom_variables', array()),
+      array('dirt_delete_custom_menu_pages', array()),
+      array('dirt_delete_custom_menus', array()),
+      array('dirt_cache_clear', array()),
+    ),
+    'finished' => 'dirt_batch_uninstall_finished',
+    'init_message' => t('Uninstalling DIRT Citizen Science Core Module...'),
+    'progress_message' => t('Uninstalling module content...'),
+    'error_message' => t('An error occurred while uninstalling DIRT Citizen Science Core Module.'),
+    'file' => drupal_get_path('module', 'dirt') . '/dirt.install',
+  );
+
+  batch_set($batch);
+}
+
+
+/**
+ * Implements hook_enable().
+ */
+function dirt_enable() {
+  // Currently not needed, leaving as placeholder
+}
+
+
+/**
+ * Implements hook_disable().
+ */
+function dirt_disable() {
+  // Display warning about orphaned fields
+  drupal_set_message(t('Warning: the DIRT module has been disabled, but it ' .
+                       'must be ' .
+                       l(t('uninstalled'), 'admin/modules/uninstall') . 
+                       ' to remove all ' .
+                       'changes to the database. Until the module is ' .
+                       'uninstalled, the custom fields will remain in the ' .
+                       'database but not attached to any bundle, which may ' .
+                       'cause errors (e.g., when viewing the field list).'), 'warning');
+}
+
+
+/**
+ * Module installation batch completed callback.
+ *
+ * @param[in] $success Boolean whether batch operation was successful.
+ * @param[in] $results Array of results gathered during batch processing.
+ * @param[in] $operations Array of operations remaining unprocessed.
+ */
+function dirt_batch_install_finished($success, $results, $operations) {
+  if (!$success) {
+    $msg = t('An error occurred while attempting to install DIRT Citizen ' .
+      'Science Core Module');
+    drupal_set_message($msg, 'error');
+  }
+}
+
+
+/**
+ * Module uninstallation batch completed callback.
+ *
+ * @param[in] $success Boolean whether batch operation was successful.
+ * @param[in] $results Array of results gathered during batch processing.
+ * @param[in] $operations Array of operations remaining unprocessed.
+ */
+function dirt_batch_uninstall_finished($success, $results, $operations) {
+  if ($success) {
+    $msg = t('Successfully uninstalled DIRT Citizen Science Core Module');
+    drupal_set_message($msg);
+  }
+  else {
+    $msg = t('An error occurred while attempting to uninstall DIRT Citizen ' .
+      'Science Core Module');
+    drupal_set_message($msg, 'error');
+  }
+}
+
+
+/**
+ * Implements hook_schema().
+ *
+ * Creates the custom database tables.
+ *
+ * @retval Array containing schema definition whose keys are table names and
+ *   values are table structure definitions.
+ */
+function dirt_schema() {
+  module_load_include('inc', 'dirt', 'includes/dirt.table_schema');
+
+  $schema = dirt_get_table_schema();
+
+  return $schema;
+}
+
+
+/**
+ * Add custom content types and set type options.
+ *
+ * @param[in,out] context Array containing information about the status of the 
+ *  batch. Values in $context will retain their values as the batch progresses.
+ */
+function dirt_add_custom_node_types(&$context) {
+  $context['message'] = 'Adding DIRT content types';
+
+  $custom_types = dirt_get_all_custom_content_types();
+
+  watchdog('dirt', 'Created new content types: %surveys',
+    array('%surveys' => implode(', ', $custom_types)), WATCHDOG_INFO);
+
+  // Set additional options on custom content types:
+  foreach ($custom_types as $custom_type) {
+    // Disable comments
+    variable_set('comment_' . $custom_type, '1');
+
+    // Disable preview
+    variable_set('node_preview_' . $custom_type, 0);
+
+    // Disable promote to front page
+    variable_set('node_options_' . $custom_type, array('status'));
+
+    // Remove menu options
+    variable_set('menu_options_' . $custom_type, array());
+
+    // Disable displaying author and date info
+    variable_set('node_submitted_' . $custom_type, 0);
+  }
+
+  // Disable teaser view mode for custom node types
+  module_load_include('inc', 'field_ui', 'field_ui.admin');
+  foreach($custom_types as $bundle) {
+    $bundle_settings = field_bundle_settings('node', $bundle);
+    $bundle_settings['view_modes']['teaser']['custom_settings'] = FALSE;
+    field_bundle_settings('node', $bundle, $bundle_settings);
+  }
+}
+
+
+/**
+ * Delete custom nodes.
+ *
+ * @param[in,out] context Array containing information about the status of the
+ *  batch. Values in $context will retain their values as the batch progresses.
+ */
+function dirt_delete_custom_nodes(&$context) {
+  $context['message'] = 'Removing DIRT content';
+
+  module_load_include('module', 'dirt');
+
+  $custom_types = dirt_get_all_custom_content_types();
+
+  // Query db for nodes matching custom types and delete
+  $nids = array(); // array of nids to delete
+  $query = db_select('node', 'n');
+  $query->fields('n', array('nid'));
+  $query->condition('n.type', $custom_types, 'IN');
+  $result = $query->execute()->fetchAll();
+  foreach ($result as $result_obj) {
+    $nids[] = $result_obj->nid;
+  }
+  node_delete_multiple($nids);
+}
+
+
+/**
+ * Delete custom node types.
+ *
+ * @param[in,out] context Array containing information about the status of the
+ *  batch. Values in $context will retain their values as the batch progresses.
+ */
+function dirt_delete_custom_node_types(&$context) {
+  // This function is similar to node_type_delete(), but calling that
+  // directly led to errors, so manually removing types from
+  // node_type table here
+  $context['message'] = 'Removing DIRT content types';
+
+  module_load_include('module', 'dirt');
+
+  $custom_types = dirt_get_all_custom_content_types();
+
+  watchdog('dirt', 'Uninstalling custom node types %types',
+    array('%types' => implode($custom_types, ', ')), WATCHDOG_INFO);
+
+  $conditions = array();
+  $conditions[0] = array(
+    'field' => 'type',
+    'value' => $custom_types,
+    'operator' => 'IN',
+  );
+
+  try {
+    $num_deleted = dirt_delete_from_database_table('node_type', $conditions);
+
+    watchdog('dirt', 'Removed %num content types.',
+      array('%num' => $num_deleted), WATCHDOG_INFO);
+  }
+  catch (Exception $e) {
+    watchdog('dirt', 'Error: unable to remove custom content types.',
+      array(), WATCHDOG_ERROR);
+  }
+
+  node_type_cache_reset();
+}
+
+
+/**
+ * Create the custom fields and add instances to bundles.
+ *
+ * @param[in,out] context Array containing information about the status of the
+ *  batch. Values in $context will retain their values as the batch progresses.
+ */
+function dirt_add_custom_fields(&$context) {
+  $context['message'] = 'Adding DIRT survey fields';
+
+  module_load_include('inc', 'dirt', 'includes/dirt.fields');
+
+  // Create fields
+  foreach(dirt_get_installed_fields() as $field) {
+    field_create_field($field);
+  }
+
+  // Create field instances
+  // Save user field instances to be handled as a special
+  // case below
+  //$user_instances = array();
+  foreach(dirt_get_installed_instances() as $fieldinstance) {
+    field_create_instance($fieldinstance);
+    if ($fieldinstance['entity_type'] == 'user')
+      $user_instances[] = $fieldinstance;
+  }
+
+  // Special case for user entity:
+  // Since attaching fields to entity that already exists (user),
+  // need to update all users in system to set default values
+  // for fields.
+  $all_users = entity_load('user');
+  unset($all_users[0]); // Remove anonymous user
+  foreach ($all_users as $one_user) {
+    try {
+      $user_wrapper = entity_metadata_wrapper('user', $one_user);
+      foreach ($user_instances as $fieldinstance) {
+        if (isset($fieldinstance['default_value'])) {
+          // If default value exists, save it now:
+          $field_name = $fieldinstance['field_name'];
+          $user_wrapper->$field_name = $fieldinstance['default_value'][0]['value'];
+          $user_wrapper->save();
+        }
+      }
+    }
+    catch (EntityMetadataWrapperException $e) {
+      watchdog_exception('dirt', $e);
+    }
+  }
+}
+
+
+/**
+ * Remove all custom fields added by this module.
+ *
+ * @param[in,out] context Array containing information about the status of the
+ *  batch. Values in $context will retain their values as the batch progresses.
+ */
+function dirt_delete_custom_fields(&$context) {
+  $context['message'] = 'Removing DIRT custom fields';
+
+  module_load_include('module', 'dirt');
+  module_load_include('inc', 'dirt', 'includes/dirt.fields');
+
+  // Delete custom field instances (required since some instances use fields
+  // that are packaged with Drupal Core)
+  foreach (dirt_get_installed_instances() as $instance) {
+    field_delete_instance($instance, FALSE);
+  }
+  field_cache_clear();
+
+  // Delete custom fields
+  foreach (array_keys(dirt_get_installed_fields()) as $field) {
+    field_delete_field($field);
+  }
+
+  // Also delete comment fields that get added to each custom type
+  $custom_types = dirt_get_all_custom_content_types();
+  foreach ($custom_types as $type) {
+    $field_instances = field_info_instances('comment', 'comment_node_' . $type);
+    foreach ($field_instances as $instance) {
+      field_delete_instance($instance);
+    }
+  }
+
+  field_purge_batch(500);
+}
+
+
+/**
+ * Add custom roles.
+ *
+ * @param[in,out] context Array containing information about the status of the
+ *  batch. Values in $context will retain their values as the batch progresses.
+ */
+function dirt_add_custom_roles(&$context) {
+  $context['message'] = 'Adding DIRT user roles';
+
+  // Create the data entry role
+  $data_entry_role = new stdClass();
+  $data_entry_role->name = 'Data Entry Account';
+  $data_entry_role->weight = 1;
+  user_role_save($data_entry_role);
+
+  // Save Data Entry User Role ID as a variable to refer to later (also more
+  // reliable than lookup by name, e.g., if role name is changed via UI at some
+  // point). Need to store as integer for Drupal to recognize it's a Role ID.
+  $data_entry_user_rid = (int) $data_entry_role->rid;
+  variable_set('dirt_data_entry_user_role', $data_entry_user_rid);
+
+  // Grant permissions to data entry role
+  $allowed_actions = array();
+
+  // Allow participants to access data entry portal
+  $allowed_actions[] = 'access data entry portal';
+
+  // Allow participants to access semi-public survey data
+  $allowed_actions[] = 'access semi-public survey data';
+
+  user_role_grant_permissions($data_entry_user_rid, $allowed_actions);
+
+  // Additionally give permissions to admins
+  $admin_rid = variable_get('user_admin_role');
+
+  // Admins may access private survey data
+  $allowed_actions[] = 'access private survey data';
+
+  user_role_grant_permissions($admin_rid, $allowed_actions);
+}
+
+
+/**
+ * Remove custom roles.
+ *
+ * @param[in,out] context Array containing information about the status of the
+ *  batch. Values in $context will retain their values as the batch progresses.
+ */
+function dirt_delete_custom_roles(&$context) {
+  $context['message'] = 'Removing DIRT user roles';
+
+  module_load_include('module', 'dirt');
+
+  $rid = variable_get('dirt_data_entry_user_role');
+
+  if ($rid > 1)  user_role_delete($rid);
+}
+
+
+/**
+ * Add custom survey types.
+ *
+ * @param[in,out] context Array containing information about the status of the
+ *  batch. Values in $context will retain their values as the batch progresses.
+ */
+function dirt_add_custom_survey_types(&$context) {
+  $context['message'] = 'Adding DIRT survey types';
+
+  module_load_include('inc', 'dirt', 'includes/dirt.table_schema');
+
+  // Survey types have already been added as content types, so all we
+  // need to do is designate the content types as survey types.
+  // Get survey type info on installed survey types:
+  $survey_type_info = dirt_get_installed_survey_type_info();
+
+  // Add survey types:
+  foreach($survey_type_info as $type => $type_info) {
+    // Get required survey type parameters
+    $collection_frequency = $type_info['collection_frequency'];
+
+    // Get optional parameters if present
+    $collection_months = array();
+    if (array_key_exists('collection_months', $type_info))
+      $collection_months = $type_info['collection_months'];
+   
+    $is_admin_only = FALSE;
+    if (array_key_exists('admin_only', $type_info))
+      $is_admin_only = $type_info['admin_only'];
+
+    // Add the survey to the database table
+    dirt_add_survey_type($type, $collection_frequency, $collection_months, $is_admin_only);
+  }
+}
+
+
+/**
+ * Add custom menus.
+ *
+ * @param[in,out] context Array containing information about the status of the
+ *  batch. Values in $context will retain their values as the batch progresses.
+ */
+function dirt_add_custom_menus(&$context) {
+  $context['message'] = 'Adding DIRT custom menus';
+
+  module_load_include('inc', 'dirt', 'includes/dirt.menus');
+
+  // Save menus
+  foreach(dirt_get_installed_menus() as $menu) {
+    menu_save($menu);
+  }
+
+  // Add links to menus
+  foreach(dirt_get_installed_menu_links() as $menu_link) {
+    menu_link_save($menu_link);
+  }
+}
+
+
+/**
+ * Remove custom menus.
+ *
+ * @param[in,out] context Array containing information about the status of the
+ *  batch. Values in $context will retain their values as the batch progresses.
+ */
+function dirt_delete_custom_menus(&$context) {
+  $context['message'] = 'Removing DIRT custom menus';
+
+  module_load_include('inc', 'dirt', 'includes/dirt.menus');
+
+  // Delete menus
+  foreach(dirt_get_installed_menus() as $menu) {
+    menu_delete($menu);
+  }
+}
+
+
+/**
+ * Add custom nodes pre-packaged with the module.
+ *
+ * @param[in,out] context Array containing information about the status of the
+ *  batch. Values in $context will retain their values as the batch progresses.
+ */
+function dirt_add_custom_nodes(&$context) {
+  $context['message'] = 'Adding custom nodes';
+
+  module_load_include('inc', 'dirt', 'includes/dirt.nodes');
+
+  // Get info on nodes to create
+  foreach(dirt_get_installed_nodes() as $node_info) {
+    $type = $node_info['type'];
+    $title = $node_info['title'];
+    $alias = $node_info['alias'];
+
+    // Create the node
+    $node = new stdClass();
+    $node->type = $type;
+    $node->title = $title;
+    $node->uid = 1;
+    $node->status = 1;
+    $node->language = LANGUAGE_NONE;
+    node_save($node);
+
+    $nid = $node->nid;
+
+    // Create an alias for this node
+    $path = array(
+      'source' => 'node/' . $nid,
+      'alias' => $alias,
+    ); 
+    path_save($path);
+
+    // Pre-filling node body
+    $body = $node_info['body'];
+
+    try {
+      $node_wrapper = entity_metadata_wrapper('node', $nid);
+      $node_wrapper->body->value = $body;
+      $node_wrapper->save();
+    }
+    catch (EntityMetadataWrapperException $e) {
+      watchdog_exception('dirt', $e);
+    }
+  }
+}
+
+
+/**
+ * Add custom blocks.
+ *
+ * @param[in,out] context Array containing information about the status of the
+ *  batch. Values in $context will retain their values as the batch progresses.
+ */
+function dirt_add_custom_blocks(&$context) {
+  $context['message'] = 'Adding DIRT content blocks';
+
+  // Adds custom blocks
+  // See: https://drupal.stackexchange.com/questions/50230/how-to-enable-block-programmatically
+
+  $default_theme = variable_get('theme_default', 'bartik');
+
+  $blocks = array(
+    0 => array(
+      'status' => 1,
+      'weight' => 0,
+      'region' => 'sidebar_second',
+      'visibility' => 1,
+      'pages' => DIRT_DATA_ENTRY_PATH_DEFAULT,
+      'module' => 'dirt',
+      'delta' => 'dirt_data_entry_site_info',
+      'theme' => $default_theme,
+    ),
+    1 => array(
+      'status' => 1,
+      'weight' => 1,
+      'region' => 'highlighted',
+      'visibility' => 1,
+      'pages' => DIRT_CITIZEN_SCI_PATH_DEFAULT . "\r\n" . DIRT_CITIZEN_SCI_PATH_DEFAULT . '/*',
+      'module' => 'menu',
+      'delta' => 'dirt-menu-soil-health-surveys',
+      'theme' => $default_theme,
+    ),
+    2 => array(
+      'status' => 1,
+      'weight' => 0,
+      'region' => 'sidebar_second',
+      'visibility' => 1,
+      'pages' => DIRT_CITIZEN_SCI_PATH_DEFAULT . "\r\n" . DIRT_CITIZEN_SCI_PATH_DEFAULT . '/*',
+      'module' => 'dirt',
+      'delta' => 'dirt_access_data_entry_portal',
+      'theme' => $default_theme,
+    ),
+  ); 
+
+  foreach($blocks as $block) {
+    db_merge('block')
+      ->key(array(
+        'module' => $block['module'],
+        'delta' => $block['delta'],
+        'theme'=> $block['theme']
+     ))
+     ->fields(array(
+       'status' => $block['status'],
+       'weight' => $block['weight'],
+       'region' => $block['region'],
+       'visibility' => $block['visibility'],
+       'pages' => $block['pages']
+     ))
+     ->execute();
+  }
+
+  // Also set default roles for soil health survey and
+  // access data entry portal blocks:
+  // Administrator, Data Entry User
+  $rids = array();
+  $data_entry_user_rid = variable_get('dirt_data_entry_user_role');
+  if ($data_entry_user_rid > 1)  $rids[] = $data_entry_user_rid;
+  $rids[] = variable_get('user_admin_role');
+
+  foreach ($rids as $rid) {
+    db_merge('block_role')
+      ->key(array(
+        'module' => 'dirt',
+        'delta' => 'dirt_data_entry_site_info',
+        'rid' => $rid
+      ))
+      ->execute();
+
+    db_merge('block_role')
+      ->key(array(
+        'module' => 'dirt',
+        'delta' => 'dirt_access_data_entry_portal',
+        'rid' => $rid
+      ))
+      ->execute();
+  }
+
+  // Set default checkbox options for site info block
+  $default_value = array(
+    'Site ID' => 'Site ID',
+    'Location' => 'Location',
+    'Habitat Type' => 'Habitat Type',
+  );
+
+  variable_set('dirt_site_info_options_variable', $default_value);
+
+  // Set default text for access data entry portal block
+  $default_value = l(t('Access the Data Entry Portal'), DIRT_DATA_ENTRY_PATH_DEFAULT);
+
+  variable_set('dirt_access_data_entry_portal_text_variable', $default_value);
+}
+
+
+/**
+ * Delete custom variables set by this module.
+ *
+ * @param[in,out] context Array containing information about the status of the
+ *  batch. Values in $context will retain their values as the batch progresses.
+ */
+function dirt_delete_custom_variables(&$context) {
+  $context['message'] = 'Removing DIRT variables';
+
+  module_load_include('module', 'dirt');
+
+  // Query database for all variables set by this module, identified by
+  // beginning with "dirt_"
+
+  // Note: this assumes that no other installed module begins with "dirt_" other
+  // than the optional sub-modules of this module (e.g., dirt_datatable). Since
+  // those sub-modules depend on this module, they must be uninstalled first, so
+  // all variables left beginning with "dirt_" must belong to this module only
+  // by the time we're uninstalling this module.
+
+  $conditions = array();
+  $conditions[0] = array(
+    'field' => 'name',
+    'value' => 'dirt_%',
+    'operator' => 'LIKE',
+  );
+
+  try {
+    $num_deleted = dirt_delete_from_database_table('variable', $conditions);
+
+    watchdog('dirt', 'Removed %num variable(s)',
+      array('%num' => $num_deleted), WATCHDOG_INFO);
+  }
+  catch (Exception $e) {
+    watchdog('dirt', 'Error: unable to delete DIRT variables.',
+      array(), WATCHDOG_ERROR);
+  }
+
+  // Additionally delete variables for custom content types
+
+  $custom_types = dirt_get_all_custom_content_types();
+  foreach ($custom_types as $custom_type) {
+    variable_del('comment_' . $custom_type);
+    variable_del('node_preview_' . $custom_type);
+    variable_del('node_options_' . $custom_type);
+    variable_del('menu_options_' . $custom_type);
+    variable_del('field_bundle_settings_node__' . $custom_type);
+  }
+}
+
+
+/**
+ * Delete custom date formats.
+ *
+ * @param[in,out] context Array containing information about the status of the
+ *  batch. Values in $context will retain their values as the batch progresses.
+ */
+function dirt_delete_custom_date_formats(&$context) {
+  $context['message'] = 'Removing DIRT date formats';
+
+  module_load_include('module', 'dirt');
+
+  // Remove date format types
+  $date_format_types = array(
+    DIRT_SURVEY_DATE_TYPE, 
+    DIRT_SURVEY_DATE_SHORT_TYPE, 
+    DIRT_RESP_TIME_TYPE
+  );
+  $date_formats = array(DIRT_SURVEY_DATE_FORMAT,
+    DIRT_SURVEY_DATE_SHORT_FORMAT,
+    DIRT_RESP_TIME_FORMAT
+  );
+
+  $conditions = array();
+  $conditions[0] = array(
+    'field' => 'type',
+    'value' => $date_format_types,
+    'operator' => 'IN',
+  );
+
+  try {
+    $num_deleted = dirt_delete_from_database_table('date_format_type', $conditions);
+
+    watchdog('dirt', 'Removed %num date format type(s)',
+      array('%num' => $num_deleted), WATCHDOG_INFO);
+  }
+  catch (Exception $e) {
+    watchdog('dirt', 'Error: unable to remove DIRT date format type(s).',
+      array(), WATCHDOG_ERROR);
+  }
+
+  foreach ($date_format_types as $type) {
+    variable_del('date_format_' . $type);
+  }
+
+  // Remove date formats
+  $conditions = array();
+  $conditions[0] = array(
+    'field' => 'format',
+    'value' => $date_formats,
+    'operator' => 'IN',
+  );
+ 
+  try {
+    $num_deleted = dirt_delete_from_database_table('date_formats', $conditions);
+
+    watchdog('dirt', 'Removed %num date format(s)',
+      array('%num' => $num_deleted), WATCHDOG_INFO);
+  }
+  catch (Exception $e) {
+    watchdog('dirt', 'Error: unable to remove DIRT date format(s).',
+      array(), WATCHDOG_ERROR);
+  }
+}
+
+
+/**
+ * Delete custom field groups.
+ *
+ * @param[in,out] context Array containing information about the status of the
+ *  batch. Values in $context will retain their values as the batch progresses.
+ */
+function dirt_delete_custom_field_groups(&$context) {
+  $context['message'] = 'Removing DIRT field groups';
+
+  module_load_include('module', 'dirt');
+  module_load_include('inc', 'dirt', 'includes/dirt.field_groups');
+
+  // Load field group objects and delete
+  $field_groups = dirt_get_field_group_info();
+
+  foreach($field_groups as $group_info) {
+    $group = dirt_get_field_group_object($group_info['basename'], $group_info['bundle'], $group_info['mode']);
+
+    if (!empty($group)) {
+      // call function from field_group module:
+      field_group_group_export_delete($group);
+    }
+  }
+}
+
+
+/**
+ * Delete custom menu pages.
+ *
+ * @param[in,out] context Array containing information about the status of the
+ *  batch. Values in $context will retain their values as the batch progresses.
+ */
+function dirt_delete_custom_menu_pages(&$context) {
+  $context['message'] = 'Removing DIRT menu pages';
+
+  module_load_include('module', 'dirt');
+
+  // Remove admin config pages
+  menu_link_delete(NULL, 'admin/config/dirt/surveys');
+  menu_link_delete(NULL, 'admin/config/dirt/dataentry');
+  menu_link_delete(NULL, 'admin/config/dirt');
+
+  // Remove data entry portal page
+  menu_link_delete(NULL, DIRT_DATA_ENTRY_PATH_DEFAULT);
+}
+
+
+/**
+ * Clear all caches (to force deletions to go through, etc.)
+ *
+ * @param[in,out] context Array containing information about the status of the
+ *  batch. Values in $context will retain their values as the batch progresses.
+ */
+function dirt_cache_clear(&$context) {
+  $context['message'] = 'Finalizing module deletion';
+
+  drupal_flush_all_caches();
+}
+

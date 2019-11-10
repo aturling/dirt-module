@@ -1,0 +1,12 @@
+.dirt-datatable-summary-table {
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+
+.dirt-datatable-column-group-populated td {
+  display: none;
+}
+
+.dirt-datatable-draggable-table-header {
+  margin-bottom: 0;
+}

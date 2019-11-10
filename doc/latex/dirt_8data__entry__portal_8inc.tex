@@ -1,0 +1,304 @@
+\hypertarget{dirt_8data__entry__portal_8inc}{}\section{dirt.\+data\+\_\+entry\+\_\+portal.\+inc File Reference}
+\label{dirt_8data__entry__portal_8inc}\index{dirt.\+data\+\_\+entry\+\_\+portal.\+inc@{dirt.\+data\+\_\+entry\+\_\+portal.\+inc}}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{dirt_8data__entry__portal_8inc_aa5173486cfbb2dfba5f3aa63948d3172}{dirt\+\_\+data\+\_\+entry\+\_\+portal\+\_\+page}} ()
+\item 
+\mbox{\hyperlink{dirt_8data__entry__portal_8inc_a1b0f1d1ac87f1540ab022f3864f4208f}{dirt\+\_\+add\+\_\+other\+\_\+month\+\_\+survey\+\_\+links}} (\&\$build)
+\item 
+\mbox{\hyperlink{dirt_8data__entry__portal_8inc_a9e003975ac5081aa9b52a90da898db3f}{dirt\+\_\+get\+\_\+collection\+\_\+status}} (\$user)
+\item 
+\mbox{\hyperlink{dirt_8data__entry__portal_8inc_a7c65d904f5033eec0302f3ad738c39bb}{dirt\+\_\+get\+\_\+survey\+\_\+schedule}} (\$uid)
+\item 
+\mbox{\hyperlink{dirt_8data__entry__portal_8inc_ae4c40b6bbf92c870463a253683d53e0e}{dirt\+\_\+get\+\_\+scheduled\+\_\+surveys}} (\$uid)
+\item 
+\mbox{\hyperlink{dirt_8data__entry__portal_8inc_aaeb9cd2dfb102c823435ec038354ec1a}{dirt\+\_\+get\+\_\+all\+\_\+possible\+\_\+survey\+\_\+dates}} (\$uid)
+\item 
+\mbox{\hyperlink{dirt_8data__entry__portal_8inc_af98bdaa6d587757923a538b81bc5a1e8}{dirt\+\_\+get\+\_\+survey\+\_\+between\+\_\+dates}} (\$date1, \$date2, \$type, \$uid)
+\item 
+\mbox{\hyperlink{dirt_8data__entry__portal_8inc_afebafe4c940cc0c88fd34369b8478af7}{dirt\+\_\+get\+\_\+all\+\_\+surveys\+\_\+by\+\_\+user}} (\$uid)
+\item 
+\mbox{\hyperlink{dirt_8data__entry__portal_8inc_a82b48635efab6c02f1ac87e09da49f3f}{dirt\+\_\+get\+\_\+survey\+\_\+history\+\_\+table\+\_\+rows}} (\$uid)
+\item 
+\mbox{\hyperlink{dirt_8data__entry__portal_8inc_ac25467cfc1118143416a0d182fb13c71}{\+\_\+dirt\+\_\+get\+\_\+survey\+\_\+item\+\_\+data\+\_\+text}} (\$type, \$date)
+\item 
+\mbox{\hyperlink{dirt_8data__entry__portal_8inc_a690078604b6976b321c5e6aab0f9cc0f}{\+\_\+dirt\+\_\+get\+\_\+survey\+\_\+item\+\_\+submit\+\_\+link}} (\$type)
+\item 
+\mbox{\hyperlink{dirt_8data__entry__portal_8inc_a499a6ca05bc3c7aac513cdc6c9c7bad6}{\+\_\+dirt\+\_\+get\+\_\+month\+\_\+list}} (\$months)
+\item 
+\mbox{\hyperlink{dirt_8data__entry__portal_8inc_a51fb9f346c6a479ed800d2cf6f388ed9}{\+\_\+dirt\+\_\+month\+\_\+num\+\_\+to\+\_\+str}} (\$month)
+\item 
+\mbox{\hyperlink{dirt_8data__entry__portal_8inc_a3f24c33d83804c792a622cb0073873e5}{\+\_\+dirt\+\_\+sort\+\_\+by\+\_\+frequency\+\_\+desc}} (\$type1, \$type2)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file specifies functions for the data entry portal. 
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{dirt_8data__entry__portal_8inc_a499a6ca05bc3c7aac513cdc6c9c7bad6}\label{dirt_8data__entry__portal_8inc_a499a6ca05bc3c7aac513cdc6c9c7bad6}} 
+\index{dirt.\+data\+\_\+entry\+\_\+portal.\+inc@{dirt.\+data\+\_\+entry\+\_\+portal.\+inc}!\+\_\+dirt\+\_\+get\+\_\+month\+\_\+list@{\+\_\+dirt\+\_\+get\+\_\+month\+\_\+list}}
+\index{\+\_\+dirt\+\_\+get\+\_\+month\+\_\+list@{\+\_\+dirt\+\_\+get\+\_\+month\+\_\+list}!dirt.\+data\+\_\+entry\+\_\+portal.\+inc@{dirt.\+data\+\_\+entry\+\_\+portal.\+inc}}
+\subsubsection{\texorpdfstring{\+\_\+dirt\+\_\+get\+\_\+month\+\_\+list()}{\_dirt\_get\_month\_list()}}
+{\footnotesize\ttfamily \+\_\+dirt\+\_\+get\+\_\+month\+\_\+list (\begin{DoxyParamCaption}\item[{}]{\$months }\end{DoxyParamCaption})}
+
+Helper function to get list of months as string from array.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$months} & Array of months as numbers (e.\+g., array(\textquotesingle{}1\textquotesingle{}, \textquotesingle{}2\textquotesingle{})).\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em String} & list of the form \char`\"{}\+X\char`\"{}, \char`\"{}\+X or Y\char`\"{}, or \char`\"{}\+X, Y, ..., or Z\char`\"{}, where X, Y, ..., Z are the months as full names (e.\+g., \char`\"{}\+January\char`\"{}). Returns empty string if \$months is empty array. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt_8data__entry__portal_8inc_ac25467cfc1118143416a0d182fb13c71}\label{dirt_8data__entry__portal_8inc_ac25467cfc1118143416a0d182fb13c71}} 
+\index{dirt.\+data\+\_\+entry\+\_\+portal.\+inc@{dirt.\+data\+\_\+entry\+\_\+portal.\+inc}!\+\_\+dirt\+\_\+get\+\_\+survey\+\_\+item\+\_\+data\+\_\+text@{\+\_\+dirt\+\_\+get\+\_\+survey\+\_\+item\+\_\+data\+\_\+text}}
+\index{\+\_\+dirt\+\_\+get\+\_\+survey\+\_\+item\+\_\+data\+\_\+text@{\+\_\+dirt\+\_\+get\+\_\+survey\+\_\+item\+\_\+data\+\_\+text}!dirt.\+data\+\_\+entry\+\_\+portal.\+inc@{dirt.\+data\+\_\+entry\+\_\+portal.\+inc}}
+\subsubsection{\texorpdfstring{\+\_\+dirt\+\_\+get\+\_\+survey\+\_\+item\+\_\+data\+\_\+text()}{\_dirt\_get\_survey\_item\_data\_text()}}
+{\footnotesize\ttfamily \+\_\+dirt\+\_\+get\+\_\+survey\+\_\+item\+\_\+data\+\_\+text (\begin{DoxyParamCaption}\item[{}]{\$type,  }\item[{}]{\$date }\end{DoxyParamCaption})}
+
+Helper function to set scheduled survey text when presented to user.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$type} & Machine name string for survey content type. \\
+\hline
+\mbox{\tt in}  & {\em \$date} & Date of scheduled survey.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em String} & of survey item text. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt_8data__entry__portal_8inc_a690078604b6976b321c5e6aab0f9cc0f}\label{dirt_8data__entry__portal_8inc_a690078604b6976b321c5e6aab0f9cc0f}} 
+\index{dirt.\+data\+\_\+entry\+\_\+portal.\+inc@{dirt.\+data\+\_\+entry\+\_\+portal.\+inc}!\+\_\+dirt\+\_\+get\+\_\+survey\+\_\+item\+\_\+submit\+\_\+link@{\+\_\+dirt\+\_\+get\+\_\+survey\+\_\+item\+\_\+submit\+\_\+link}}
+\index{\+\_\+dirt\+\_\+get\+\_\+survey\+\_\+item\+\_\+submit\+\_\+link@{\+\_\+dirt\+\_\+get\+\_\+survey\+\_\+item\+\_\+submit\+\_\+link}!dirt.\+data\+\_\+entry\+\_\+portal.\+inc@{dirt.\+data\+\_\+entry\+\_\+portal.\+inc}}
+\subsubsection{\texorpdfstring{\+\_\+dirt\+\_\+get\+\_\+survey\+\_\+item\+\_\+submit\+\_\+link()}{\_dirt\_get\_survey\_item\_submit\_link()}}
+{\footnotesize\ttfamily \+\_\+dirt\+\_\+get\+\_\+survey\+\_\+item\+\_\+submit\+\_\+link (\begin{DoxyParamCaption}\item[{}]{\$type }\end{DoxyParamCaption})}
+
+Helper function to get link to add scheduled survey.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$type} & Machine name string for survey content type.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em String} & with link markup. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt_8data__entry__portal_8inc_a51fb9f346c6a479ed800d2cf6f388ed9}\label{dirt_8data__entry__portal_8inc_a51fb9f346c6a479ed800d2cf6f388ed9}} 
+\index{dirt.\+data\+\_\+entry\+\_\+portal.\+inc@{dirt.\+data\+\_\+entry\+\_\+portal.\+inc}!\+\_\+dirt\+\_\+month\+\_\+num\+\_\+to\+\_\+str@{\+\_\+dirt\+\_\+month\+\_\+num\+\_\+to\+\_\+str}}
+\index{\+\_\+dirt\+\_\+month\+\_\+num\+\_\+to\+\_\+str@{\+\_\+dirt\+\_\+month\+\_\+num\+\_\+to\+\_\+str}!dirt.\+data\+\_\+entry\+\_\+portal.\+inc@{dirt.\+data\+\_\+entry\+\_\+portal.\+inc}}
+\subsubsection{\texorpdfstring{\+\_\+dirt\+\_\+month\+\_\+num\+\_\+to\+\_\+str()}{\_dirt\_month\_num\_to\_str()}}
+{\footnotesize\ttfamily \+\_\+dirt\+\_\+month\+\_\+num\+\_\+to\+\_\+str (\begin{DoxyParamCaption}\item[{}]{\$month }\end{DoxyParamCaption})}
+
+Helper function to convert month numbers to strings, used in array\+\_\+map().
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$month} & Integer representing month (e.\+g., 1).\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em String} & for full name of month (e.\+g., \char`\"{}\+January\char`\"{}).\\
+\hline
+\end{DoxyRetVals}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{dirt_8data__entry__portal_8inc_a499a6ca05bc3c7aac513cdc6c9c7bad6}{\+\_\+dirt\+\_\+get\+\_\+month\+\_\+list()}}. 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{dirt_8data__entry__portal_8inc_a3f24c33d83804c792a622cb0073873e5}\label{dirt_8data__entry__portal_8inc_a3f24c33d83804c792a622cb0073873e5}} 
+\index{dirt.\+data\+\_\+entry\+\_\+portal.\+inc@{dirt.\+data\+\_\+entry\+\_\+portal.\+inc}!\+\_\+dirt\+\_\+sort\+\_\+by\+\_\+frequency\+\_\+desc@{\+\_\+dirt\+\_\+sort\+\_\+by\+\_\+frequency\+\_\+desc}}
+\index{\+\_\+dirt\+\_\+sort\+\_\+by\+\_\+frequency\+\_\+desc@{\+\_\+dirt\+\_\+sort\+\_\+by\+\_\+frequency\+\_\+desc}!dirt.\+data\+\_\+entry\+\_\+portal.\+inc@{dirt.\+data\+\_\+entry\+\_\+portal.\+inc}}
+\subsubsection{\texorpdfstring{\+\_\+dirt\+\_\+sort\+\_\+by\+\_\+frequency\+\_\+desc()}{\_dirt\_sort\_by\_frequency\_desc()}}
+{\footnotesize\ttfamily \+\_\+dirt\+\_\+sort\+\_\+by\+\_\+frequency\+\_\+desc (\begin{DoxyParamCaption}\item[{}]{\$type1,  }\item[{}]{\$type2 }\end{DoxyParamCaption})}
+
+Helper function to sort survey types by their frequencies in order of most frequently to least frequently collected.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$type1} & Survey type machine name string. \\
+\hline
+\mbox{\tt in}  & {\em \$type2} & Survey type machine name string.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Integer} & for usort() function\+: 0 if frequencies are equal, -\/1 if \$type1 is more frequent, and 1 if \$type2 is more frequent. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt_8data__entry__portal_8inc_a1b0f1d1ac87f1540ab022f3864f4208f}\label{dirt_8data__entry__portal_8inc_a1b0f1d1ac87f1540ab022f3864f4208f}} 
+\index{dirt.\+data\+\_\+entry\+\_\+portal.\+inc@{dirt.\+data\+\_\+entry\+\_\+portal.\+inc}!dirt\+\_\+add\+\_\+other\+\_\+month\+\_\+survey\+\_\+links@{dirt\+\_\+add\+\_\+other\+\_\+month\+\_\+survey\+\_\+links}}
+\index{dirt\+\_\+add\+\_\+other\+\_\+month\+\_\+survey\+\_\+links@{dirt\+\_\+add\+\_\+other\+\_\+month\+\_\+survey\+\_\+links}!dirt.\+data\+\_\+entry\+\_\+portal.\+inc@{dirt.\+data\+\_\+entry\+\_\+portal.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+add\+\_\+other\+\_\+month\+\_\+survey\+\_\+links()}{dirt\_add\_other\_month\_survey\_links()}}
+{\footnotesize\ttfamily dirt\+\_\+add\+\_\+other\+\_\+month\+\_\+survey\+\_\+links (\begin{DoxyParamCaption}\item[{\&}]{\$build }\end{DoxyParamCaption})}
+
+Adds links to add surveys in months other than assigned collection months, if applicable.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em \$build} & Renderable array containing data entry portal content. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{dirt_8data__entry__portal_8inc_aa5173486cfbb2dfba5f3aa63948d3172}\label{dirt_8data__entry__portal_8inc_aa5173486cfbb2dfba5f3aa63948d3172}} 
+\index{dirt.\+data\+\_\+entry\+\_\+portal.\+inc@{dirt.\+data\+\_\+entry\+\_\+portal.\+inc}!dirt\+\_\+data\+\_\+entry\+\_\+portal\+\_\+page@{dirt\+\_\+data\+\_\+entry\+\_\+portal\+\_\+page}}
+\index{dirt\+\_\+data\+\_\+entry\+\_\+portal\+\_\+page@{dirt\+\_\+data\+\_\+entry\+\_\+portal\+\_\+page}!dirt.\+data\+\_\+entry\+\_\+portal.\+inc@{dirt.\+data\+\_\+entry\+\_\+portal.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+data\+\_\+entry\+\_\+portal\+\_\+page()}{dirt\_data\_entry\_portal\_page()}}
+{\footnotesize\ttfamily dirt\+\_\+data\+\_\+entry\+\_\+portal\+\_\+page (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Callback for data entry portal page.
+
+
+\begin{DoxyRetVals}{Return values}
+{\em Renderable} & array. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt_8data__entry__portal_8inc_aaeb9cd2dfb102c823435ec038354ec1a}\label{dirt_8data__entry__portal_8inc_aaeb9cd2dfb102c823435ec038354ec1a}} 
+\index{dirt.\+data\+\_\+entry\+\_\+portal.\+inc@{dirt.\+data\+\_\+entry\+\_\+portal.\+inc}!dirt\+\_\+get\+\_\+all\+\_\+possible\+\_\+survey\+\_\+dates@{dirt\+\_\+get\+\_\+all\+\_\+possible\+\_\+survey\+\_\+dates}}
+\index{dirt\+\_\+get\+\_\+all\+\_\+possible\+\_\+survey\+\_\+dates@{dirt\+\_\+get\+\_\+all\+\_\+possible\+\_\+survey\+\_\+dates}!dirt.\+data\+\_\+entry\+\_\+portal.\+inc@{dirt.\+data\+\_\+entry\+\_\+portal.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+get\+\_\+all\+\_\+possible\+\_\+survey\+\_\+dates()}{dirt\_get\_all\_possible\_survey\_dates()}}
+{\footnotesize\ttfamily dirt\+\_\+get\+\_\+all\+\_\+possible\+\_\+survey\+\_\+dates (\begin{DoxyParamCaption}\item[{}]{\$uid }\end{DoxyParamCaption})}
+
+Get oldest survey in system from \$user and generate array of every date in D\+I\+RT short survey date format (month+year) from collection start date to current date.
+
+If no start date manually set in user profile, assume date of oldest collection start date.
+
+If no surveys in system, return single entry of current month+year.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$uid} & User ID (uid).\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Array} & of survey dates in D\+I\+RT short survey date format. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt_8data__entry__portal_8inc_afebafe4c940cc0c88fd34369b8478af7}\label{dirt_8data__entry__portal_8inc_afebafe4c940cc0c88fd34369b8478af7}} 
+\index{dirt.\+data\+\_\+entry\+\_\+portal.\+inc@{dirt.\+data\+\_\+entry\+\_\+portal.\+inc}!dirt\+\_\+get\+\_\+all\+\_\+surveys\+\_\+by\+\_\+user@{dirt\+\_\+get\+\_\+all\+\_\+surveys\+\_\+by\+\_\+user}}
+\index{dirt\+\_\+get\+\_\+all\+\_\+surveys\+\_\+by\+\_\+user@{dirt\+\_\+get\+\_\+all\+\_\+surveys\+\_\+by\+\_\+user}!dirt.\+data\+\_\+entry\+\_\+portal.\+inc@{dirt.\+data\+\_\+entry\+\_\+portal.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+get\+\_\+all\+\_\+surveys\+\_\+by\+\_\+user()}{dirt\_get\_all\_surveys\_by\_user()}}
+{\footnotesize\ttfamily dirt\+\_\+get\+\_\+all\+\_\+surveys\+\_\+by\+\_\+user (\begin{DoxyParamCaption}\item[{}]{\$uid }\end{DoxyParamCaption})}
+
+Returns array of all surveys authored by user.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$uid} & User ID (uid).\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Array} & of associative arrays, each with keys\+: \textquotesingle{}nid\textquotesingle{} =$>$ node ID (nid), \textquotesingle{}type\textquotesingle{} =$>$ survey type, \textquotesingle{}date\textquotesingle{} =$>$ date of survey. If empty, user has not yet submitted any surveys. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt_8data__entry__portal_8inc_a9e003975ac5081aa9b52a90da898db3f}\label{dirt_8data__entry__portal_8inc_a9e003975ac5081aa9b52a90da898db3f}} 
+\index{dirt.\+data\+\_\+entry\+\_\+portal.\+inc@{dirt.\+data\+\_\+entry\+\_\+portal.\+inc}!dirt\+\_\+get\+\_\+collection\+\_\+status@{dirt\+\_\+get\+\_\+collection\+\_\+status}}
+\index{dirt\+\_\+get\+\_\+collection\+\_\+status@{dirt\+\_\+get\+\_\+collection\+\_\+status}!dirt.\+data\+\_\+entry\+\_\+portal.\+inc@{dirt.\+data\+\_\+entry\+\_\+portal.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+get\+\_\+collection\+\_\+status()}{dirt\_get\_collection\_status()}}
+{\footnotesize\ttfamily dirt\+\_\+get\+\_\+collection\+\_\+status (\begin{DoxyParamCaption}\item[{}]{\$user }\end{DoxyParamCaption})}
+
+Get collection status of user.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$user} & User object.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em String} & for collection status (defaults to \textquotesingle{}active\textquotesingle{} if not yet set). \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt_8data__entry__portal_8inc_ae4c40b6bbf92c870463a253683d53e0e}\label{dirt_8data__entry__portal_8inc_ae4c40b6bbf92c870463a253683d53e0e}} 
+\index{dirt.\+data\+\_\+entry\+\_\+portal.\+inc@{dirt.\+data\+\_\+entry\+\_\+portal.\+inc}!dirt\+\_\+get\+\_\+scheduled\+\_\+surveys@{dirt\+\_\+get\+\_\+scheduled\+\_\+surveys}}
+\index{dirt\+\_\+get\+\_\+scheduled\+\_\+surveys@{dirt\+\_\+get\+\_\+scheduled\+\_\+surveys}!dirt.\+data\+\_\+entry\+\_\+portal.\+inc@{dirt.\+data\+\_\+entry\+\_\+portal.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+get\+\_\+scheduled\+\_\+surveys()}{dirt\_get\_scheduled\_surveys()}}
+{\footnotesize\ttfamily dirt\+\_\+get\+\_\+scheduled\+\_\+surveys (\begin{DoxyParamCaption}\item[{}]{\$uid }\end{DoxyParamCaption})}
+
+Return array of associative arrays of every scheduled survey between collection start date and present date.
+
+Return array has form\+: array( array( \textquotesingle{}type\textquotesingle{} =$>$ Survey type machine name string, \textquotesingle{}date1\textquotesingle{} =$>$ Oldest possible date of survey, \textquotesingle{}date2\textquotesingle{} =$>$ Most recent possible date of survey, ), ) where \textquotesingle{}date1\textquotesingle{} and \textquotesingle{}date2\textquotesingle{} specify the date range for the scheduled survey (e.\+g., 12 month span for once a year surveys, 1 month span for monthly surveys, etc.)
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$uid} & User ID (uid).\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Array} & of associative arrays of scheduled survey info . \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt_8data__entry__portal_8inc_af98bdaa6d587757923a538b81bc5a1e8}\label{dirt_8data__entry__portal_8inc_af98bdaa6d587757923a538b81bc5a1e8}} 
+\index{dirt.\+data\+\_\+entry\+\_\+portal.\+inc@{dirt.\+data\+\_\+entry\+\_\+portal.\+inc}!dirt\+\_\+get\+\_\+survey\+\_\+between\+\_\+dates@{dirt\+\_\+get\+\_\+survey\+\_\+between\+\_\+dates}}
+\index{dirt\+\_\+get\+\_\+survey\+\_\+between\+\_\+dates@{dirt\+\_\+get\+\_\+survey\+\_\+between\+\_\+dates}!dirt.\+data\+\_\+entry\+\_\+portal.\+inc@{dirt.\+data\+\_\+entry\+\_\+portal.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+get\+\_\+survey\+\_\+between\+\_\+dates()}{dirt\_get\_survey\_between\_dates()}}
+{\footnotesize\ttfamily dirt\+\_\+get\+\_\+survey\+\_\+between\+\_\+dates (\begin{DoxyParamCaption}\item[{}]{\$date1,  }\item[{}]{\$date2,  }\item[{}]{\$type,  }\item[{}]{\$uid }\end{DoxyParamCaption})}
+
+Return node ID of survey with survey date in specified range, belonging to user, of a certain survey type.
+
+If no such survey found, returns empty string.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$date1} & Beginning date in range in \char`\"{}\+Y-\/m\char`\"{} format. \\
+\hline
+\mbox{\tt in}  & {\em \$date2} & End date in range in \char`\"{}\+Y-\/m\char`\"{} format. \\
+\hline
+\mbox{\tt in}  & {\em \$type} & Machine name string for survey type. \\
+\hline
+\mbox{\tt in}  & {\em \$uid} & User ID (uid).\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Node} & ID (nid). \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt_8data__entry__portal_8inc_a82b48635efab6c02f1ac87e09da49f3f}\label{dirt_8data__entry__portal_8inc_a82b48635efab6c02f1ac87e09da49f3f}} 
+\index{dirt.\+data\+\_\+entry\+\_\+portal.\+inc@{dirt.\+data\+\_\+entry\+\_\+portal.\+inc}!dirt\+\_\+get\+\_\+survey\+\_\+history\+\_\+table\+\_\+rows@{dirt\+\_\+get\+\_\+survey\+\_\+history\+\_\+table\+\_\+rows}}
+\index{dirt\+\_\+get\+\_\+survey\+\_\+history\+\_\+table\+\_\+rows@{dirt\+\_\+get\+\_\+survey\+\_\+history\+\_\+table\+\_\+rows}!dirt.\+data\+\_\+entry\+\_\+portal.\+inc@{dirt.\+data\+\_\+entry\+\_\+portal.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+get\+\_\+survey\+\_\+history\+\_\+table\+\_\+rows()}{dirt\_get\_survey\_history\_table\_rows()}}
+{\footnotesize\ttfamily dirt\+\_\+get\+\_\+survey\+\_\+history\+\_\+table\+\_\+rows (\begin{DoxyParamCaption}\item[{}]{\$uid }\end{DoxyParamCaption})}
+
+Returns survey history table rows for user (as renderable table array).
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$uid} & User ID (uid).\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Array} & of rows formatted for form element with \textquotesingle{}table\textquotesingle{} theme. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt_8data__entry__portal_8inc_a7c65d904f5033eec0302f3ad738c39bb}\label{dirt_8data__entry__portal_8inc_a7c65d904f5033eec0302f3ad738c39bb}} 
+\index{dirt.\+data\+\_\+entry\+\_\+portal.\+inc@{dirt.\+data\+\_\+entry\+\_\+portal.\+inc}!dirt\+\_\+get\+\_\+survey\+\_\+schedule@{dirt\+\_\+get\+\_\+survey\+\_\+schedule}}
+\index{dirt\+\_\+get\+\_\+survey\+\_\+schedule@{dirt\+\_\+get\+\_\+survey\+\_\+schedule}!dirt.\+data\+\_\+entry\+\_\+portal.\+inc@{dirt.\+data\+\_\+entry\+\_\+portal.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+get\+\_\+survey\+\_\+schedule()}{dirt\_get\_survey\_schedule()}}
+{\footnotesize\ttfamily dirt\+\_\+get\+\_\+survey\+\_\+schedule (\begin{DoxyParamCaption}\item[{}]{\$uid }\end{DoxyParamCaption})}
+
+Returns a list\+\_\+item \$items array with the survey schedule for the account.
+
+The survey schedule includes the name of the survey to be filled out and a link to the node/add form for that survey.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$uid} & User ID (uid).\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Array} & of rows formatted for form element with \textquotesingle{}table\textquotesingle{} theme. \\
+\hline
+\end{DoxyRetVals}

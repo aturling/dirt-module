@@ -1,0 +1,887 @@
+<?php
+
+/**
+ * @file
+ * This is the main module file.
+ */
+
+// Define default data search portal path
+define('DIRT_DATA_SEARCH_PATH_DEFAULT', DIRT_CITIZEN_SCI_PATH_DEFAULT . '/search-data');
+
+// Define database table names
+define('DIRT_DATA_ACCESS_REQUESTS_TABLE', 'dirt_datatable_access_requests');
+define('DIRT_SEARCH_TABLE_FILTER_GROUPS', 'dirt_datatable_filter_groups');
+define('DIRT_SEARCH_TABLE_COLUMN_GROUPS', 'dirt_datatable_colgroups');
+define('DIRT_SEARCH_TABLE_COLUMNS', 'dirt_datatable_tablecols');
+define('DIRT_SEARCH_TABLE_DATA', 'dirt_datatable_table_data');
+
+/**
+ * Implements hook_menu()
+ *
+ * Creates the Data Search Portal page.
+ *
+ * @retval Array An array of menu items.
+ */
+function dirt_datatable_menu() {
+  // Create data search portal page
+  $page_path = variable_get('dirt_data_search_portal_path', DIRT_DATA_SEARCH_PATH_DEFAULT);
+
+  // Get the Citizen Science path
+  $citizen_sci_path = variable_get('dirt_citizen_science_portal_path', DIRT_CITIZEN_SCI_PATH_DEFAULT);
+
+  // Create data search portal page
+  $items[$page_path] = array(
+    'type' => MENU_CALLBACK,
+    'access callback' => 'user_access',
+    'access arguments' => array('access content'),
+    'page callback' => 'dirt_datatable_page',
+    'theme callback' => 'variable_get',
+    'theme arguments' => array('admin_theme'),
+    'file' => 'includes/dirt_datatable.data_search_portal.inc',
+  );
+
+  // Create source for data table (JSON)
+  $items[$page_path . '/src'] = array(
+    'type' => MENU_CALLBACK,
+    'access callback' => 'user_access',
+    'access arguments' => array('access content'),
+    'page callback' => 'dirt_datatable_get_table_source',
+    'file' => 'includes/dirt_datatable.data_search_portal.inc',
+  );
+
+  // Create source for table column metadata (JSON)
+  $items[$page_path . '/cols'] = array(
+    'type' => MENU_CALLBACK,
+    'access callback' => 'user_access',
+    'access arguments' => array('access content'),
+    'page callback' => 'dirt_datatable_get_table_metadata_json',
+    'file' => 'includes/dirt_datatable.data_search_portal.inc',
+  );
+
+  // Create admin config pages
+  // Attach to DIRT module admin group
+
+  $items['admin/config/dirt/data-search'] = array(
+    'title' => t('DIRT Data Search Portal Configuration'),
+    'description' => 'Configuration settings for DIRT Data Search Portal',
+    'access arguments' => array('access administration pages'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('dirt_datatable_admin_config_form'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'includes/dirt_datatable.admin.inc',
+    'weight' => 2,
+  );
+
+  // Table summary
+  $items['admin/config/dirt/data-search/summary'] = array(
+    'title' => t('Summary'),
+    'access arguments' => array('access administration pages'),
+    'weight' => 1,
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'file' => 'includes/dirt_datatable.admin.inc',
+  );
+
+  // Search map config
+  $items['admin/config/dirt/data-search/map'] = array(
+    'title' => t('Map'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('dirt_datatable_admin_map_config_form'),
+    'access arguments' => array('access administration pages'),
+    'weight' => 2,
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'includes/dirt_datatable.admin.inc',
+  );
+
+  // Data access
+  $items['admin/config/dirt/data-search/data-access'] = array(
+    'title' => t('Data Access'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('dirt_datatable_admin_data_access_config_form'),
+    'access arguments' => array('access administration pages'),
+    'weight' => 3,
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'includes/dirt_datatable.admin.inc',
+  );
+
+  $items['admin/config/dirt/data-search/data-access/approve'] = array(
+    'page callback' => 'drupal_goto',
+    'page arguments' => array('dirt/data-search/data-access'),
+    'access arguments' => array('access administration pages'),
+    'file' => 'includes/dirt_datatable.admin.inc',
+  );
+
+  $items['admin/config/dirt/data-search/data-access/approve/%'] = array(
+    'title' => t('Approve data viewing account'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('dirt_datatable_admin_confirm_approve_data_access_account'),
+    'access arguments' => array('access administration pages'),
+    'file' => 'includes/dirt_datatable.admin.inc',
+  );
+
+  $items['admin/config/dirt/data-search/data-access/delete'] = array(
+    'page callback' => 'drupal_goto',
+    'page arguments' => array('dirt/data-search/data-access'),
+    'access arguments' => array('access administration pages'),
+    'file' => 'includes/dirt_datatable.admin.inc',
+  );
+
+  $items['admin/config/dirt/data-search/data-access/delete/%'] = array(
+    'title' => t('Delete data access request'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('dirt_datatable_admin_confirm_delete_data_access_request'),
+    'access arguments' => array('access administration pages'),
+    'file' => 'includes/dirt_datatable.admin.inc',
+  );
+
+  // Search Table filters and groups configuration
+  $items['admin/config/dirt/data-search/table-groups'] = array(
+    'title' => t('Data Table Groups'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('dirt_datatable_admin_search_table_group_settings_form'),
+    'access arguments' => array('access administration pages'),
+    'weight' => 4,
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'includes/dirt_datatable.admin.inc',
+  );
+
+  // Search Table columns configuration
+  $items['admin/config/dirt/data-search/table-columns'] = array(
+    'title' => t('Data Table Columns'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('dirt_datatable_admin_search_table_column_settings_form'),
+    'access arguments' => array('access administration pages'),
+    'weight' => 5,
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'includes/dirt_datatable.admin.inc',
+  );
+
+  // Force table update
+  $items['admin/config/dirt/data-search/table-update'] = array(
+    'title' => t('Update Data Table'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('dirt_datatable_admin_update_table_form'),
+    'access arguments' => array('access administration pages'),
+    'weight' => 6,
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'includes/dirt_datatable.admin.inc',
+  );
+
+  // Data access request form
+  $items[$citizen_sci_path . '/account-request-form'] = array(
+    'type' => MENU_CALLBACK,
+    'title' => t('Data Access Request Form'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('dirt_datatable_account_request_form'),
+    'access callback' => 'dirt_datatable_allow_data_access_requests',
+    'file' => 'includes/dirt_datatable.forms.inc',
+  );
+
+  // Duplicate surveys (add tab to existing survey config)
+  $items['admin/config/dirt/surveys/duplicates'] = array(
+    'title' => t('Duplicate Surveys'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('dirt_datatable_admin_duplicate_surveys_form'),
+    'access arguments' => array('access administration pages'),
+    'weight' => 2,
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'includes/dirt_datatable.admin.inc',
+  );
+
+  return $items;
+}
+
+
+/**
+ * Access callback for data access request form page.
+ */
+function dirt_datatable_allow_data_access_requests() {
+  return (user_access('access content') && variable_get('dirt_datatable_config_access_requests_allowed', 0));
+}
+
+
+/**
+ * Implements hook_node_info()
+ *
+ * Add custom content types for data search portal pages
+ */
+function dirt_datatable_node_info() {
+  return array(
+    'dirt_datatable_data_search_page' => array(
+      'name' => t('Data Search Portal Page'),
+      'base' => 'node_content',
+      'description' => t('This is a basic content type to be used for adding ' .
+                         '<em>Data Search Portal Pages</em> that explain how ' .
+                         'to use the data search portal.'),
+      'has_title' => TRUE,
+      'locked' => FALSE,
+    ),
+  );
+}
+
+
+/**
+ * Implements hook_theme().
+ */
+function dirt_datatable_theme($existing, $type, $theme, $path) {
+  $theme = array();
+
+  // Override node template for data search portal pages
+  // (to remove node title, etc.):
+
+  $theme['node__dirt_datatable_data_search_page'] = array(
+    'render element' => 'content',
+    'base hook' => 'node',
+    'template' => 'node--dirt_datatable_data_search_page',
+    'path' => drupal_get_path('module', 'dirt_datatable') . '/templates',
+   );
+
+  // For theming tables with draggable rows:
+ 
+  $theme['dirt_datatable_admin_search_table_group_settings_form'] = array(
+    'render element' => 'form',
+    'file' => 'dirt_datatable.admin.inc',
+    'template' => 'dirt-datatable-admin-search-table-group-settings-form',
+    'path' => drupal_get_path('module', 'dirt_datatable') . '/includes',
+  );
+
+  $theme['dirt_datatable_admin_search_table_column_settings_form'] = array(
+    'render element' => 'form',
+    'file' => 'dirt_datatable.admin.inc',
+    'template' => 'dirt-datatable-admin-search-table-column-settings-form',
+    'path' => drupal_get_path('module', 'dirt_datatable') . '/includes',
+  );
+
+  return $theme;
+}
+
+
+/**
+ * Implements hook_custom_theme()
+ */
+function dirt_datatable_custom_theme() {
+  // Switch the data search pages to the admin theme
+  // to match the data search portal itself
+
+  if (arg(0) == 'node' && arg(1) > 0) {
+    $node = node_load('node', arg(1));
+    if ($node && ($node->type == 'dirt_datatable_data_search_page')) {
+      return variable_get('admin_theme');
+    }
+  }
+}
+
+
+/**
+ * Implements hook_paths_alter().
+ *
+ * Defines the Data Search Portal as an "admin" page so that the admin version
+ * of jQuery is loaded via jQuery update.
+ *
+ * (Note that it is not sufficient to change the page theme as in
+ * hook_custom_theme().)
+ *
+ * @param[in,out] $paths An associative array of administrative paths, as
+ *   defined by implementations of hook_admin_paths().
+ */
+function dirt_datatable_admin_paths_alter(&$paths) {
+  $page_path = variable_get('dirt_data_search_portal_path', DIRT_DATA_SEARCH_PATH_DEFAULT);
+  $paths[$page_path] = TRUE;
+}
+
+
+/**
+ * Implements hook_block_info_alter().
+ */
+/*
+function dirt_datatable_block_info_alter(&$blocks, $theme, $code_blocks) { 
+  // Show user login block on pages except data search portal page because
+  // it's added manually (if user not logged in) into overview section, so
+  // it isn't needed twice.
+  $page_path = variable_get('dirt_data_search_portal_path', DIRT_DATA_SEARCH_PATH_DEFAULT);
+  $blocks['user']['login']['pages']  = $page_path . "\n" . $page_path . '/*';
+}
+*/
+
+
+/**
+ * Implements hook_node_view().
+ *
+ * Customize node view for data search portal pages.
+ */
+function dirt_datatable_node_view($node, $view_mode, $langcode) {
+  if ($node->type == 'dirt_datatable_data_search_page') {
+    // Set breadcrumbs
+    module_load_include('inc', 'dirt_datatable', 'includes/dirt_datatable.nodes');
+    dirt_datatable_set_data_search_portal_page_breadcrumbs($node);
+  }
+}
+
+
+/**
+ * Implements hook_js_alter
+ *
+ * Alter all map related javascript to load last so that we don't have to wait
+ * around for the map to load before getting the table in place.
+ *
+ * @param[in,out] $javascript An array of all JavaScript being presented on the
+ *   page.
+ */
+function dirt_datatable_js_alter(&$javascript) {
+  $page_path = variable_get('dirt_data_search_portal_path', DIRT_DATA_SEARCH_PATH_DEFAULT);
+  if ($page_path === current_path()) {
+    foreach ($javascript as $key => $settings) {
+      // Remove http:// and https:// before comparision
+      $substr = str_replace('https://', '', $key);
+      $substr = str_replace('http://', '', $substr);
+      $substr = substr($substr,0, 19);
+      
+      if ($substr == 'maps.googleapis.com') {
+        $javascript[$key]['defer'] = true;
+        $javascript[$key]['weight'] = 99;
+      }
+    }
+  }
+}
+
+
+/*
+ * Implements hook_user_update().
+ *
+ * After a user profile is saved, update user fields for all rows
+ * in data table for site id = uid (user id).
+ *
+ * @param[in,out] $edit The array of form values submitted by the user.
+ * @param[in] $account The user object on which the operation is performed.
+ * @param[in] $category The active category of user information being edited.
+ */
+function dirt_datatable_user_update(&$edit, $account, $category) {
+  $data_entry_user_rid = variable_get('dirt_data_entry_user_role');
+
+  $is_data_entry_account = (user_has_role($data_entry_user_rid, $account));
+
+  // Only do update for Data Entry accounts
+  if ($is_data_entry_account) {
+    module_load_include('inc', 'dirt_datatable', 'includes/dirt_datatable.search_table_db_ops');
+    dirt_datatable_update_data_table_after_user_save($account);
+  }
+  else {
+    watchdog('dirt_datatable', 'Did not update user info columns in data ' .
+      'table for user id %uid because this is not a Data Entry account.',
+      array('%uid' => $account->uid), WATCHDOG_INFO);
+  }
+}
+
+
+/**
+ * Implements hook_node_insert().
+ * Registers a function to be called after new survey node inserted.
+ *
+ * @param[in] $node Node object recently inserted.
+ */
+function dirt_datatable_node_insert($node) {
+  if (_dirt_datatable_node_is_eligible_survey($node->type, $node->uid)) {
+    drupal_register_shutdown_function('dirt_datatable_post_insert', $node->nid, $node->uid, $node->type);
+  }
+}
+
+
+/**
+ * Implements hook_node_update().
+ * Registers a function to be called after a survey node is updated.
+ *
+ * @param[in] $node Node object recently updated.
+ */
+function dirt_datatable_node_update($node) {
+  if (_dirt_datatable_node_is_eligible_survey($node->type, $node->uid)) {
+    drupal_register_shutdown_function('dirt_datatable_post_save', $node->nid, $node->uid, $node->type);
+  }
+}
+
+
+/**
+ * Implements hook_node_delete().
+ * Registers a function to be called after a node is deleted.
+ *
+ * @param[in] $node Node object recently deleted.
+ */
+function dirt_datatable_node_delete($node) {
+  if (_dirt_datatable_node_is_eligible_survey($node->type, $node->uid)) {
+    drupal_register_shutdown_function('dirt_datatable_post_delete', $node->nid, $node->uid, $node->type);
+  }
+}
+
+
+/**
+ * Update data table after new survey submitted.
+ *
+ * @param[in] $nid Numeric Node ID of new survey.
+ * @param[in] $site_id Site ID corresponding to survey.
+ * @param[in] $type String of survey type (machine name). 
+ */
+function dirt_datatable_post_insert($nid, $site_id, $type) {
+  // Implement outside of main module file:
+  module_load_include('inc', 'dirt_datatable', 'includes/dirt_datatable.search_table_db_ops');
+  _dirt_datatable_post_insert($nid, $site_id, $type);
+}
+
+
+/**
+ * Update data table after existing survey updated.
+ *
+ * @param[in] $nid Numeric Node ID of new survey.
+ * @param[in] $site_id Site ID corresponding to survey.
+ * @param[in] $type String of survey type (machine name).
+ */
+function dirt_datatable_post_save($nid, $site_id, $type) {
+  // Implement outside of main module file:
+  module_load_include('inc', 'dirt_datatable', 'includes/dirt_datatable.search_table_db_ops');
+  _dirt_datatable_post_save($nid, $site_id, $type);
+}
+
+
+/**
+ * Delete survey from data table when survey deleted from system.
+ *
+ * @param[in] $nid Numeric Node ID of new survey.
+ * @param[in] $site_id Site ID corresponding to survey.
+ * @param[in] $type String of survey type (machine name).
+ */
+function dirt_datatable_post_delete($nid, $site_id, $type) {
+  // Implement outside of main module file:
+  module_load_include('inc', 'dirt_datatable', 'includes/dirt_datatable.search_table_db_ops');
+  _dirt_datatable_post_delete($nid, $site_id, $type);
+}
+
+
+/**
+ * Implements hook_dirt_add_survey_type().
+ *
+ * When a new survey type is added, create new field instances of survey fields
+ * introduced in this module and attach to the new survey type.
+ */
+function dirt_datatable_dirt_add_survey_type($type) {
+  module_load_include('inc', 'dirt_datatable', 'includes/dirt_datatable.fields');
+
+  // Add field instances to content type
+  dirt_datatable_add_survey_field_instances_to_survey_type($type);
+}
+
+
+/**
+ * Implements hook_dirt_delete_survey_type().
+ *
+ * When a content type is no longer designated a survey type, delete the survey
+ * fields instances introduced in this module attached to this content type.
+ */
+function dirt_datatable_dirt_delete_survey_type($type) {
+  module_load_include('inc', 'dirt_datatable', 'includes/dirt_datatable.fields');
+
+  // Delete instances from content type
+  dirt_datatable_delete_survey_field_instances_from_survey_type($type);
+}
+
+
+/**
+ * Send e-mail notification from site.
+ *
+ * @param[in] $to String e-mail(s) to send notification to (comma-separated list).
+ * @param[in] $email_subject String e-mail subject.
+ * @param[in] $email_body Array e-mail body.
+ * @param[in] $key An identifier of the mail.
+ */
+function dirt_datatable_send_email_notification($to, $email_subject, $email_body, $key) {
+  $from = variable_get('site_mail');
+
+  $params = array(
+    'subject' => $email_subject,
+     'body' => $email_body,
+  );   
+
+  if (drupal_mail('dirt_datatable', $key, $to, language_default(), $params, $from))
+    watchdog('dirt_datatable', 'Sent e-mail notification to %to.', array('%to' => $to), WATCHDOG_INFO);
+  else
+   watchdog('dirt_datatable', 'Error sending e-mail notification to %to.', array('%to' => $to), WATCHDOG_ERROR);
+}
+
+
+/**
+ * Implements hook_mail.
+ *
+ * @param[in] $key An identifier of the mail.
+ * @param[in] $message An array to be filled in.
+ * @param[in] $params An array of parameters supplied by the caller of drupal_mail().
+ */
+function dirt_datatable_mail($key, &$message, $params) {
+  // In some cases, add note about automatically generated e-mail.
+  $email_note = '<em>' . t('(This e-mail was automatically generated.)') . '</em>';
+
+  switch($key) {
+    case 'duplicate_survey':
+      $message['subject'] = $params['subject'];
+      $body = $params['body'];
+      $body[] = $email_note;
+      $message['body'] = $body;
+      break;
+
+    case 'data_access_request':
+      $message['subject'] = $params['subject'];
+      $body = $params['body'];
+      $body[] = $email_note;
+      $message['body'] = $body;
+      break;
+  }
+}
+
+
+/**
+ * Implements hook_libraries_info().
+ *
+ * Provides information to Libraries API on Chosen.js library.
+ */
+function dirt_datatable_libraries_info() {
+  $libraries['chosen'] = array(
+    'name' => 'Chosen jQuery plugin',
+    'vendor url' => 'https://harvesthq.github.io/chosen/',
+    'download url' => 'https://github.com/harvesthq/chosen/releases',
+    'version arguments' => array(
+      'file' => 'chosen.proto.js',
+      'pattern' => '/Version\s+([0-9\.]+)/',
+      'lines' => 5,
+    ),
+    'files' => array(
+      'js' => array(
+        'chosen.jquery.min.js',
+        '/chosen.proto.min.js',
+      ),
+      'css' => array(
+        'chosen.min.css',
+      ),
+    ),
+  );
+
+  return $libraries;
+}
+
+
+/**
+ * Implements hook_help().
+ */
+function dirt_datatable_help($path, $arg) {
+  $search_data_path = variable_get('dirt_data_search_portal_path', DIRT_DATA_SEARCH_PATH_DEFAULT);
+
+  switch ($path) {
+    case 'admin/help#dirt_datatable':
+      $output  = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('The DIRT DataTable module extends the DIRT ' .
+        'Citizen Science Core module to provide a ') .
+        l(t('Data Search Portal'), $search_data_path) .
+        t(', a searchable interface for sharing collected soil data with ' .
+        'the general public. The Data Search Portal consists ' .
+        'of a table of all collected soil data, searchable by ' .
+        'Site ID, habitat type, variable category, county, and survey' .
+        'date range, and a map of collection sites (if enabled).') . 
+        '</p>';
+      $output .= '<p>' . t('The ') .
+        l(t('DIRT DataTable Configuration'), 'admin/config/dirt/data-search') .
+        t(' page allows for customizing the elements of the Data Search ' .
+        'Portal page, including the map display and the table column ' .
+        'order and column groupings.') . '</p>';
+      $output .= '<h3>' . t('Uses') . '</h3>';
+      $output .= '<dl>';
+      $output .= '<dt>' . t('Sharing Citizen Science data with the public') . 
+        '</dt>';
+      $output .= '<dd>' . t('The Data Search Portal displays all ' .
+        'collected Citizen Science survey data in a searchable table ' .
+        'and (if enabled) a map of all collection sites.') . 
+        '</dd>';
+      $output .= '<dt>' . t('Exporting Citizen Science data') . '</dt>';
+      $output .= '<dd>' . t('The Data Search table includes options to ' .
+        'export all survey data as a spreadsheet (in XLS or CSV ' .
+        'format).') . '</dd>';
+      $output .= '<dt>' . t('Managing data access') . '</dt>';
+      $output .= '<dd>' . t('The DIRT Core module provides a user ' .
+        'profile field that allows participants to control access ' .
+        'to their data (public, accessible to other participants ' .
+        'only, or semi-private). The most restrictive option is ' .
+        'called "semi-private" because site administrators have ' .
+        'access to all data submitted.<br>The DIRT DataTable module ' .
+        'extends this core functionality to allow members of the ' .
+        'general public (in particular, soil scientists) to request ' .
+        'access to all of the data, including the "semi-private" data. ' .
+        'The requests are stored in the database, pending admin ' .
+        'approval. Approved accounts are given the "Data Viewing ' .
+        'Account" role, also created as part of the module.') . '</dd>';
+      $output .= '<dt>' . t('Tracking duplicate surveys') . '</dt>';
+      $output .= '<dd>' . t('Multiple surveys of the same type ' .
+        'submitted with the same survey month and year for a single ' .
+        'collection site are tracked for administrative review. If ' .
+        'enabled, administrators have the option of receiving ' .
+        'automated e-mails whenever a duplicate survey is submitted.') .
+        '</dd>';
+      $output .= '</dl>';
+      return $output; 
+
+    case 'admin/config/dirt/data-search':
+      $output  = '';
+      $output .= '<p>' . t('Use this page to configure the DIRT DataTable ' .
+        'module. Click on the tabs at the top of the page to view the ' .
+        'configuration settings for the different module components. Below ' .
+        'is a summary of collection sites in the system and custom content ' .
+        'packaged with this module.') . '</p>';
+      return $output;
+
+    case 'admin/config/dirt/data-search/table-columns':
+      $output  = '';
+      $output .= '<p>' . t('This form may be used to alter the display of ' .
+        'the Data Search Portal table columns on the ');
+      $output .= l(t('Data Search Portal page'), $search_data_path);
+      $output .= t('. Each search table column is displayed as a row in ' .
+        'the table below, grouped below its column group row (e.g., Common, ' .
+        'Site Address, etc.) For each search table column, you may edit the ' .
+        'column header label using the text field under ' .
+        '<strong>Column Header Label</strong>.');
+      $output .= '</p><p>' . t(' Assign each search table column ' .
+        'to a different column group in the table using the <strong>' .
+        'Column Group</strong> select field or by dragging a row to a ' .
+        'different column group section. Note that each search table ' .
+        'column must be ' .
+        'assigned to a column group; any columns not yet assigned to a ' .
+        'group will appear at the bottom of the table below (in the ' .
+        '"No column group assigned" section). All columns ' .
+        'in a column group must belong to the same survey type. ');
+      $output .= t('If a row is dragged to a column group of a ' .
+        'different survey type, an error message will appear and the row ' .
+        'will be returned to its previous column group (as the last row ' .
+        'in the column group). ');
+      $output .= t('Use the ') .
+        l(t('Data Table Groups'), 'admin/config/dirt/data-search/table-groups') . 
+        t(' tab to add, remove, or rearrange the column groups.') . '</p>';
+      $output .= t('To re-order the columns as they appear ' .
+        'in the Data Search Portal table, drag and drop the rows to the desired ' .
+        'order within a column group.');
+      $output .= '</p><p>';
+      $output .= t('Finally, you may alter the column visibility using the <strong>' .
+        'Visibility</strong> drop-down. The choices are:');
+      $output .= '<ul><li><strong>' . t('Visible (default option)') . '</strong>';
+      $output .= t(': This column will be displayed in the DataTable ' .
+        'according to the sharing permissions of the Site ID it belongs to ' .
+        '(public, semi-public, or semi-private).') . '</li>';
+      $output .= '</li><li><strong>' . t('Admin-only') . '</strong>';
+      $output .= t(': This column is visible only to site administrators.');
+      $output .= '</li>';
+      $output .= '<li><strong>' . t('Hidden') . '</strong>';
+      $output .= t(': This column will not be displayed in the Data Search ' .
+        'Portal table. This is generally used to hide columns that contain ' .
+        'data useful for formatting the table or implementing the table ' .
+        'filters.') . '<br>' .
+        t('Hidden data is <strong>not</strong> considered private; ' .
+        'select "Admin-only" visibility for any columns you wish to ' .
+        'keep hidden from the public.');
+      $output .= '</li></ul></p>';
+      $output .= '<p>' . t('To view any updates to the table columns, you ' .
+        'will need to completely refresh the Data Search Portal page. ' .
+        '(It is not sufficient to click the "Refresh table" button in the ' .
+        'filter column; you must completely reload the page.)') . '</p>';
+      $output .= '<p><em>' . t('Note: Some columns may not be altered because ' .
+        'they are used to format the DataTable and/or its table filters. ' .
+        'These columns are still displayed for informational purposes, but ' .
+        'some fields will be disabled for those rows. ');
+      $output .= t('Additionally, Site ID is fixed as the first column ' .
+        'and is not displayed in the table.');
+      $output .= '</em></p>';
+      return $output;
+  }
+}
+
+
+/**
+ * Returns a list of all custom content types (machine names)
+ * created in this module.
+ */
+function dirt_datatable_get_custom_content_types() {
+  return array_keys(dirt_datatable_node_info());
+}
+
+
+/**
+ * Returns whether a field type is supported (i.e., can be displayed in the
+ * data search portal).
+ *
+ * @param[in] $field_type Field type string.
+ *
+ * @retval Boolean whether field type is supported.
+ */
+function dirt_datatable_field_type_is_supported_type($field_type) {
+  // Get supported field types
+  $supported_types = _dirt_datatable_get_supported_field_types();
+
+  // Check if field type is in supported types array
+  return in_array($field_type, $supported_types);
+}
+
+
+/**
+ * Returns the max access level of the logged-in user.
+ *
+ * @retval Integer Max access level integer 0-2:
+ *   0: Access public survey data only.
+ *   1: Access public and semipublic survey data.
+ *   2: Access public, semipublic, and semiprivate survey data (i.e., all survey data).
+ */
+function dirt_datatable_get_max_access_level() {
+  $max_access_level = 0; // Initialize to viewing public data only
+
+  if ( user_access('access private survey data') ) {
+    // Set max access level to allow viewing public, semipublic, and private data
+    $max_access_level = 2;
+  }
+  else if ( user_access('access semi-public survey data') ) {
+    // Set max access level to allow viewing public and semipublic data only
+    $max_access_level = 1;
+  }
+  // Otherwise, keep max access level at viewing public data only
+
+  return $max_access_level;
+}
+
+
+/**
+ * Converts the sharing permissions field from the string key value
+ * (e.g., 'public') to a number between 0-2 where 0 corresponds to
+ * public, 1 corresponds to semi-public, and 2 corresponds to
+ * semi-private. This is used to store the number rather than the
+ * string key in the DIRT DataTable (to compare the max access
+ * to the sharing permissions value using >= or <=).
+ *
+ * @param[in] $sharing_perms_str String sharing permissions key
+ *   value from user profile field.
+ *
+ * @retval Integer sharing permissions integer between 0-2,
+ *  defaulting to 0 if input string is empty or not a valid
+ *  field key.
+ */
+function dirt_datatable_get_sharing_perms_integer_value($sharing_perms_str) {
+  $sharing_permissions = 0; // default to public
+
+  switch($sharing_perms_str) {
+    case 'semipublic':
+      $sharing_permissions = 1;
+      break;
+
+    case 'semiprivate':
+      $sharing_permissions = 2;
+      break;
+  }
+
+  return $sharing_permissions;
+}
+
+
+/**
+ * Returns column metadata information for an active survey type field. This
+ * information is used to set/update the table schema for the data table and
+ * populate the table column metadata table.
+ *
+ * In the case of field collection fields, multiple columns may be returned,
+ * each keyed by their column name (to handle all of the fields belonging to
+ * the field collection).
+ *
+ * This function only handles supported field types. Furthermore, it is assumed
+ * that each survey field is only attached to one survey type (bundle). Any
+ * fields attached to more than one survey (e.g., date of survey field) must be
+ * handled as special cases.
+ *
+ * @param[in] $field_name Field name string.
+ * @param[in] $schema_only *Optional* Whether to return schema info only, or return
+ *   all column metadata fields. Defaults to all column metadata.
+ *
+ * @retval Array of column information keyed by column name. If $schema_only is TRUE,
+ *   this array contains schema info. Otherwise it contains column metadata fields.
+ *   Returns an empty array if no information could be found or the field type
+ *   is not supported.
+ */
+function dirt_datatable_get_column_metadata_from_active_node_field($field_name, $schema_only = FALSE) {
+  // Implemented outside of main module file
+  module_load_include('inc', 'dirt_datatable', 'includes/dirt_datatable.table_schema');
+  return _dirt_datatable_get_column_metadata_from_active_node_field($field_name, $schema_only);
+}
+
+
+/**
+ * Adds a field as a column in the data search table schema by examining
+ * its field info and instance info.
+ *
+ * Assumes DIRT_SEARCH_TABLE_DATA already exists as a key in $schema and
+ * the key $schema[DIRT_SEARCH_TABLE_DATA]['fields'] also exists before
+ * this function is called.
+ *
+ * @param[in] $schema_info Array containing column name, description, and sql
+ *   data for table schema
+ * @param[in,out] $schema Array representing table schema.
+ */
+function dirt_datatable_add_column_to_data_table_schema($schema_info, &$schema) {
+  // Implemented outside of main module file
+  module_load_include('inc', 'dirt_datatable', 'includes/dirt_datatable.table_schema');
+  _dirt_datatable_add_column_to_data_table_schema($schema_info, $schema);
+}
+
+
+/**
+ * Adds a row to the column metadata table for a new survey field being added
+ * to the data search table.
+ * Assumes that the data table schema has already been updated with a column
+ * representing this survey field.
+ *
+ * @param[in] $column_info Array keyed by table field with values to insert into
+ *  database, either created manually or retrieved from calling the function
+ *  dirt_datatable_get_column_metadata_from_active_node_field().
+ */
+function dirt_datatable_add_column_metadata_for_field($column_info) {
+  // Implemented outside of main module file
+  module_load_include('inc', 'dirt_datatable', 'includes/dirt_datatable.search_table_db_ops');
+  _dirt_datatable_add_column_metadata_for_field($column_info);
+}
+
+
+/**
+ * Helper function that checks node type to see whether it is a survey node
+ * belonging to a Data Entry user.
+ *
+ * @param[in] $type String of survey type (machine name).
+ * @param[in] $userid User ID (uid) of the node author (corresponds to Site ID).
+ *
+ * @retval Whether the survey node belongs to a Data Entry user (true if so,
+ *   false otherwise).
+ */
+function _dirt_datatable_node_is_eligible_survey($type, $userid) {
+  $user_obj = user_load($userid);
+  $data_entry_user_rid = variable_get('dirt_data_entry_user_role');
+
+  $is_data_entry_account = (user_has_role($data_entry_user_rid, $user_obj));
+
+  return ($is_data_entry_account && dirt_node_type_is_survey_type($type));
+}
+
+
+/**
+ * Helper function that returns list of supported field types that can be
+ * displayed in the data table.
+ *
+ * @retval Array of supported field type strings.
+ */
+function _dirt_datatable_get_supported_field_types() {
+  return array(
+    'datetime',
+    'text',
+    'number_float',
+    'number_integer',
+    'number_decimal',
+    'list_text',
+    'list_integer',
+    'list_float',
+    'list_boolean',
+    'field_collection',
+  );
+}
+

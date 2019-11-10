@@ -1,0 +1,11 @@
+name = DIRT DataTable
+description = This module uses the DataTables jQuery plug-in to create and manage the DIRT Data Sharing Portal.
+package = "DIRT Citizen Science Modules"
+core = 7.x
+version = "7.x-1.0"
+
+configure = admin/config/dirt/data-search
+
+dependencies[] = dirt
+dependencies[] = jquery_update
+dependencies[] = libraries

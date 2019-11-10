@@ -1,0 +1,101 @@
+\hypertarget{dirt_8field__groups_8inc}{}\section{dirt.\+field\+\_\+groups.\+inc File Reference}
+\label{dirt_8field__groups_8inc}\index{dirt.\+field\+\_\+groups.\+inc@{dirt.\+field\+\_\+groups.\+inc}}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{dirt_8field__groups_8inc_aebe241946b4cdcfebd57e57dae89dbd1}{dirt\+\_\+get\+\_\+field\+\_\+group\+\_\+basenames}} (\$modes=array(\textquotesingle{}form\textquotesingle{}, \textquotesingle{}default\textquotesingle{}))
+\item 
+\mbox{\hyperlink{dirt_8field__groups_8inc_ad57a6faa7b4f0fc6c40b2a9d19776ed2}{dirt\+\_\+get\+\_\+field\+\_\+group\+\_\+info}} ()
+\item 
+\mbox{\hyperlink{dirt_8field__groups_8inc_a537754b185bac30d8599a5fb2d0055e1}{dirt\+\_\+get\+\_\+field\+\_\+group\+\_\+info\+\_\+from\+\_\+group\+\_\+basenames}} (\$field\+\_\+groups)
+\item 
+\mbox{\hyperlink{dirt_8field__groups_8inc_ae0784b05afc41e0e23317d20c84c85ad}{dirt\+\_\+get\+\_\+field\+\_\+group\+\_\+object}} (\$group\+\_\+basename, \$bundle, \$mode)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file specifies the definitions for custom field groups created by this module. 
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{dirt_8field__groups_8inc_aebe241946b4cdcfebd57e57dae89dbd1}\label{dirt_8field__groups_8inc_aebe241946b4cdcfebd57e57dae89dbd1}} 
+\index{dirt.\+field\+\_\+groups.\+inc@{dirt.\+field\+\_\+groups.\+inc}!dirt\+\_\+get\+\_\+field\+\_\+group\+\_\+basenames@{dirt\+\_\+get\+\_\+field\+\_\+group\+\_\+basenames}}
+\index{dirt\+\_\+get\+\_\+field\+\_\+group\+\_\+basenames@{dirt\+\_\+get\+\_\+field\+\_\+group\+\_\+basenames}!dirt.\+field\+\_\+groups.\+inc@{dirt.\+field\+\_\+groups.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+get\+\_\+field\+\_\+group\+\_\+basenames()}{dirt\_get\_field\_group\_basenames()}}
+{\footnotesize\ttfamily dirt\+\_\+get\+\_\+field\+\_\+group\+\_\+basenames (\begin{DoxyParamCaption}\item[{}]{\$modes = {\ttfamily array(\textquotesingle{}form\textquotesingle{},~\textquotesingle{}default\textquotesingle{})} }\end{DoxyParamCaption})}
+
+Returns an associative array of field group basenames =$>$ info including bundle name and mode(s). Bundle name \char`\"{}\+A\+L\+L\+\_\+\+S\+U\+R\+V\+E\+Y\+S\char`\"{} indicates that this group should be attached to all survey content types.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$modes} & {\itshape Optional} View modes (defaults to form and default).\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Associative} & array of field group basenames and info. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt_8field__groups_8inc_ad57a6faa7b4f0fc6c40b2a9d19776ed2}\label{dirt_8field__groups_8inc_ad57a6faa7b4f0fc6c40b2a9d19776ed2}} 
+\index{dirt.\+field\+\_\+groups.\+inc@{dirt.\+field\+\_\+groups.\+inc}!dirt\+\_\+get\+\_\+field\+\_\+group\+\_\+info@{dirt\+\_\+get\+\_\+field\+\_\+group\+\_\+info}}
+\index{dirt\+\_\+get\+\_\+field\+\_\+group\+\_\+info@{dirt\+\_\+get\+\_\+field\+\_\+group\+\_\+info}!dirt.\+field\+\_\+groups.\+inc@{dirt.\+field\+\_\+groups.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+get\+\_\+field\+\_\+group\+\_\+info()}{dirt\_get\_field\_group\_info()}}
+{\footnotesize\ttfamily dirt\+\_\+get\+\_\+field\+\_\+group\+\_\+info (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Returns array of field groups where each array item is an array with keys\+:
+
+\textquotesingle{}basename\textquotesingle{} \+: group basename (without mode) \textquotesingle{}bundle\textquotesingle{} \+: bundle group is attached to \textquotesingle{}mode\textquotesingle{} \+: mode (form or node view),
+
+using definitions from \mbox{\hyperlink{dirt_8field__groups_8inc_aebe241946b4cdcfebd57e57dae89dbd1}{dirt\+\_\+get\+\_\+field\+\_\+group\+\_\+basenames()}}.
+
+This function effectively enumerates all field groups installed in this module.
+
+
+\begin{DoxyRetVals}{Return values}
+{\em Array} & of arrays with keys \textquotesingle{}basename\textquotesingle{}, \textquotesingle{}bundle\textquotesingle{}, and \textquotesingle{}mode\textquotesingle{}.\\
+\hline
+\end{DoxyRetVals}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{dirt_8field__groups_8inc_aebe241946b4cdcfebd57e57dae89dbd1}{dirt\+\_\+get\+\_\+field\+\_\+group\+\_\+basenames()}}. 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{dirt_8field__groups_8inc_a537754b185bac30d8599a5fb2d0055e1}\label{dirt_8field__groups_8inc_a537754b185bac30d8599a5fb2d0055e1}} 
+\index{dirt.\+field\+\_\+groups.\+inc@{dirt.\+field\+\_\+groups.\+inc}!dirt\+\_\+get\+\_\+field\+\_\+group\+\_\+info\+\_\+from\+\_\+group\+\_\+basenames@{dirt\+\_\+get\+\_\+field\+\_\+group\+\_\+info\+\_\+from\+\_\+group\+\_\+basenames}}
+\index{dirt\+\_\+get\+\_\+field\+\_\+group\+\_\+info\+\_\+from\+\_\+group\+\_\+basenames@{dirt\+\_\+get\+\_\+field\+\_\+group\+\_\+info\+\_\+from\+\_\+group\+\_\+basenames}!dirt.\+field\+\_\+groups.\+inc@{dirt.\+field\+\_\+groups.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+get\+\_\+field\+\_\+group\+\_\+info\+\_\+from\+\_\+group\+\_\+basenames()}{dirt\_get\_field\_group\_info\_from\_group\_basenames()}}
+{\footnotesize\ttfamily dirt\+\_\+get\+\_\+field\+\_\+group\+\_\+info\+\_\+from\+\_\+group\+\_\+basenames (\begin{DoxyParamCaption}\item[{}]{\$field\+\_\+groups }\end{DoxyParamCaption})}
+
+Returns array of field groups where each array item is an array with keys\+:
+
+\textquotesingle{}basename\textquotesingle{} \+: group basename (without mode) \textquotesingle{}bundle\textquotesingle{} \+: bundle group is attached to \textquotesingle{}mode\textquotesingle{} \+: mode (form or node view),
+
+using definitions from group basenames array input.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$field\+\_\+groups} & Array of field group definitions keyed by group basename.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Array} & of arrays with keys \textquotesingle{}basename\textquotesingle{}, \textquotesingle{}bundle\textquotesingle{}, and \textquotesingle{}mode\textquotesingle{}.\\
+\hline
+\end{DoxyRetVals}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{dirt_8field__groups_8inc_aebe241946b4cdcfebd57e57dae89dbd1}{dirt\+\_\+get\+\_\+field\+\_\+group\+\_\+basenames()}}. 
+
+\mbox{\hyperlink{dirt_8field__groups_8inc_ad57a6faa7b4f0fc6c40b2a9d19776ed2}{dirt\+\_\+get\+\_\+field\+\_\+group\+\_\+info()}}. 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{dirt_8field__groups_8inc_ae0784b05afc41e0e23317d20c84c85ad}\label{dirt_8field__groups_8inc_ae0784b05afc41e0e23317d20c84c85ad}} 
+\index{dirt.\+field\+\_\+groups.\+inc@{dirt.\+field\+\_\+groups.\+inc}!dirt\+\_\+get\+\_\+field\+\_\+group\+\_\+object@{dirt\+\_\+get\+\_\+field\+\_\+group\+\_\+object}}
+\index{dirt\+\_\+get\+\_\+field\+\_\+group\+\_\+object@{dirt\+\_\+get\+\_\+field\+\_\+group\+\_\+object}!dirt.\+field\+\_\+groups.\+inc@{dirt.\+field\+\_\+groups.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+get\+\_\+field\+\_\+group\+\_\+object()}{dirt\_get\_field\_group\_object()}}
+{\footnotesize\ttfamily dirt\+\_\+get\+\_\+field\+\_\+group\+\_\+object (\begin{DoxyParamCaption}\item[{}]{\$group\+\_\+basename,  }\item[{}]{\$bundle,  }\item[{}]{\$mode }\end{DoxyParamCaption})}
+
+Returns group object for \$group\+\_\+basename and \$mode.
+
+Input\+: \$group\+\_\+basename String\+: field group machine name minus \textquotesingle{}\+\_\+\$mode\textquotesingle{} suffix. \$bundle String\+: bundle (e.\+g., node type) field group attached to. \$mode String view mode.
+
+
+\begin{DoxyRetVals}{Return values}
+{\em Object} & representing field group. \\
+\hline
+\end{DoxyRetVals}

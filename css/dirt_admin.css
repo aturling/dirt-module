@@ -1,0 +1,17 @@
+#edit-dirt-add-survey-type-type-months,
+#edit-dirt-delete-survey-type-type-months,
+#edit-dirt-add-survey-type-type-months .description,
+#edit-dirt-delete-survey-type-type-months .description {
+  float: left;
+  width: 100%;
+}
+
+#edit-dirt-add-survey-type-type-months div.form-type-checkbox,
+#edit-dirt-delete-survey-type-type-months div.form-type-checkbox {
+  float:left;
+  padding-right: 15px!important;
+}
+
+#dirt-perform-another-lookup-button {
+  margin-top: 20px;
+}

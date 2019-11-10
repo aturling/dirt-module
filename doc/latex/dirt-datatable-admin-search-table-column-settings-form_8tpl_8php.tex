@@ -1,0 +1,51 @@
+\hypertarget{dirt-datatable-admin-search-table-column-settings-form_8tpl_8php}{}\section{dirt-\/datatable-\/admin-\/search-\/table-\/column-\/settings-\/form.tpl.\+php File Reference}
+\label{dirt-datatable-admin-search-table-column-settings-form_8tpl_8php}\index{dirt-\/datatable-\/admin-\/search-\/table-\/column-\/settings-\/form.\+tpl.\+php@{dirt-\/datatable-\/admin-\/search-\/table-\/column-\/settings-\/form.\+tpl.\+php}}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{dirt-datatable-admin-search-table-column-settings-form_8tpl_8php_aa1d731aa570613e5bcff831bb10e9b87}\label{dirt-datatable-admin-search-table-column-settings-form_8tpl_8php_aa1d731aa570613e5bcff831bb10e9b87}} 
+{\bfseries \$row} = 0
+\item 
+\mbox{\Hypertarget{dirt-datatable-admin-search-table-column-settings-form_8tpl_8php_afcda12cc7faccd5ff8aeb3dca1fbdafa}\label{dirt-datatable-admin-search-table-column-settings-form_8tpl_8php_afcda12cc7faccd5ff8aeb3dca1fbdafa}} 
+foreach(\$column\+\_\+list\mbox{[}\$gid\mbox{]} as \$cid=$>$ \$data) print \$data row\+\_\+class \$data {\bfseries row\+\_\+class}
+\item 
+\mbox{\Hypertarget{dirt-datatable-admin-search-table-column-settings-form_8tpl_8php_ad56bbd35b0b19a6913ef4b3d7a8a6a36}\label{dirt-datatable-admin-search-table-column-settings-form_8tpl_8php_ad56bbd35b0b19a6913ef4b3d7a8a6a36}} 
+print \$data {\bfseries label}
+\item 
+\mbox{\Hypertarget{dirt-datatable-admin-search-table-column-settings-form_8tpl_8php_a33a9a112f88b6625677b55289493f151}\label{dirt-datatable-admin-search-table-column-settings-form_8tpl_8php_a33a9a112f88b6625677b55289493f151}} 
+print \$data {\bfseries column\+\_\+group\+\_\+select}
+\item 
+\mbox{\Hypertarget{dirt-datatable-admin-search-table-column-settings-form_8tpl_8php_a1317c2a993afcc9094c904696bf545a3}\label{dirt-datatable-admin-search-table-column-settings-form_8tpl_8php_a1317c2a993afcc9094c904696bf545a3}} 
+print \$data {\bfseries weight\+\_\+select}
+\item 
+\mbox{\Hypertarget{dirt-datatable-admin-search-table-column-settings-form_8tpl_8php_a03031d3351e6cbc55033e27d4c9676e2}\label{dirt-datatable-admin-search-table-column-settings-form_8tpl_8php_a03031d3351e6cbc55033e27d4c9676e2}} 
+print \$data {\bfseries visibility\+\_\+select}
+\item 
+\mbox{\Hypertarget{dirt-datatable-admin-search-table-column-settings-form_8tpl_8php_a672d9707ef91db026c210f98cc601123}\label{dirt-datatable-admin-search-table-column-settings-form_8tpl_8php_a672d9707ef91db026c210f98cc601123}} 
+{\bfseries endforeach}
+\item 
+\mbox{\Hypertarget{dirt-datatable-admin-search-table-column-settings-form_8tpl_8php_a781a0b4540f3c04b33978b845353b2ab}\label{dirt-datatable-admin-search-table-column-settings-form_8tpl_8php_a781a0b4540f3c04b33978b845353b2ab}} 
+print {\bfseries \$form\+\_\+submit}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Default theme implementation to configure Data\+Table columns.
+
+Modeled after block-\/admin-\/display-\/form.\+tpl.\+php from Block module.
+
+Available variables\+:
+\begin{DoxyItemize}
+\item \$column\+\_\+groups\+: An array of column groups. Keyed by column group ID (gid) with the label as value.
+\item \$column\+\_\+list\+: An array of columns keyed by column group ID (gid) and then column ID (cid).
+\item \$form\+\_\+submit\+: Form submit button.
+\end{DoxyItemize}
+
+Each \$column\+\_\+list\mbox{[}\$column\+\_\+group\mbox{]} contains an array of columns for that column group.
+
+Each \$data in \$column\+\_\+list\mbox{[}\$column\+\_\+group\mbox{]} contains\+:
+\begin{DoxyItemize}
+\item \$data-\/$>$label\+: Column label.
+\item \$data-\/$>$column\+\_\+group\+\_\+select\+: Drop-\/down menu for assigning a column group.
+\item \$data-\/$>$weight\+\_\+select\+: Drop-\/down menu for setting weights. 
+\end{DoxyItemize}

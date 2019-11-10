@@ -1,0 +1,156 @@
+/* Add a note that the asterisk next to a field means it's required */
+span.form-required:after {
+  content: " This field is required.";
+}
+
+/* Make the save warning stand out more */
+span.dirt-save-warning-message {
+  color: rgb(165, 42, 42);
+}
+
+
+/* Visually indicate a text field is locked by removing the border
+ * and making the background transparent */
+.lock-field,
+select:disabled,
+input.date-clear:disabled {
+  background: transparent!important;
+  border: none!important;
+}
+
+textarea.lock-field {
+  resize:none!important;
+}
+
+.field-name-field-dirt-form-submission-note {
+  float: left;
+  width: 100%;
+}
+
+textarea.lock-field + .grippie,
+input.date-clear:disabled + .description {
+  display: none;
+}
+
+/* Remove disabled buttons */
+.form-button-disabled {
+  display: none;
+}
+
+/* Hide remove button for land management updates */
+/* Users can just clear the fields if they need to */
+#edit-field-dirt-site-manage-updates table th:nth-of-type(3),
+#edit-field-dirt-site-manage-updates table td:nth-of-type(3) {
+  display: none;
+}
+
+/* Similarly hide site photo remove button when locked */
+/* Image upload field provides its own remove button */
+#edit-field-dirt-site-habitat-photos table th:nth-of-type(2),
+#edit-field-dirt-site-habitat-photos table td:nth-of-type(2) {
+  display: none;
+}
+
+/* The following two sections add asterisks next to replicate #s 2-5 */
+/* on the site description form to indicate that they are not required. */
+.form-item-field-dirt-site-geo-coords-und-1-field-dirt-replicate-number-und-0-value input,
+.form-item-field-dirt-site-geo-coords-und-2-field-dirt-replicate-number-und-0-value input,
+.form-item-field-dirt-site-geo-coords-und-3-field-dirt-replicate-number-und-0-value input,
+.form-item-field-dirt-site-geo-coords-und-4-field-dirt-replicate-number-und-0-value input {
+  width: 10px!important;
+}
+
+.form-item-field-dirt-site-geo-coords-und-1-field-dirt-replicate-number-und-0-value:after,
+.form-item-field-dirt-site-geo-coords-und-2-field-dirt-replicate-number-und-0-value:after,
+.form-item-field-dirt-site-geo-coords-und-3-field-dirt-replicate-number-und-0-value:after,
+.form-item-field-dirt-site-geo-coords-und-4-field-dirt-replicate-number-und-0-value:after {
+  content: "**";
+}
+
+/* resize site drawing grid */
+#edit-field-dirt-site-drawing-guide img {
+  width: 400px;
+}
+
+/* Adding a bit of space between the table column headers and the vertical bars */
+table th label {
+  margin-left: 5px!important;
+}
+
+#field-dirt-color-number-by-hour-values  {
+  width: 660px!important;
+}
+
+/* Hiding the formatting hints to make the table more compact */
+#field-dirt-color-number-by-hour-values .description {
+  display: none;
+}
+
+/* Make time column narrower on monthly form */
+#field-dirt-color-number-by-hour-values input {
+  width: 80px!important;
+}
+
+/* Add note */
+.form-item-field-dirt-co2c-room-temp-range-und-0-value label:after {
+  content: "**";
+}
+
+/* Hide fields as these will be auto-calculated */
+#edit-field-dirt-co2c-room-temp-lower,
+#edit-field-dirt-co2c-room-temp-upper,
+#edit-field-dirt-co2c-field-temp-lower,
+#edit-field-dirt-co2c-field-temp-upper,
+#edit-field-dirt-co2c-room-temp-avg,
+#edit-field-dirt-co2c-field-temp-avg,
+#edit-field-dirt-soil-n-value,
+#edit-field-dirt-soil-n-ppm,
+#edit-field-dirt-soil-n-category,
+#edit-field-dirt-soil-p-value,
+#edit-field-dirt-soil-p-ppm,
+#edit-field-dirt-soil-p-category,
+#edit-field-dirt-soil-k-value,
+#edit-field-dirt-soil-k-ppm,
+#edit-field-dirt-soil-k-category,
+#edit-field-dirt-soil-ph-value,
+#edit-field-dirt-soil-ph-category,
+#edit-field-dirt-soil-organic-matter,
+#edit-field-dirt-soil-ac-range,
+#edit-field-dirt-soil-quality {
+  display: none;
+}
+
+/* Hide replicate numbers in soil water content section */
+.form-item-field-dirt-sample-before-drying-und-0-field-dirt-replicate-number-und-0-value input,
+.form-item-field-dirt-sample-after-drying-und-0-field-dirt-replicate-number-und-0-value input,
+.form-item-field-dirt-bulk-density-calcs-und-0-field-dirt-replicate-number-und-0-value input {
+  display: none;
+}
+
+/* Making the bulk density calcs table more uniformly spaced */
+#edit-field-dirt-bulk-density-calcs table thead th:not(:first-child),
+#edit-field-dirt-bulk-density-calcs table thead th label:not(:first-child) {
+  padding: 0px!important;
+  margin: 0px!important;
+  vertical-align: top!important;
+}
+
+#edit-field-dirt-bulk-density-calcs table thead th div.top-half {
+  border-bottom: 1px solid #999999;
+  height: 80px;
+  padding: 3px;
+}
+
+#edit-field-dirt-bulk-density-calcs table thead th div.bottom-half {
+  padding: 3px;
+}
+
+.avg-temp-warning,
+.water-filled-pores-warning {
+  font-size: 14px;
+  color: #FF6700;
+}
+
+.water-filled-pores-warning {
+  text-align: right;
+}

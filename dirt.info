@@ -1,0 +1,29 @@
+name = DIRT Core
+description = Provides core functionality to citizen science soil data collection platform. Creates the data entry portal and soil survey forms.
+package = "DIRT Citizen Science Modules"
+core = 7.x
+version = "7.x-1.0"
+
+stylesheets[all][] = css/dirt_menu.css
+
+configure = admin/config/dirt
+
+dependencies[] = block
+dependencies[] = ctools
+dependencies[] = date
+dependencies[] = date_api
+dependencies[] = date_popup
+dependencies[] = entity
+dependencies[] = field_collection
+dependencies[] = field_collection_table
+dependencies[] = field_group
+dependencies[] = image
+dependencies[] = list
+dependencies[] = markup
+dependencies[] = menu
+dependencies[] = node
+dependencies[] = number
+dependencies[] = options
+dependencies[] = path
+dependencies[] = select_or_other
+dependencies[] = text

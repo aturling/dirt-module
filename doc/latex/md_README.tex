@@ -1,0 +1,265 @@
+\subsection*{Introduction}
+
+The D\+I\+RT Citizen Science Core module provides a web-\/based data portal for collecting data from citizen scientists.
+
+This module was created manage data collection for the \href{https://modirt.missouriepscor.org/}{\tt MO D\+I\+RT} (Missourians Doing Impact Research Together) project, and thus is primarily set up to collect soil health data such as soil respiration and chemical soil properties, as well as basic information about the collection sites themselves (location, habitat type, land management practices, etc.)
+
+\subsection*{Overview}
+
+After installing the module, the web site is initially populated with suggested data entry portal pages and data collection surveys. The four survey types are\+:
+
+
+\begin{DoxyItemize}
+\item {\itshape Group Information Survey}\+: Information about the Citizen Scientist participants (e.\+g., group name, group members).
+\item {\itshape Site Description Survey}\+: Information about the collection site (e.\+g., site address, G\+SP coordinates, habitat, land management practices).
+\item {\itshape Monthly Data Survey}\+: Site variables collected monthly, such as soil respiration and soil water content. Some fields are calculated automatically for the participants on this survey.
+\item {\itshape Twice a Year Survey}\+: Site variables collected twice a year (defaults to May and August of the calendar year), such as soil pH and active carbon.
+\end{DoxyItemize}
+
+The D\+I\+RT Data\+Table module extends the D\+I\+RT Citizen Science Core module to provide a Data Search Portal, a searchable interface for sharing collected soil data with the general public. The Data Search Portal consists of a table of all collected soil data, searchable by Site ID, habitat type, variable category, county, and survey date range, and a map of collection sites (if enabled).
+
+\subsection*{Uses}
+
+
+\begin{DoxyItemize}
+\item Collecting Citizen Science survey data Citizen Scientists request data entry accounts via the web site. After setting up an account and logging in, they have access to all of the surveys via the Data Entry Portal.
+\item Sharing Citizen Science data with the public If the D\+I\+RT Data\+Table module is enabled, a Data Search Portal is created that displays all collected Citizen Science survey data in a searchable table and optionally includes a map of all collection sites.
+\item Exporting Citizen Science data If the D\+I\+RT Data\+Table module is enabled, the Data Search table includes options to export all survey data as a spreadsheet in X\+LS or C\+SV format.
+\item Managing data access The D\+I\+RT Core module provides a user profile field that allows participants to control access to their data (\char`\"{}public\char`\"{}, \char`\"{}semi-\/public\char`\"{}, i.\+e., accessible to other participants only, or \char`\"{}semi-\/private\char`\"{}). The most restrictive option is called \char`\"{}semi-\/private\char`\"{} because site administrators have access to all data submitted. The \char`\"{}\+Data Entry Account\char`\"{} role is created as part of this module to assign to Citizen Scientist participants, allowing them to view all other \char`\"{}semi-\/public\char`\"{} surveys. The D\+I\+RT Data\+Table module extends this core functionality to allow members of the general public (in particular, soil scientists) to request access to all of the data, including the \char`\"{}semi-\/private\char`\"{} data. The requests are stored in the database, pending admin approval. Approved accounts are given the \char`\"{}\+Data Viewing 
+\+Account\char`\"{} role, also created as part of the module.
+\item Managing collection schedules The Data Entry Portal keeps track of the collection start date for each site and prompts participants to enter surveys as scheduled (e.\+g., every month for monthly surveys).
+\item Displaying survey history The Data Entry Portal keeps track of all surveys submitted for each site. Participants may review all of their previously submitted surveys via the portal and make changes to survey fields if necessary.
+\item Educating the public about the project The module provides a basic site layout with suggested content pages and menus to describe the project to the public. Suggested pages include a page to upload resources (such as a data entry manual), a page to keep track of upcoming or past training sessions (if applicable), and a page to provide basic statistics on the project demographics, such as number of active sites, number of participating institutions/organizations, etc.
+\end{DoxyItemize}
+
+\subsection*{Requirements}
+
+The D\+I\+RT module requires the following contributed modules\+:
+
+
+\begin{DoxyItemize}
+\item Chaos Tool Suite (\href{https://www.drupal.org/project/ctools}{\tt https\+://www.\+drupal.\+org/project/ctools})
+\item Date (\href{https://www.drupal.org/project/date}{\tt https\+://www.\+drupal.\+org/project/date})
+\item Entity A\+PI (\href{https://www.drupal.org/project/entity}{\tt https\+://www.\+drupal.\+org/project/entity})
+\item Field Collection (\href{https://www.drupal.org/project/field_collection}{\tt https\+://www.\+drupal.\+org/project/field\+\_\+collection})
+\item Field Collection Table (\href{https://www.drupal.org/project/field_collection_table}{\tt https\+://www.\+drupal.\+org/project/field\+\_\+collection\+\_\+table})
+\item Field Group (\href{https://www.drupal.org/project/field_group}{\tt https\+://www.\+drupal.\+org/project/field\+\_\+group})
+\item Markup (\href{https://www.drupal.org/project/markup}{\tt https\+://www.\+drupal.\+org/project/markup})
+\item Select (or other) (\href{https://www.drupal.org/project/select_or_other}{\tt https\+://www.\+drupal.\+org/project/select\+\_\+or\+\_\+other})
+\end{DoxyItemize}
+
+The D\+I\+RT Data\+Table module additionally requires these modules\+:
+
+
+\begin{DoxyItemize}
+\item j\+Query Update (\href{https://www.drupal.org/project/jquery_update}{\tt https\+://www.\+drupal.\+org/project/jquery\+\_\+update})
+\item Libraries A\+PI (\href{https://www.drupal.org/project/libraries}{\tt https\+://www.\+drupal.\+org/project/libraries})
+\end{DoxyItemize}
+
+D\+I\+RT Data\+Table also requires the following j\+Query plug-\/in\+:
+
+
+\begin{DoxyItemize}
+\item Chosen (\href{https://harvesthq.github.io/chosen}{\tt https\+://harvesthq.\+github.\+io/chosen})
+\end{DoxyItemize}
+
+\subsection*{Configuration}
+
+After installation, navigate to admin/config/dirt to access the configuration pages. The first option, D\+I\+RT Survey Configuration, contains configuration settings related to the surveys\+:
+
+
+\begin{DoxyItemize}
+\item {\itshape Survey types}\+: Displays all current survey types in the system and allows for adding or deleting survey types.
+\item {\itshape Site description surveys}\+: Choose whether to allow participants to edit their site description survey entries.
+\item {\itshape Duplicate surveys}\+: Checks for potential duplicate surveys in the system (i.\+e., two or more surveys of the same type submitted from the same account in the same month and year). Also provides the option of sending e-\/mail notifications whenever a potential duplicate survey is submitted.
+\end{DoxyItemize}
+
+The second option, D\+I\+RT Data Entry Portal Configuration, contains configuration settings related to the Data Entry Portal\+:
+
+
+\begin{DoxyItemize}
+\item {\itshape Data Entry Portal settings}\+: Displays a list of pre-\/installed data entry portal pages. Also sets the project start year (defaults to year that module was installed).
+\item {\itshape Site ID lookup} Provides a form to search for Site I\+Ds matching a given habitat type and participant full name.
+\end{DoxyItemize}
+
+If the D\+I\+RT Data\+Table module is installed, a third option will appear containing configuration settings for the Data Search Portal\+:
+
+
+\begin{DoxyItemize}
+\item {\itshape Summary}\+: Displays a summary of all collection sites and pre-\/installed data search portal pages in the system.
+\item {\itshape Map}\+: Choose whether to display a map of collection sites on the data search portal page and related configuration settings (map center, initial zoom level, etc.).
+\item {\itshape Data Access} Choose whether to allow users to fill out a form to request access to all data (including semi-\/private data) in the system. Accounts will need to be approved manually by site admins before they are allowed to log in and view data.
+\item {\itshape Data table groups}\+: Configure the data search table column and filter groups.
+\item {\itshape Data table columns}\+: Configure the data search table columns.
+\item {\itshape Update data table}\+: Force a manual update of the data search table database.
+\end{DoxyItemize}
+
+\subsection*{Data Collection}
+
+\subsubsection*{Data Collection Cycle}
+
+The collection cycle goes by calendar year (January to December). Participants may join the project at any time and begin collecting at any month. The one-\/time surveys should be filled out as soon as the data collection begins. Monthly surveys should be filled out once a month, taking care to submit only one survey per calendar month. Twice a year surveys are collected in May and August of each calendar year.
+
+While the system has some functionality programmed in to validate the surveys and keep track of the survey collection schedule, it is ultimately the responsibility of the participants and/or the site administrators to ensure that the surveys are being submitted as expected (e.\+g., at the correct frequency, no more than one monthly survey per calendar month, etc.).
+
+Collection frequency is specified by months (e.\+g., monthly, every 3 months, every 6 months, etc.) There is currently no support for collection frequencies shorter than 1 month intervals. Additionally, the D\+I\+RT Data\+Table requires that, for each survey type, no more than one survey per account be submitted per month. The Data Search table groups together surveys to display all variables collected at a site in a single month in the same table row. \char`\"{}\+Duplicate\char`\"{} surveys (two or more surveys of the same type, submitted in the same survey month and year, for the same collection site) cannot be grouped together in such a way and will yield incorrect results in the search table. Currently, the D\+I\+RT Data\+Table module does not enforce the one-\/survey-\/per-\/type-\/ per-\/month rule, but it does track the duplicate surveys to be reviewed by the site admins. There is also an option to automatically send e-\/mail notifications to site admins whenever a duplicate survey is submitted. More information on this can be found on the duplicate survey configuration page at admin/config/dirt/surveys/duplicates.
+
+\subsubsection*{Survey Fields}
+
+Each survey consists of two categories of fields. Most of the fields are {\itshape variables}, i.\+e., fields containing the collected soil health data (e.\+g., habitat type, soil temperature, soil pH, etc.) The other fields store data collection {\itshape metadata} (e.\+g., date of survey). Some of these fields in the second category are simply used to format the surveys (e.\+g., the header markup field).
+
+{\itshape I\+M\+P\+O\+R\+T\+A\+NT\+:} Each variable should appear in no more than one survey. The assumption is that participants will collect variables at various frequencies (monthly, twice a year, etc.), so it does not make sense for a particular variable to appear more than once. Otherwise, there would be months where participants would enter the variable twice in both surveys for the same survey date, which could introduce inconsistencies in the collection. The D\+I\+RT Core fields satisfy this requirement. If any new variable fields are added and/or new survey types are created, they must be entirely new fields. (In Drupal terminology, the requirement is that each variable field must only have one field instance.)
+
+The fields in the second category are those which every survey has in common (and thus the rule above does not apply to these fields). For example, every survey must have a collection date. The fields assigned to every survey type are\+:
+
+
+\begin{DoxyItemize}
+\item Date of survey
+\item Form header
+\item Form submission instructions
+\end{DoxyItemize}
+
+If D\+I\+RT Data\+Table is installed, there are two additional fields attached to each survey, visible only to site administrators\+:
+
+
+\begin{DoxyItemize}
+\item Include survey in data portal
+\item Data curation notes
+\end{DoxyItemize}
+
+These fields are automatically added to content types which are designated as survey types (see next section for more details) and removed when a content type is no longer assigned as a survey type.
+
+\subsubsection*{Survey types}
+
+Content types may be designated as survey types, meaning that they contain data collection fields and appear in the Data Entry Portal (and Data Search Portal, if D\+I\+RT Data\+Table is installed). Refer to the Overview(\#overview) section for a list of the core content types with their descriptions.
+
+Survey types may be added or removed via the admin config page at admin/config/dirt/surveys. {\itshape Note\+:} Built-\/in content types may not be deleted from the system, but they may be removed as survey types via this form.
+
+\subsection*{Customizing Content}
+
+\subsection*{Customizing via Web UI}
+
+General procedure for adding/removing fields and/or survey content types\+:
+
+
+\begin{DoxyEnumerate}
+\item Install the D\+I\+RT Core module, but do N\+OT install the D\+I\+RT Data\+Table module at this time.
+\item Add content types and fields via the Drupal UI as usual. Delete any of the non-\/locked fields from the forms, if desired.
+\item Add these new content types as survey types via the D\+I\+RT Survey Configuration admin form at admin/config/dirt/surveys. This form may also be used to remove any of the core survey types.
+\item After surveys and fields are set up, the Data Entry Portal will be ready. If also using the D\+I\+RT Data\+Table module, install it at this time. All of the existing survey fields in the system will automatically be added to the Data Search Portal table.
+\item Core fields will automatically be added to column groups and filter groups, but fields created via the UI will need to be added to column groups (and, optionally, field groups). Begin with the table column groups configuration at admin/config/dirt/data-\/search/table-\/groups to add, edit, or remove column groups. The same form may be used to update variable filter groups, if desired. Then, click on the \char`\"{}\+Data table columns\char`\"{} tab at admin/config/dirt/data-\/search/table-\/columns to add columns to column groups. This form may also be used to edit column labels and column visibility.
+\end{DoxyEnumerate}
+
+Once the module is installed, no further changes may be made to the Data Search Portal columns beyond those allowed on the admin config forms. To add a new survey type or field to the table, uninstall the D\+I\+RT Data\+Table module, make the changes via the Drupal UI, and reinstall the module.
+
+Uninstalling the D\+I\+RT Data\+Table module will N\+OT delete any existing surveys in the system; it only removes the Data Search Portal page and deletes the underlying database tables used in implementing the search portal functionality. Likewise, the module must be uninstalled and reinstalled to delete a survey type or field.
+
+Refer to the Supported Field Types(\#supported-\/field-\/types) section for a list of field types that may be added to the Data Search Portal table.
+
+{\itshape W\+A\+R\+N\+I\+NG\+:} Some D\+I\+RT Core fields are required for the site to function propertly and therefore must not be deleted. In particular, the following fields should not be removed\+:
+
+User profile fields\+:
+\begin{DoxyItemize}
+\item Data sharing permissions
+\item Collection status
+\item Collection start
+\end{DoxyItemize}
+
+Survey fields\+:
+\begin{DoxyItemize}
+\item Date of survey
+\item Form header
+\item Form submission instructions
+\item Habitat type
+\item Geographical Coordinates in Decimal Degrees
+\item Include survey in data portal
+\item Data curation notes
+\end{DoxyItemize}
+
+Note that markup fields (form header, form submission instructions) can be editied via the web UI to customize the markup. Also, any unused fields may be hidden in both the form and display on the content type config page, and set to hidden in the data search table via the admin config form at admin/config/dirt/data-\/search/table-\/columns.
+
+\subsection*{Customizing Programmatically}
+
+For more advanced Drupal users, an alternative to the above procedure is to write a custom module that uses hook\+\_\+schema\+\_\+alter() upon installation to update the appropriate tables to include new survey types and/or survey fields (either added via UI or in the module code). The MO D\+I\+RT module uses this method to add a new survey type and make customizations specific to the MO D\+I\+RT project.
+
+If using the D\+I\+RT Data\+Table module, install it first and define it as a dependency in the new add-\/on module. Add fields either via the Drupal UR or programmatically in the module. Then, there are three steps to add the new field to the data search table\+:
+
+
+\begin{DoxyEnumerate}
+\item Update the data table schema to add a column for this field in the schema. Use the function \mbox{\hyperlink{dirt__datatable_8module_ae8c7077a1381e164963200b5cd0e7a1c}{dirt\+\_\+datatable\+\_\+add\+\_\+column\+\_\+to\+\_\+data\+\_\+table\+\_\+schema()}} within hook\+\_\+schema\+\_\+alter().
+\end{DoxyEnumerate}
+
+Example usage\+:
+
+
+\begin{DoxyCode}
+$field\_name = \textcolor{stringliteral}{'field\_mymodule\_example'};
+\textcolor{comment}{// Call with last parameter set to TRUE to get schema fields only}
+$columns = \mbox{\hyperlink{dirt__datatable_8module_a76e7c95dbdc9c29ce2108bb34ae64604}{dirt\_datatable\_get\_column\_metadata\_from\_active\_node\_field}}
+      ($field\_name, TRUE);
+\textcolor{keywordflow}{foreach}($columns as $column\_name => $column\_info) \{
+  \mbox{\hyperlink{dirt__datatable_8module_ae8c7077a1381e164963200b5cd0e7a1c}{dirt\_datatable\_add\_column\_to\_data\_table\_schema}}($column\_info
+      , $schema);
+\}
+\end{DoxyCode}
+
+
+
+\begin{DoxyEnumerate}
+\item Update the data table in the database to add the column. Use db\+\_\+add\+\_\+field().
+\end{DoxyEnumerate}
+
+Example usage\+:
+
+
+\begin{DoxyCode}
+$new\_schema = array();
+hook\_schema\_alter($new\_schema);
+\textcolor{keywordflow}{if} (isset($new\_schema[DIRT\_SEARCH\_TABLE\_DATA][\textcolor{stringliteral}{'fields'}])) \{
+  \textcolor{keywordflow}{foreach}($new\_schema[DIRT\_SEARCH\_TABLE\_DATA][\textcolor{stringliteral}{'fields'}] as $field\_name => $field\_spec) \{
+    db\_add\_field(DIRT\_SEARCH\_TABLE\_DATA, $field\_name, $field\_spec);
+  \}
+\}
+\end{DoxyCode}
+
+
+
+\begin{DoxyEnumerate}
+\item Add a row to the column metadata table with the info for this field. Use the function \mbox{\hyperlink{dirt__datatable_8module_a7a6ec0b5a56373d83bab71bb860c9203}{dirt\+\_\+datatable\+\_\+add\+\_\+column\+\_\+metadata\+\_\+for\+\_\+field()}}.
+\end{DoxyEnumerate}
+
+Example usage\+:
+
+
+\begin{DoxyCode}
+$field\_name = \textcolor{stringliteral}{'field\_example'};
+$columns = \mbox{\hyperlink{dirt__datatable_8module_a76e7c95dbdc9c29ce2108bb34ae64604}{dirt\_datatable\_get\_column\_metadata\_from\_active\_node\_field}}
+      ($field\_name);
+\textcolor{keywordflow}{foreach}($columns as $column\_name => $column\_info) \{
+  \textcolor{comment}{// Optionally specify additional fields in $column\_info:}
+  \textcolor{comment}{// $column\_info['colgroup'] = $column\_group\_id;}
+  \textcolor{comment}{// $column\_info['weight'] = $weight;}
+  \mbox{\hyperlink{dirt__datatable_8module_a7a6ec0b5a56373d83bab71bb860c9203}{dirt\_datatable\_add\_column\_metadata\_for\_field}}($column\_info);
+\}
+\end{DoxyCode}
+
+
+\subsection*{Supported Field Types}
+
+Currently, these are the field types supported by the D\+I\+RT Data\+Table module\+:
+
+
+\begin{DoxyItemize}
+\item Boolean
+\item Date (date module)
+\item Decimal
+\item Field Collection (field collection module)
+\item Float
+\item Integer
+\item List (text)
+\item List (integer)
+\item List (float)
+\item Text
+\end{DoxyItemize}
+
+{\itshape Important\+:} For field collections, the member fields must be supported types, and the cardinality of each member field must be limited to one. The overall field collection may have any {\itshape finite} cardinality (cannot be unlimited, as the number of database columns must be known in advance). Additionally, it is assumed that the first field in the collection defines the field order (e.\+g., replicate number, sample number, etc.) This field is only used to define the column order in the database table and is otherwise ignored. The core field \char`\"{}\+Replicate Number\char`\"{} (field\+\_\+dirt\+\_\+replicate\+\_\+number) may be used as the first field. 

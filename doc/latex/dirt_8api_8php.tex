@@ -1,0 +1,45 @@
+\hypertarget{dirt_8api_8php}{}\section{dirt.\+api.\+php File Reference}
+\label{dirt_8api_8php}\index{dirt.\+api.\+php@{dirt.\+api.\+php}}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{dirt_8api_8php_a04e0b3c0458c02ca470655b669bb16c1}{hook\+\_\+dirt\+\_\+add\+\_\+survey\+\_\+type}} (\$type)
+\item 
+\mbox{\hyperlink{dirt_8api_8php_a2ed670e45b883464cffce445c3eb5074}{dirt\+\_\+delete\+\_\+survey\+\_\+type}} (\$type)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Hooks provided by the D\+I\+RT Core module. 
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{dirt_8api_8php_a2ed670e45b883464cffce445c3eb5074}\label{dirt_8api_8php_a2ed670e45b883464cffce445c3eb5074}} 
+\index{dirt.\+api.\+php@{dirt.\+api.\+php}!dirt\+\_\+delete\+\_\+survey\+\_\+type@{dirt\+\_\+delete\+\_\+survey\+\_\+type}}
+\index{dirt\+\_\+delete\+\_\+survey\+\_\+type@{dirt\+\_\+delete\+\_\+survey\+\_\+type}!dirt.\+api.\+php@{dirt.\+api.\+php}}
+\subsubsection{\texorpdfstring{dirt\+\_\+delete\+\_\+survey\+\_\+type()}{dirt\_delete\_survey\_type()}}
+{\footnotesize\ttfamily dirt\+\_\+delete\+\_\+survey\+\_\+type (\begin{DoxyParamCaption}\item[{}]{\$type }\end{DoxyParamCaption})}
+
+Respond to the deletion of a survey type.
+
+This hook allows modules to define additional behavior or requirements after a survey type is deleted (i.\+e., a content type is no longer designated as a survey type).
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$type} & String type machine name. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{dirt_8api_8php_a04e0b3c0458c02ca470655b669bb16c1}\label{dirt_8api_8php_a04e0b3c0458c02ca470655b669bb16c1}} 
+\index{dirt.\+api.\+php@{dirt.\+api.\+php}!hook\+\_\+dirt\+\_\+add\+\_\+survey\+\_\+type@{hook\+\_\+dirt\+\_\+add\+\_\+survey\+\_\+type}}
+\index{hook\+\_\+dirt\+\_\+add\+\_\+survey\+\_\+type@{hook\+\_\+dirt\+\_\+add\+\_\+survey\+\_\+type}!dirt.\+api.\+php@{dirt.\+api.\+php}}
+\subsubsection{\texorpdfstring{hook\+\_\+dirt\+\_\+add\+\_\+survey\+\_\+type()}{hook\_dirt\_add\_survey\_type()}}
+{\footnotesize\ttfamily hook\+\_\+dirt\+\_\+add\+\_\+survey\+\_\+type (\begin{DoxyParamCaption}\item[{}]{\$type }\end{DoxyParamCaption})}
+
+Respond to the addition of a new survey type.
+
+This hook allows modules to define additional behavior or requirements after a new survey type is added (i.\+e., an existing content type is designated as a survey type).
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$type} & Machine name of content type being added as a survey type. \\
+\hline
+\end{DoxyParams}

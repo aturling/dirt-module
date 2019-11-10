@@ -1,0 +1,1052 @@
+<?php
+
+/**
+ * Implements hook_install()
+ */
+function dirt_datatable_install() {
+  // Default config settings
+  variable_set('dirt_data_search_portal_path', DIRT_DATA_SEARCH_PATH_DEFAULT);
+  variable_set('dirt_datatable_config_send_duplicate_surveys_email', 1);
+  variable_set('dirt_datatable_config_access_requests_allowed', 1);
+  variable_set('dirt_datatable_config_data_access_requests_email', 1);
+  variable_set('dirt_datatable_config_notify_duplicate_emails', variable_get('site_mail', ''));
+  variable_set('dirt_datatable_config_notify_access_request_emails', variable_get('site_mail', ''));
+  variable_set('dirt_datatable_config_display_map', 0);
+  variable_set('dirt_datatable_config_map_api_key', '');
+  variable_set('dirt_datatable_config_map_lat', '39.8283');
+  variable_set('dirt_datatable_config_map_lon', '-98.5795');
+  variable_set('dirt_datatable_config_map_zoom', '5');
+
+  // jQuery update module is required
+  // Admin pages must use version >= 1.7 (ideally latest version)
+  $jquery_version = variable_get('jquery_update_jquery_admin_version', '');
+  if (empty($jquery_version) || (floatval($jquery_version) < 1.7)) {
+    variable_set('jquery_update_jquery_admin_version', '1.7');
+  }
+
+  node_types_rebuild();
+
+  // This module creates three database tables, processes all
+  // fields and surveys in the system to fill the tables,
+  // adds new node types, etc. and can therefore take a while
+  // to install.
+  // Use the Batch API to carry out installation
+  // functions while user watches progress bar via UI.
+  $batch = array(
+    'title' => t('DIRT Citizen Science Data Search Portal Table Module Installation'),
+    'operations' => array(
+      array('dirt_datatable_add_custom_node_types', array()),
+      array('dirt_datatable_add_custom_fields', array()),
+      array('dirt_datatable_add_custom_survey_fields', array()),
+      array('dirt_datatable_add_custom_nodes', array()),
+      array('dirt_datatable_add_custom_roles', array()),
+      array('dirt_datatable_add_custom_menu_links', array()),
+      array('dirt_datatable_populate_db_tables', array()),
+    ),
+    'finished' => 'dirt_datatable_batch_install_finished',
+    'init_message' => t('Installing DIRT Citizen Science Data Search Portal Table Module...'),
+    'progress_message' => t('Installing module content...'),
+    'error_message' => t('An error occurred while installing Citizen Science Data Search Portal Table Module.'),
+    'file' => drupal_get_path('module', 'dirt_datatable') . '/dirt_datatable.install',
+  );
+
+  batch_set($batch);
+}
+
+
+/**
+ * Implements hook_uninstall()
+ */
+function dirt_datatable_uninstall() {
+  // Remove custom nodes
+  dirt_datatable_delete_custom_nodes();
+
+  // Remove custom fields
+  dirt_datatable_delete_custom_fields(); 
+
+  // Remove custom survey fields
+  dirt_datatable_delete_custom_survey_fields();
+
+  // Remove custom content types
+  dirt_datatable_delete_custom_node_types();
+
+  // Remove custom roles
+  dirt_datatable_delete_custom_roles();
+
+  // Remove custom variables
+  dirt_datatable_delete_custom_variables();
+
+  // Remove custom menu pages
+  dirt_datatable_delete_custom_menu_pages();
+
+  // Clear caches
+  dirt_datatable_cache_clear();
+}
+
+
+/**
+ * Implements hook_enable()
+ */
+function dirt_datatable_enable() {
+  // Currently not needed, leaving as placeholder
+}
+
+
+/**
+ * Implements hook_disable()
+ */
+function dirt_datatable_disable() {
+  // Display warning about orphaned fields
+  drupal_set_message(t('Warning: the DIRT DataTable module has been ' .
+                       'disabled, but it must be ' .
+                       l(t('uninstalled'), 'admin/modules/uninstall') .
+                       ' to remove all changes to the database. Until ' .
+                       'the module is uninstalled, the custom fields will ' .
+                       'remain in the database but not attached to any ' .
+                       'bundle, which may cause errors (e.g., when viewing ' .
+                       'the field list).<br><br>Note that the DIRT ' .
+                       'Core module <strong>MUST</strong> be installed and ' .
+                       'enabled before uninstalling the DIRT DataTable ' .
+                       'module. If you have disabled both modules at the ' .
+                       'same time, re-enable DIRT Core before ' .
+                       'attempting to uninstall DIRT DataTable.'), 'warning');
+}
+
+
+/**
+ * Module installation batch completed callback
+ */
+function dirt_datatable_batch_install_finished($success, $results, $operations) {
+  if ($success) {
+    $msg = t('Installed DIRT Citizen Science Data Search Portal Table Module.' .
+             '<br>Check the ' . l(t('site log'), 'admin/reports/dblog') .
+             ' to verify that no errors occurred during installation.');
+    drupal_set_message($msg);
+  }
+  else {
+    drupal_set_message(t('An error occurred while attempting to install DIRT Citizen Science Data Search Portal Table Module'), 'error');
+  }
+}
+
+
+/**
+ * Implements hook_schema()
+ *
+ * Creates the custom database tables.
+ */
+function dirt_datatable_schema() {
+  module_load_include('inc', 'dirt_datatable', 'includes/dirt_datatable.table_schema');
+
+  $schema = dirt_datatable_get_table_schema();
+
+  return $schema;
+}
+
+
+/**
+ * Implements hook_requirements().
+ *
+ * DIRT DataTable module requires ChosenJS library for some of the Data Search
+ * Portal page search filters. Also checks that the three database tables
+ * required for the module are present (installed with module, but could
+ * accidentally be deleted at some point, which will prevent the Data Search
+ * Portal page from loading correctly).
+ */
+function dirt_datatable_requirements($phase) {
+  $requirements = array();
+  $t = get_t();
+
+  switch($phase) {
+    case 'runtime':
+      // Check that Chosen library is installed:
+      $library = libraries_detect('chosen');
+
+      if ($library && $library['installed']) {
+        $requirements['dirt_datatable_chosen'] = array(
+          'title' => 'Chosen jQuery plugin',
+          'value' => $library['version'],
+          'severity' => REQUIREMENT_OK,
+        );
+      }
+      else {
+        $release_url = 'https://github.com/harvesthq/chosen/releases';
+        $msg = t('Chosen jQuery plugin not found. This plugin is required ' .
+                 'by the DIRT DataTable module. Download the plugin ' .
+          'at <a href="@url">@url</a> and place it in the libraries folder',
+          array('@url' => $release_url)) .
+          ' (/libraries/chosen).';
+
+        $requirements['modirt_php_excel'] = array(
+          'title' => 'Chosen jQuery plugin',
+          'value' => $msg,
+          'severity' => REQUIREMENT_ERROR,
+        );
+      }
+
+      // Check that required database tables exist:
+      $tables = array(
+        DIRT_SEARCH_TABLE_COLUMN_GROUPS => t('Column Groups'),
+        DIRT_SEARCH_TABLE_COLUMNS => t('Column Metadata'),
+        DIRT_SEARCH_TABLE_DATA => t('Search Table Data'),
+      );
+
+      $missing = array();
+      foreach($tables as $table_name => $label) {
+        if (!db_table_exists($table_name)) $missing[] = $table_name;
+      }
+
+      if (empty($missing)) {
+        $requirements['dirt_datatable_required_tables'] = array(
+          'title' => t('DIRT DataTable Tables'),
+          'value' => t('Required tables have been installed correctly.'),
+          'severity' => REQUIREMENT_OK,
+        );
+      }
+      else {
+        $msg  = t('Required database tables missing: ');
+        $msg .= implode(', ', $missing) . '. ';
+        $msg .= t('The DIRT DataTable Module will not function correctly ' .
+          'without these datatase tables. You may need to uninstall and ' .
+          'reinstall the DIRT DataTable Module to restore the tables');
+        $requirements['dirt_datatable_required_tables'] = array(
+          'title' => t('DIRT DataTable Tables'),
+          'value' => $msg,
+          'severity' => REQUIREMENT_ERROR,
+        );
+      }
+
+      break;
+  }
+
+  return $requirements;
+}
+
+/**
+ * Add custom content types and set type options.
+ *
+ * @param[in,out] context Array containing information about the status of the
+ *  batch. Values in $context will retain their values as the batch progresses.
+ */
+function dirt_datatable_add_custom_node_types(&$context) {
+  $context['message'] = 'Adding DIRT DataTable custom node types';
+
+  $custom_types = dirt_datatable_get_custom_content_types();
+  watchdog('dirt_datatable', 'Created new content types: %surveys',
+    array('%surveys' => implode(', ', $custom_types)), WATCHDOG_INFO);
+
+  // Set additional options on custom content types:
+  foreach ($custom_types as $custom_type) {
+    // Disable comments
+    variable_set('comment_' . $custom_type, '1');
+
+    // Disable preview
+    variable_set('node_preview_' . $custom_type, 0);
+
+    // Disable promote to front page
+    variable_set('node_options_' . $custom_type, array('status'));
+
+    // Disable displaying author and date info
+    variable_set('node_submitted_' . $custom_type, 0);
+  }
+
+  // Disable teaser view mode for custom node types
+  foreach ($custom_types as $type) {
+    // Get field bundle settings for survey content type
+    $settings = field_bundle_settings('node', $type);
+
+    // Get the current view mode settings
+    $view_mode_settings = field_view_mode_settings('node', $type);
+
+    // By default, view_modes should be empty, so pre-populate to default settings
+    $settings['view_modes'] = $view_mode_settings;
+
+    // Now disable the teaser mode
+    if (array_key_exists('teaser', $settings['view_modes'])) {
+      $settings['view_modes']['teaser']['custom_settings'] = FALSE;
+    }
+
+    // Save updated bundle settings
+    field_bundle_settings('node', $type, $settings);
+  }
+}
+
+
+/**
+ * Add custom fields.
+ *
+ * @param[in,out] context Array containing information about the status of the
+ *  batch. Values in $context will retain their values as the batch progresses.
+ */
+function dirt_datatable_add_custom_fields(&$context) {
+  $context['message'] = 'Adding DIRT DataTable fields';
+
+  module_load_include('inc', 'dirt_datatable', 'includes/dirt_datatable.fields');
+
+  // Create fields
+  foreach(dirt_datatable_get_installed_fields() as $field) {
+    field_create_field($field);
+  }
+
+  // Create field instances
+  foreach(dirt_datatable_get_installed_instances() as $fieldinstance) {
+    field_create_instance($fieldinstance);
+  }
+}
+
+
+/**
+ * Remove custom fields
+ */
+function dirt_datatable_delete_custom_fields() {
+  module_load_include('module', 'dirt_datatable');
+  module_load_include('inc', 'dirt_datatable', 'includes/dirt_datatable.fields');
+
+  // Delete custom field instances
+  foreach (dirt_datatable_get_installed_instances() as $instance) {
+    field_delete_instance($instance);
+  }
+  field_cache_clear();
+
+  // Delete custom fields
+  foreach (array_keys(dirt_datatable_get_installed_fields()) as $field) {
+    field_delete_field($field);
+  }
+
+  // Also delete comment fields that get added to each custom type
+  $custom_types = dirt_datatable_get_custom_content_types();
+  foreach ($custom_types as $type) {
+    $field_instances = field_info_instances('comment', 'comment_node_' . $type);
+    foreach ($field_instances as $instance) {
+      field_delete_instance($instance);
+    }
+  }
+
+  field_purge_batch(500);
+}
+
+
+/**
+ * Add new custom survey fields to existing surveys.
+ *
+ * @param[in,out] context Array containing information about the status of the
+ *  batch. Values in $context will retain their values as the batch progresses.
+ */
+function dirt_datatable_add_custom_survey_fields(&$context) {
+  $context['message'] = 'Adding DIRT DataTable additional survey fields';
+
+  // When new survey types are added, hook_dirt_add_survey_type() is invoked
+  // which adds two new admin-only fields defined in this module to all
+  // survey types.
+  // Since the types were already added in DIRT Core, need to manually
+  // call the hook here during the installation process to add the fields
+  // to existing survey types.
+  $survey_types = dirt_get_survey_types();
+
+  foreach($survey_types as $type) {
+    dirt_datatable_dirt_add_survey_type($type);
+  }
+}
+
+
+/**
+ * Delete new survey fields from survey types.
+ */
+function dirt_datatable_delete_custom_survey_fields() {
+  // When survey types are removed, hook_dirt_delete_survey_type() is
+  // invoked which removes the two new admin-only fields defined in 
+  // this module to all survey types.
+  // Since the uninstall process does not remove any survey types,
+  // need to call the hook manually here to remove the fields from
+  // existing survey types.
+  $survey_types = dirt_get_survey_types();
+
+  foreach($survey_types as $type) {
+    dirt_datatable_dirt_delete_survey_type($type);
+  }
+}
+
+
+/**
+ * Add custom roles.
+ *
+ * @param[in,out] context Array containing information about the status of the
+ *  batch. Values in $context will retain their values as the batch progresses.
+ */
+function dirt_datatable_add_custom_roles(&$context) {
+  $context['message'] = 'Adding DIRT DataTable user roles';
+
+  // Create the data viewing role
+  $data_viewing_role = new stdClass();
+  $data_viewing_role->name = 'Data Viewing Account';
+  $data_viewing_role->weight = 1;
+  user_role_save($data_viewing_role);
+
+  // Save Data Viewing User Role ID as a variable to refer to later
+  // (also more reliable than lookup by name, e.g., if role name
+  // is changed via UI at some point)
+  // Need to store as integer for Drupal to recognize it's a
+  // Role ID
+  $data_viewing_user_rid = (int) $data_viewing_role->rid;
+  variable_set('dirt_data_viewing_user_role', $data_viewing_user_rid);
+
+  // Grant permissions to data viewing role
+  $allowed_actions = array();
+
+  // Allow data viewing users to access semi-public and semi-private data
+  $allowed_actions[] = 'access semi-public survey data';
+  $allowed_actions[] = 'access private survey data';
+
+  user_role_grant_permissions($data_viewing_user_rid, $allowed_actions);
+}
+
+
+/**
+ * Remove custom roles
+ */
+function dirt_datatable_delete_custom_roles() {
+  module_load_include('module', 'dirt_datatable');
+
+  $rid = variable_get('dirt_data_viewing_user_role');
+
+  if ($rid > 1)  user_role_delete($rid);
+}
+
+
+/**
+ * Add custom menu links.
+ *
+ * @param[in,out] context Array containing information about the status of the
+ *  batch. Values in $context will retain their values as the batch progresses.
+ */
+function dirt_datatable_add_custom_menu_links(&$context) {
+  $context['message'] = 'Adding DIRT DataTable menu links';
+
+  // For now just add data search portal link to main menu.
+  // Site admins may wish to move it to a different menu, 
+  // display it as a child link of the existing Citizen Science
+  // link, etc.
+
+  $search_portal_path = variable_get('dirt_data_search_portal_path', DIRT_DATA_SEARCH_PATH_DEFAULT);
+
+  $menu_links = array(
+    0 => array(
+      'link_path' => drupal_get_normal_path($search_portal_path),
+      'link_title' => t('Data Search Portal'),
+      'menu_name' => 'main-menu',
+      'weight' => 20,
+    ),
+  );
+
+  // Add links to menu
+  foreach($menu_links as $menu_link) {
+    menu_link_save($menu_link);
+  }
+}
+
+
+/**
+ * Add custom nodes pre-packaged with the module.
+ *
+ * @param[in,out] context Array containing information about the status of the
+ *  batch. Values in $context will retain their values as the batch progresses.
+ */
+function dirt_datatable_add_custom_nodes(&$context) {
+  $context['message'] = 'Adding DIRT DataTable custom nodes';
+
+  module_load_include('inc', 'dirt_datatable', 'includes/dirt_datatable.nodes');
+
+  // Get info on nodes to create
+  foreach(dirt_datatable_get_installed_nodes() as $node_info) {
+    $type = $node_info['type'];
+    $title = $node_info['title'];
+    $alias = $node_info['alias'];
+
+    // Create the node
+    $node = new stdClass();
+    $node->type = $type;
+    $node->title = $title;
+    $node->uid = 1;
+    $node->status = 1;
+    $node->language = LANGUAGE_NONE;
+    node_save($node);
+
+    $nid = $node->nid;
+
+    // Create an alias for this node
+    $path = array(
+      'source' => 'node/' . $nid,
+      'alias' => $alias,
+    );
+    path_save($path);
+
+    // Pre-filling node body
+    $body = $node_info['body'];
+
+    try {
+      $node_wrapper = entity_metadata_wrapper('node', $nid);
+      $node_wrapper->body->value = $body;
+      $node_wrapper->body->format = 'full_html';
+      $node_wrapper->save();
+    }
+    catch (EntityMetadataWrapperException $e) {
+      watchdog_exception('dirt_datatable', $e);
+    }
+  }
+}
+
+
+/**
+ * Delete custom nodes
+ */
+function dirt_datatable_delete_custom_nodes() {
+  module_load_include('module', 'dirt_datatable');
+
+  $custom_types = dirt_datatable_get_custom_content_types();
+
+  // Query db for nodes matching custom types and delete
+  $nids = array(); // array of nids to delete
+  $query = db_select('node', 'n');
+  $query->fields('n', array('nid'));
+  $query->condition('n.type', $custom_types, 'IN');
+  $result = $query->execute()->fetchAll();
+  foreach ($result as $result_obj) {
+    $nids[] = $result_obj->nid;
+  }
+  node_delete_multiple($nids);
+}
+
+
+/**
+ * Delete custom node types
+ */
+function dirt_datatable_delete_custom_node_types() {
+  // This function is similar to node_type_delete(), but calling that
+  // directly led to errors, so manually removing types from
+  // node_type table here
+
+  module_load_include('module', 'dirt_datatable');
+
+  $custom_types = dirt_datatable_get_custom_content_types();
+
+  watchdog('dirt_datatable', 'Uninstalling custom node types %types',
+    array('%types' => implode($custom_types, ', ')), WATCHDOG_INFO);
+
+  $conditions = array();
+  $conditions[0] = array(
+    'field' => 'type',
+    'value' => $custom_types,
+    'operator' => 'IN',
+  );
+  try {
+    $num_deleted = dirt_delete_from_database_table('node_type', $conditions);
+
+    watchdog('dirt_datatable', 'Removed %num content types.',
+      array('%num' => $num_deleted), WATCHDOG_INFO);
+  }
+  catch (Exception $e) {
+    watcdog('dirt_datatable', 'Error: could not remove custom content types.',
+      array(), WATCHDOG_ERROR);
+  }
+
+  node_type_cache_reset();
+}
+
+
+/**
+ * Delete custom variables set by this module
+ */
+function dirt_datatable_delete_custom_variables() {
+  // Query database for all variables set by this module,
+  // identified by beginning with "dirt_datatable_":
+  $num_deleted = db_delete('variable')
+    ->condition('name', 'dirt_datatable_%', 'LIKE')
+    ->execute();
+
+  watchdog('dirt', 'Removed %num variable(s)',
+    array('%num' => $num_deleted), WATCHDOG_INFO);
+}
+
+
+/**
+ * Delete custom menu pages
+ */
+function dirt_datatable_delete_custom_menu_pages() {
+  module_load_include('module', 'dirt_datatable');
+
+  // Remove data search portal page
+  menu_link_delete(NULL, variable_get('dirt_data_search_portal_path', DIRT_DATA_SEARCH_PATH_DEFAULT));
+}
+
+
+/**
+ * Pre-populate newly created database tables based on grouping suggestions
+ * and existing survey fields.
+ *
+ * @param[in,out] context Array containing information about the status of the
+ *  batch. Values in $context will retain their values as the batch progresses.
+ */
+function dirt_datatable_populate_db_tables(&$context) {
+  $context['message'] = 'Populating DIRT DataTable custom database tables';
+
+  module_load_include('inc', 'dirt_datatable', 'includes/dirt_datatable.table_schema');
+  module_load_include('inc', 'dirt_datatable', 'includes/dirt_datatable.search_table_db_ops');
+
+  /**
+   * In pre-populating these tables, we assume few (if any) changes have been
+   * made to the pre-installed DIRT fields. Suggestions based on these DIRT
+   * fields for column group, variable group, etc. have been provided.
+   *
+   * If changes have been made to the pre-installed DIRT fields (e.g., using
+   * the Drupal "Manage fields" UI), the resulting tables may need to be
+   * altered manually by a site admin via the Data Search Portal admin config
+   * page.
+   *
+   * Steps:
+   * 1) Add the default filter groups.
+   * 2) Add the default column groups.
+   * 3) Add rows in the column metadata table for "common" columns (table
+   *    columns common to all surveys). These are mostly special cases, with
+   *    hard-coded in field values).
+   * 4) Add rows in the column metadata table for geo coords columns
+   *    (another special case).
+   * 5) Add rows in the column metadata table for the rest of the survey
+   *    fields.
+   */
+
+  // Step 1: Add the default filter groups.
+  _dirt_datatable_add_default_filter_groups();
+
+  // Step 2: Add the default column groups.
+  _dirt_datatable_add_default_column_groups();
+
+  // Step 3: Add column metadata for common columns.
+  _dirt_datatable_add_common_columns_metadata();
+
+  // Step 4: Add column metadata for geo coords columns.
+  _dirt_datatable_add_geo_coords_columns_metadata();
+
+  // Step 5: Add column metadata for the rest of the survey columns.
+  _dirt_datatable_add_rest_of_survey_columns_metadata();
+
+  // At this point, if no changes were made to the pre-installed DIRT fields (in
+  // particular, no fields were added to any surveys), then there should be no
+  // fields in the "empty" group.
+  // If any fields were added to any surveys, they were dumped into the empty
+  // group and may be assigned to one of the other groups (or a totally new group)
+  // via the admin interface.
+
+  // Lastly, we need to populate table search data with all of the survey
+  // data in the system currently.
+  // After that, the table will be updated dynamically every time a survey is
+  // added, edited, or removed from the system.
+  dirt_datatable_force_update_data_table();
+}
+
+
+/**
+ * Adds the default filter groups to the filter groups database table.
+ */
+function _dirt_datatable_add_default_filter_groups() {
+  // Suggested variable filter groups for DIRT project
+  $suggested_filters = dirt_datatable_get_suggested_filter_groups();
+
+  foreach($suggested_filters as $weight => $filter_info) {
+    // Insert filter group info row into database
+    // Returns unique filter group ID (fid)
+    $fields = array(
+      'label' => $filter_info['label'],
+      'element_id' => $filter_info['element_id'],
+      'survey_type' => $filter_info['survey_type'],
+      'weight' => $weight,
+    );
+
+    $fid = dirt_insert_into_database_table(DIRT_SEARCH_TABLE_FILTER_GROUPS, $fields);
+
+    // Set variables for later lookup
+    variable_set('dirt_datatable_filter_group_fid_' . $filter_info['short_name'], $fid);
+
+    watchdog('dirt_datatable', 'Inserted filter group %label assigned group ID %fid',
+      array('%label' => $filter_info['label'], '%fid' => $fid), WATCHDOG_INFO);
+  }
+}
+
+
+/**
+ * Adds the default column groups to the column groups database table,
+ * and assigns each column group to its default filter group.
+ */
+function _dirt_datatable_add_default_column_groups() {
+  // Suggested group columns for DIRT project
+  $suggested_groups = dirt_datatable_get_suggested_column_groups();
+
+  // Since every column needs to belong to a group, add a 'catch-all' empty
+  // group at the end of the table for all fields not assigned to any group.
+  $suggested_groups[] = array(
+    'label' => '',
+    'class' => '',
+    'short_name' => 'empty',
+    'survey_type' => '',
+    'filter_group' => 0, // 0 denotes doesn't belong to any filter group
+  );
+
+  foreach($suggested_groups as $weight => $group_info) {
+    // Look up filter group ID that was stored in table
+    $fid = variable_get('dirt_datatable_filter_group_fid_' . $group_info['filter_group'], 0);
+    $class = $group_info['class'];
+
+    // Insert group info row into database
+    // Returns unique group ID (gid)
+    $fields = array(
+      'label' => $group_info['label'],
+      'class' => $class,
+      'survey_type' => $group_info['survey_type'],
+      'filter_group' => $fid,
+      'weight' => $weight,
+    );
+
+    $gid = dirt_insert_into_database_table(DIRT_SEARCH_TABLE_COLUMN_GROUPS, $fields);
+
+    // Set variable for later lookup
+    variable_set('dirt_datatable_colgroup_gid_' . $group_info['short_name'], $gid);
+
+    watchdog('dirt_datatable', 'Inserted column group %label assigned group ID %gid',
+      array('%label' => $group_info['label'], '%gid' => $gid), WATCHDOG_INFO);
+  }
+}
+
+
+/**
+ * Adds the column metadata for the common columns to the database table. These are
+ * columns that all survey types have in common. Some are displayed in the data
+ * search table (e.g., date of survey) for every survey type, and others are used 
+ * behind-the-scenes to implement the data search table and filters.
+ */
+function _dirt_datatable_add_common_columns_metadata() {
+  // Get the column group ID for the common group:
+  $common_gid = variable_get('dirt_datatable_colgroup_gid_common', 0);
+
+  // The first few common column information is hard-coded in below:
+  $common_fields = array(
+    // Node ID: Used as the primary key in database table.
+    0 => array(
+      'column_name' => 'nid',
+      'colgroup' => $common_gid,
+      'field_name' => 'nid',
+      'label' => t('Node ID'),
+      'field_label' => t('Node ID'),
+      'class' => 'nid',
+      'survey_type' => 'common',
+      'visible' => 0,
+      'primary_field' => 1,
+      'query_type' => 'special',
+      'field_type' => 'single_valued',
+      'admin_only' => 0,
+      'weight' => 0,
+    ),
+    // Site ID: Displayed as the first column in the data search table.
+    1 => array(
+      'column_name' => 'site_id',
+      'colgroup' => $common_gid,
+      'field_name' => 'uid',
+      'label' => t('Site ID'),
+      'field_label' => t('Site ID'),
+      'class' => 'site-id',
+      'survey_type' => 'common',
+      'visible' => 1,
+      'primary_field' => 1,
+      'query_type' => 'standard',
+      'field_type' => 'single_valued',
+      'admin_only' => 0,
+      'weight' => 1,
+    ),
+    // Username: Displayed in the data search table for admins only.
+    2 => array(
+      'column_name' => 'username',
+      'colgroup' => $common_gid,
+      'field_name' => 'name',
+      'label' => t('Username'),
+      'field_label' => t('Username'),
+      'class' => 'username admin-only',
+      'survey_type' => 'common',
+      'visible' => 1,
+      'primary_field' => 1,
+      'query_type' => 'standard',
+      'field_type' => 'single_valued',
+      'admin_only' => 1,
+      'weight' => 2,
+    ),
+    // Survey links: Formatted links to surveys in data search table, visible to
+    // admins only.
+    3 => array(
+      'column_name' => 'nids',
+      'colgroup' => $common_gid,
+      'field_name' => '',
+      'label' => t('Survey Link(s)'),
+      'field_label' => t('Survey Link(s)'),
+      'class' => 'survey-link admin-only',
+      'survey_type' => 'common',
+      'visible' => 1,
+      'primary_field' => 0,
+      'query_type' => 'special',
+      'field_type' => 'multi_valued',
+      'admin_only' => 1,
+      'weight' => 5,
+    ),
+    // Survey date (year & month): Displayed in the data search table.
+    4 => array(
+      'column_name' => 'survey_year_month',
+      'colgroup' => $common_gid,
+      'field_name' => '',
+      'label' => t('Survey Date <br>(Year & Month)'),
+      'field_label' => t('Survey Date <br>(Year & Month)'),
+      'class' => 'survey-date-year-month',
+      'survey_type' => 'common',
+      'visible' => 1,
+      'primary_field' => 0,
+      'query_type' => 'special',
+      'field_type' => 'single_valued',
+      'admin_only' => 0,
+      'weight' => 8,
+    ),
+    // Survey date (year): Displayed in the data search table.
+    5 => array(
+      'column_name' => 'survey_year',
+      'colgroup' => $common_gid,
+      'field_name' => '',
+      'label' => t('Survey Date <br>(Year)'),
+      'field_label' => t('Survey Date <br>(Year)'),
+      'class' => 'survey-date-year',
+      'survey_type' => 'common',
+      'visible' => 1,
+      'primary_field' => 1,
+      'query_type' => 'standard',
+      'field_type' => 'single_valued',
+      'admin_only' => 0,
+      'weight' => 9,
+    ),
+    // Survey date (month): Displayed in the data search table.
+    6 => array(
+      'column_name' => 'survey_month',
+      'colgroup' => $common_gid,
+      'field_name' => '',
+      'label' => t('Survey Date <br>(Month No.)'),
+      'field_label' => t('Survey Date <br>(Month No.)'),
+      'class' => 'survey-date-month',
+      'survey_type' => 'common',
+      'visible' => 1,
+      'primary_field' => 1,
+      'query_type' => 'special',
+      'field_type' => 'single_valued',
+      'admin_only' => 0,
+      'weight' => 10,
+    ),
+    // Survey date (month abbr.): Displayed in the data search table.
+    7 => array(
+      'column_name' => 'survey_month_abbr',
+      'colgroup' => $common_gid,
+      'field_name' => '',
+      'label' => t('Survey Date <br>(Month Abbr.)'),
+      'field_label' => t('Survey Date <br>(Month Abbr.)'),
+      'class' => 'survey-date-month-abbr',
+      'survey_type' => 'common',
+      'visible' => 1,
+      'primary_field' => 0,
+      'query_type' => 'special',
+      'field_type' => 'single_valued',
+      'admin_only' => 0,
+      'weight' => 11,
+    ),
+    // Survey type: Used to filter data search table rows by type/collection
+    // frequency. Not visible in data search table.
+    8 => array(
+      'column_name' => 'survey_type',
+      'colgroup' => $common_gid,
+      'field_name' => 'type',
+      'label' => t('Survey Type'),
+      'field_label' => t('Survey Type'),
+      'class' => 'survey-type',
+      'survey_type' => 'common',
+      'visible' => 0,
+      'primary_field' => 1,
+      'query_type' => 'special',
+      'field_type' => 'single_valued',
+      'admin_only' => 1,
+      'weight' => 12,
+    ),
+    // Row types: Used to store multiple survey types resulting from grouping table
+    // row by survey date for a site. Not visible in data search table.
+    9 => array(
+      'column_name' => 'row_types',
+      'colgroup' => $common_gid,
+      'field_name' => '',
+      'label' => t('Type(s)'),
+      'field_label' => t('Type(s)'),
+      'class' => 'row-types column-hidden',
+      'survey_type' => 'common',
+      'visible' => 0,
+      'primary_field' => 0,
+      'query_type' => 'special',
+      'field_type' => 'calculated',
+      'admin_only' => 0,
+      'weight' => 13,
+    ),
+    // Include survey in portal: Whether database row will be included or excluded
+    // from the data search table. Not visible in data search table.
+    10 => array(
+      'column_name' => 'include',
+      'colgroup' => $common_gid,
+      'field_name' => 'field_dirt_datatable_in_portal',
+      'label' => t('Include Survey in Data Portal'),
+      'field_label' => t('Include Survey in Data Portal'),
+      'class' => 'include column-hidden',
+      'survey_type' => 'common',
+      'visible' => 0,
+      'primary_field' => 1,
+      'query_type' => 'standard',
+      'field_type' => 'single_valued',
+      'admin_only' => 0,
+      'weight' => 14,
+    ),
+  );
+
+  // Insert common columns
+  foreach ($common_fields as $fields_arr) {
+    // All info was provided above, so we can directly insert into column metadata table.
+    dirt_insert_into_database_table(DIRT_SEARCH_TABLE_COLUMNS, $fields_arr);
+  }
+
+  // Next common columns: first and last name fields (if present).
+  // Displayed in data search table for admins only.
+  $fields = array('field_dirt_user_first_name' => 3, 'field_dirt_user_last_name' => 4);
+  foreach ($fields as $field_name => $weight) {
+    // Since these are user profile fields, need to call dirt_datatable_get_column_info_from_field()
+    // directly rather than the wrapper function for survey (node) fields.
+    $column_info = dirt_datatable_get_column_info_from_field('user', $field_name, 'user');
+
+    if ($column_info) {
+      $column_info['weight'] = $weight;
+      dirt_datatable_add_column_metadata_for_field($column_info);
+    }
+  }
+
+  // Next common column: sharing permissions. Used to determine whether to display
+  // a row in the data search table, based on the collection site's data sharing
+  // preferences and the viewing permissions of the logged-in user viewing the
+  // data search table. Not visible in the data search table.
+
+  // Another user profile field, so again need to call dirt_datatable_get_column_info_from_field()
+  // directly rather than the wrapper function for survey (node) fields.
+  $column_info = dirt_datatable_get_column_info_from_field('user', 'field_dirt_user_sharing_perms', 'user');
+  if ($column_info) {
+    $column_info['weight'] = 6;
+    $column_info['visible'] = 0;
+    $column_info['query_type'] = 'special';
+    dirt_datatable_add_column_metadata_for_field($column_info);
+  }
+
+  // Next common column: collection status. Displayed in the data search table.
+
+  // Another user profile field, so again need to call dirt_datatable_get_column_info_from_field()
+  // directly rather than the wrapper function for survey (node) fields.
+  $column_info = dirt_datatable_get_column_info_from_field('user', 'field_dirt_user_collection_state', 'user');
+  if ($column_info) {
+    $column_info['weight'] = 7;
+    dirt_datatable_add_column_metadata_for_field($column_info);
+  }
+
+  $weight = 15; // weight counter, starting where we left off with common fields above
+
+  // Next common column: habitat type field.
+  // Although it's only collected once, we group it together with the other common fields
+  // and move it to the front of the other site description fields since it is one of the
+  // search filters. Displayed in the data search table.
+  $fields = array('field_dirt_site_habitat_type', 'field_dirt_site_type_of_crop', 'field_dirt_site_cropping_system');
+  foreach ($fields as $field_name) {
+    // Here we could call the wrapper dirt_datatable_get_column_metadata_from_active_node_field(), but
+    // since we already know that these are valid survey fields within the site description survey,
+    // it's a little faster to again call dirt_datatable_get_column_info_from_field() directly.
+    $column_info = dirt_datatable_get_column_info_from_field('node', $field_name, 'dirt_site_description_survey');
+
+    if ($column_info) {
+      $column_info['weight'] = $weight;
+      dirt_datatable_add_column_metadata_for_field($column_info);
+      $weight += 1;
+    }
+  }
+}
+
+
+/**
+ * Adds the geo coords column metadata to the database table.
+ */
+function _dirt_datatable_add_geo_coords_columns_metadata() {
+  // Add the geo coords fields (lat/lon), belonging to the geo coords group.
+  // Although up to 5 replicates collected, only the first will appear in the search table.
+
+  // Initialize weight counter within group
+  $weight = 0;
+
+  // Lat/lon fields:
+  $fields = array('field_dirt_site_geo_coords_lat', 'field_dirt_site_geo_coords_lon');
+
+  foreach ($fields as $field_name) {
+    // Since this is a special case, call dirt_datatable_get_column_info_from_field()
+    // directly rather than going through its wrapper function.
+    $column_info = dirt_datatable_get_column_info_from_field('field_collection_item', $field_name, 'field_dirt_site_geo_coords', 'dirt_site_description_survey');
+
+    if ($column_info) {
+      $column_info['weight'] = $weight;
+      $column_info['query_type'] = 'special';
+
+      // Append "Replicate 1" to column labels to indicate this is the 1st replicate
+      $column_info['label'] .= t('<br>(Replicate 1)');
+
+      dirt_datatable_add_column_metadata_for_field($column_info);
+      $weight += 1;
+    }
+  }
+}
+
+
+/**
+ * Adds rows to column metadata database table for all survey fields,
+ * excluding the special cases taken care of separately (common columns,
+ * geo coords).
+ */
+function _dirt_datatable_add_rest_of_survey_columns_metadata() {
+  // Get the column metadata info for the remaining survey fields
+  $rest_of_fields = dirt_datatable_get_column_metadata_from_active_node_fields();
+
+  // Keep array of weight counters per group
+  // (group name => current weight counter)
+  $groups = array();
+
+  foreach ($rest_of_fields as $field_name => $column_info) {
+    if ($column_info) {
+      // Set weight within group
+      $weight = 0;
+      if (array_key_exists($column_info['colgroup'], $groups)) {
+        // We've seen this group before, get where we left off and increment weight counter
+        $groups[$column_info['colgroup']] += 1;
+        $weight = $groups[$column_info['colgroup']];
+      }
+      else {
+        // We haven't seen this group yet, set its current weight equal to 0
+        $groups[$column_info['colgroup']] = 0;
+      }
+      $column_info['weight'] = $weight;
+
+      dirt_datatable_add_column_metadata_for_field($column_info);
+      $weight += 1;
+    }
+  }
+}
+
+
+/**
+ * Clear all caches (to force deletions to go through, etc.)
+ */
+function dirt_datatable_cache_clear() {
+  drupal_flush_all_caches();
+}
+

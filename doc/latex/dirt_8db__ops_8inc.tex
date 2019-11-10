@@ -1,0 +1,91 @@
+\hypertarget{dirt_8db__ops_8inc}{}\section{dirt.\+db\+\_\+ops.\+inc File Reference}
+\label{dirt_8db__ops_8inc}\index{dirt.\+db\+\_\+ops.\+inc@{dirt.\+db\+\_\+ops.\+inc}}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{dirt_8db__ops_8inc_a0241ba24ec2d32a58f436163fbf1c445}{\+\_\+dirt\+\_\+insert\+\_\+into\+\_\+database\+\_\+table}} (\$table\+\_\+name, \$fields)
+\item 
+\mbox{\hyperlink{dirt_8db__ops_8inc_a50154f1e0c6d23a57c0826fcb666a3de}{\+\_\+dirt\+\_\+update\+\_\+database\+\_\+table}} (\$table\+\_\+name, \$fields, \$conditions)
+\item 
+\mbox{\hyperlink{dirt_8db__ops_8inc_a4c22459ce034b652f04c3f3b1bd081ee}{\+\_\+dirt\+\_\+delete\+\_\+from\+\_\+database\+\_\+table}} (\$table\+\_\+name, \$conditions)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file includes wrappers for db\+\_\+insert, db\+\_\+update, and db\+\_\+delete used in the D\+I\+RT Core module and any submodules. 
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{dirt_8db__ops_8inc_a4c22459ce034b652f04c3f3b1bd081ee}\label{dirt_8db__ops_8inc_a4c22459ce034b652f04c3f3b1bd081ee}} 
+\index{dirt.\+db\+\_\+ops.\+inc@{dirt.\+db\+\_\+ops.\+inc}!\+\_\+dirt\+\_\+delete\+\_\+from\+\_\+database\+\_\+table@{\+\_\+dirt\+\_\+delete\+\_\+from\+\_\+database\+\_\+table}}
+\index{\+\_\+dirt\+\_\+delete\+\_\+from\+\_\+database\+\_\+table@{\+\_\+dirt\+\_\+delete\+\_\+from\+\_\+database\+\_\+table}!dirt.\+db\+\_\+ops.\+inc@{dirt.\+db\+\_\+ops.\+inc}}
+\subsubsection{\texorpdfstring{\+\_\+dirt\+\_\+delete\+\_\+from\+\_\+database\+\_\+table()}{\_dirt\_delete\_from\_database\_table()}}
+{\footnotesize\ttfamily \+\_\+dirt\+\_\+delete\+\_\+from\+\_\+database\+\_\+table (\begin{DoxyParamCaption}\item[{}]{\$table\+\_\+name,  }\item[{}]{\$conditions }\end{DoxyParamCaption})}
+
+Helper function for database deletions.
+
+Wrap database deletions with try/catch to roll back db transactions if needed.
+
+See\+: \href{https://www.drupal.org/docs/7/api/database-api/error-handling}{\tt https\+://www.\+drupal.\+org/docs/7/api/database-\/api/error-\/handling}
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$table\+\_\+name} & Table name string to delete row(s) from. \\
+\hline
+\mbox{\tt in}  & {\em \$conditions} & Array of conditions with keys \textquotesingle{}field\textquotesingle{}, \textquotesingle{}value\textquotesingle{}, \textquotesingle{}operator\textquotesingle{}, used to identify row(s) to delete.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Integer} & number of rows deleted from table. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt_8db__ops_8inc_a0241ba24ec2d32a58f436163fbf1c445}\label{dirt_8db__ops_8inc_a0241ba24ec2d32a58f436163fbf1c445}} 
+\index{dirt.\+db\+\_\+ops.\+inc@{dirt.\+db\+\_\+ops.\+inc}!\+\_\+dirt\+\_\+insert\+\_\+into\+\_\+database\+\_\+table@{\+\_\+dirt\+\_\+insert\+\_\+into\+\_\+database\+\_\+table}}
+\index{\+\_\+dirt\+\_\+insert\+\_\+into\+\_\+database\+\_\+table@{\+\_\+dirt\+\_\+insert\+\_\+into\+\_\+database\+\_\+table}!dirt.\+db\+\_\+ops.\+inc@{dirt.\+db\+\_\+ops.\+inc}}
+\subsubsection{\texorpdfstring{\+\_\+dirt\+\_\+insert\+\_\+into\+\_\+database\+\_\+table()}{\_dirt\_insert\_into\_database\_table()}}
+{\footnotesize\ttfamily \+\_\+dirt\+\_\+insert\+\_\+into\+\_\+database\+\_\+table (\begin{DoxyParamCaption}\item[{}]{\$table\+\_\+name,  }\item[{}]{\$fields }\end{DoxyParamCaption})}
+
+Helper function for database insertions.
+
+Wrap database insertions with try/catch to roll back db transactions if needed.
+
+See\+: \href{https://www.drupal.org/docs/7/api/database-api/error-handling}{\tt https\+://www.\+drupal.\+org/docs/7/api/database-\/api/error-\/handling}
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$table\+\_\+name} & Table name string to insert row into. \\
+\hline
+\mbox{\tt in}  & {\em \$fields} & Array of field\+\_\+name =$>$ value for the row insertion.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Integer} & auto-\/increment ID field value of inserted row, if applicable; returns 0 for tables with no auto-\/increment field. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt_8db__ops_8inc_a50154f1e0c6d23a57c0826fcb666a3de}\label{dirt_8db__ops_8inc_a50154f1e0c6d23a57c0826fcb666a3de}} 
+\index{dirt.\+db\+\_\+ops.\+inc@{dirt.\+db\+\_\+ops.\+inc}!\+\_\+dirt\+\_\+update\+\_\+database\+\_\+table@{\+\_\+dirt\+\_\+update\+\_\+database\+\_\+table}}
+\index{\+\_\+dirt\+\_\+update\+\_\+database\+\_\+table@{\+\_\+dirt\+\_\+update\+\_\+database\+\_\+table}!dirt.\+db\+\_\+ops.\+inc@{dirt.\+db\+\_\+ops.\+inc}}
+\subsubsection{\texorpdfstring{\+\_\+dirt\+\_\+update\+\_\+database\+\_\+table()}{\_dirt\_update\_database\_table()}}
+{\footnotesize\ttfamily \+\_\+dirt\+\_\+update\+\_\+database\+\_\+table (\begin{DoxyParamCaption}\item[{}]{\$table\+\_\+name,  }\item[{}]{\$fields,  }\item[{}]{\$conditions }\end{DoxyParamCaption})}
+
+Helper function for database updates.
+
+Wrap database updates with try/catch to roll back db transactions if needed.
+
+See\+: \href{https://www.drupal.org/docs/7/api/database-api/error-handling}{\tt https\+://www.\+drupal.\+org/docs/7/api/database-\/api/error-\/handling}
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$table\+\_\+name} & Table name string to insert row into. \\
+\hline
+\mbox{\tt in}  & {\em \$fields} & Array of field\+\_\+name =$>$ value for the row update. \\
+\hline
+\mbox{\tt in}  & {\em \$conditions} & Array of conditions with keys \textquotesingle{}field\textquotesingle{}, \textquotesingle{}value\textquotesingle{}, \textquotesingle{}operator\textquotesingle{}.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Integer} & number of rows updated in table. \\
+\hline
+\end{DoxyRetVals}

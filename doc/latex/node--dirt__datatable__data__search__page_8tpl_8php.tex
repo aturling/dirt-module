@@ -1,0 +1,94 @@
+\hypertarget{node--dirt__datatable__data__search__page_8tpl_8php}{}\section{node-\/-\/dirt\+\_\+datatable\+\_\+data\+\_\+search\+\_\+page.tpl.\+php File Reference}
+\label{node--dirt__datatable__data__search__page_8tpl_8php}\index{node-\/-\/dirt\+\_\+datatable\+\_\+data\+\_\+search\+\_\+page.\+tpl.\+php@{node-\/-\/dirt\+\_\+datatable\+\_\+data\+\_\+search\+\_\+page.\+tpl.\+php}}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{node--dirt__datatable__data__search__page_8tpl_8php_aff83bc4c67cdf5b085d181488eea273f}\label{node--dirt__datatable__data__search__page_8tpl_8php_aff83bc4c67cdf5b085d181488eea273f}} 
+print \$node {\bfseries nid}
+\item 
+\mbox{\Hypertarget{node--dirt__datatable__data__search__page_8tpl_8php_a6d48ecbdbc70ca1812e665169b5fa1e2}\label{node--dirt__datatable__data__search__page_8tpl_8php_a6d48ecbdbc70ca1812e665169b5fa1e2}} 
+print {\bfseries \$classes}
+\item 
+\mbox{\Hypertarget{node--dirt__datatable__data__search__page_8tpl_8php_a9c88c4272fa40546577b45392a0b3cd3}\label{node--dirt__datatable__data__search__page_8tpl_8php_a9c88c4272fa40546577b45392a0b3cd3}} 
+print {\bfseries \$attributes}
+\item 
+\mbox{\Hypertarget{node--dirt__datatable__data__search__page_8tpl_8php_a2662269aca0f9faedd1ee9e41828ea4c}\label{node--dirt__datatable__data__search__page_8tpl_8php_a2662269aca0f9faedd1ee9e41828ea4c}} 
+print {\bfseries \$user\+\_\+picture}
+\item 
+\mbox{\Hypertarget{node--dirt__datatable__data__search__page_8tpl_8php_ae2ee2e16f11937564281332a76a658e8}\label{node--dirt__datatable__data__search__page_8tpl_8php_ae2ee2e16f11937564281332a76a658e8}} 
+print {\bfseries \$content\+\_\+attributes}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Modification to default node theme implementation for data search pages.
+
+Available variables\+:
+\begin{DoxyItemize}
+\item \$title\+: the (sanitized) title of the node.
+\item \begin{DoxyParagraph}{content}
+An array of node items. Use render(
+\end{DoxyParagraph}
+content) to print them all, or print a subset such as render(\$content\mbox{[}\textquotesingle{}field\+\_\+example\textquotesingle{}\mbox{]}). Use hide(\$content\mbox{[}\textquotesingle{}field\+\_\+example\textquotesingle{}\mbox{]}) to temporarily suppress the printing of a given element.
+\item \$user\+\_\+picture\+: The node author\textquotesingle{}s picture from user-\/picture.\+tpl.\+php.
+\item \$date\+: Formatted creation date. Preprocess functions can reformat it by calling format\+\_\+date() with the desired parameters on the \$created variable.
+\item \$name\+: Themed username of node author output from theme\+\_\+username().
+\item \$node\+\_\+url\+: Direct U\+RL of the current node.
+\item \$display\+\_\+submitted\+: Whether submission information should be displayed.
+\item \begin{DoxyParagraph}{submitted}
+Submission information created from 
+\end{DoxyParagraph}
+name and \$date during template\+\_\+preprocess\+\_\+node().
+\item \$classes\+: String of classes that can be used to style contextually through C\+SS. It can be manipulated through the variable \$classes\+\_\+array from preprocess functions. The default values can be one or more of the following\+:
+\begin{DoxyItemize}
+\item node\+: The current template type; for example, \char`\"{}theming hook\char`\"{}.
+\item node-\/\mbox{[}type\mbox{]}\+: The current node type. For example, if the node is a \char`\"{}\+Blog entry\char`\"{} it would result in \char`\"{}node-\/blog\char`\"{}. Note that the machine name will often be in a short form of the human readable label.
+\item node-\/teaser\+: Nodes in teaser form.
+\item node-\/preview\+: Nodes in preview mode. The following are controlled through the node publishing options.
+\item node-\/promoted\+: Nodes promoted to the front page.
+\item node-\/sticky\+: Nodes ordered above other non-\/sticky nodes in teaser listings.
+\item node-\/unpublished\+: Unpublished nodes visible only to administrators.
+\end{DoxyItemize}
+\item \$title\+\_\+prefix (array)\+: An array containing additional output populated by modules, intended to be displayed in front of the main title tag that appears in the template.
+\item \$title\+\_\+suffix (array)\+: An array containing additional output populated by modules, intended to be displayed after the main title tag that appears in the template.
+\end{DoxyItemize}
+
+Other variables\+:
+\begin{DoxyItemize}
+\item \$node\+: Full node object. Contains data that may not be safe.
+\item \$type\+: Node type; for example, story, page, blog, etc.
+\item \$comment\+\_\+count\+: Number of comments attached to the node.
+\item \$uid\+: User ID of the node author.
+\item \$created\+: Time the node was published formatted in Unix timestamp.
+\item \$classes\+\_\+array\+: Array of html class attribute values. It is flattened into a string within the variable \$classes.
+\item \$zebra\+: Outputs either \char`\"{}even\char`\"{} or \char`\"{}odd\char`\"{}. Useful for zebra striping in teaser listings.
+\item \$id\+: Position of the node. Increments each time it\textquotesingle{}s output.
+\end{DoxyItemize}
+
+Node status variables\+:
+\begin{DoxyItemize}
+\item \$view\+\_\+mode\+: View mode; for example, \char`\"{}full\char`\"{}, \char`\"{}teaser\char`\"{}.
+\item \begin{DoxyParagraph}{teaser}
+Flag for the teaser state (shortcut for 
+\end{DoxyParagraph}
+view\+\_\+mode == \textquotesingle{}teaser\textquotesingle{}).
+\item \$page\+: Flag for the full page state.
+\item \$promote\+: Flag for front page promotion state.
+\item \$sticky\+: Flags for sticky post setting.
+\item \$status\+: Flag for published status.
+\item \$comment\+: State of comment settings for the node.
+\item \$readmore\+: Flags true if the teaser content of the node cannot hold the main body content.
+\item \$is\+\_\+front\+: Flags true when presented in the front page.
+\item \$logged\+\_\+in\+: Flags true when the current user is a logged-\/in member.
+\item \$is\+\_\+admin\+: Flags true when the current user is an administrator.
+\end{DoxyItemize}
+
+Field variables\+: for each field instance attached to the node a corresponding variable is defined; for example, \$node-\/$>$body becomes \$body. When needing to access a field\textquotesingle{}s raw values, developers/themers are strongly encouraged to use these variables. Otherwise they will have to explicitly specify the desired field language; for example, \$node-\/$>$body\mbox{[}\textquotesingle{}en\textquotesingle{}\mbox{]}, thus overriding any language negotiation rule that was previously applied.
+
+\begin{DoxySeeAlso}{See also}
+template\+\_\+preprocess() 
+
+template\+\_\+preprocess\+\_\+node() 
+
+template\+\_\+process() 
+\end{DoxySeeAlso}

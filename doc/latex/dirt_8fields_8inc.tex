@@ -1,0 +1,108 @@
+\hypertarget{dirt_8fields_8inc}{}\section{dirt.\+fields.\+inc File Reference}
+\label{dirt_8fields_8inc}\index{dirt.\+fields.\+inc@{dirt.\+fields.\+inc}}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{dirt_8fields_8inc_a681957a0f276662e3fce712e5e14c11f}{dirt\+\_\+get\+\_\+installed\+\_\+fields}} ()
+\item 
+\mbox{\hyperlink{dirt_8fields_8inc_ad3d38e927006f5a6e57dd0016ead4d49}{dirt\+\_\+get\+\_\+installed\+\_\+instances}} ()
+\item 
+\mbox{\hyperlink{dirt_8fields_8inc_af0165a93ae54185d03d79d6a738fe204}{dirt\+\_\+get\+\_\+survey\+\_\+field\+\_\+instances}} (\$type)
+\item 
+\mbox{\hyperlink{dirt_8fields_8inc_ac3424e2d07f35121bba295a746a50fa5}{dirt\+\_\+toggle\+\_\+data\+\_\+entry\+\_\+fields\+\_\+display}} (\&\$account)
+\item 
+\mbox{\hyperlink{dirt_8fields_8inc_a2b6ec10e6817d4be9ac6788a657e05c1}{dirt\+\_\+get\+\_\+data\+\_\+entry\+\_\+user\+\_\+field\+\_\+names}} ()
+\item 
+\mbox{\hyperlink{dirt_8fields_8inc_a692d5032e38cf883af47b2cb9d5a5e4e}{dirt\+\_\+get\+\_\+bulk\+\_\+density\+\_\+column\+\_\+title\+\_\+info}} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file specifies the definitions for custom fields created by this module. 
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{dirt_8fields_8inc_a692d5032e38cf883af47b2cb9d5a5e4e}\label{dirt_8fields_8inc_a692d5032e38cf883af47b2cb9d5a5e4e}} 
+\index{dirt.\+fields.\+inc@{dirt.\+fields.\+inc}!dirt\+\_\+get\+\_\+bulk\+\_\+density\+\_\+column\+\_\+title\+\_\+info@{dirt\+\_\+get\+\_\+bulk\+\_\+density\+\_\+column\+\_\+title\+\_\+info}}
+\index{dirt\+\_\+get\+\_\+bulk\+\_\+density\+\_\+column\+\_\+title\+\_\+info@{dirt\+\_\+get\+\_\+bulk\+\_\+density\+\_\+column\+\_\+title\+\_\+info}!dirt.\+fields.\+inc@{dirt.\+fields.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+get\+\_\+bulk\+\_\+density\+\_\+column\+\_\+title\+\_\+info()}{dirt\_get\_bulk\_density\_column\_title\_info()}}
+{\footnotesize\ttfamily dirt\+\_\+get\+\_\+bulk\+\_\+density\+\_\+column\+\_\+title\+\_\+info (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Returns bulk density column title information (corresponding letters and formulas).
+
+
+\begin{DoxyRetVals}{Return values}
+{\em Array} & of arrays indexed by field name, with keys \textquotesingle{}bundle\textquotesingle{} and either one or both of \textquotesingle{}title\+\_\+prefix\textquotesingle{} and \textquotesingle{}title\+\_\+suffix\textquotesingle{}. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt_8fields_8inc_a2b6ec10e6817d4be9ac6788a657e05c1}\label{dirt_8fields_8inc_a2b6ec10e6817d4be9ac6788a657e05c1}} 
+\index{dirt.\+fields.\+inc@{dirt.\+fields.\+inc}!dirt\+\_\+get\+\_\+data\+\_\+entry\+\_\+user\+\_\+field\+\_\+names@{dirt\+\_\+get\+\_\+data\+\_\+entry\+\_\+user\+\_\+field\+\_\+names}}
+\index{dirt\+\_\+get\+\_\+data\+\_\+entry\+\_\+user\+\_\+field\+\_\+names@{dirt\+\_\+get\+\_\+data\+\_\+entry\+\_\+user\+\_\+field\+\_\+names}!dirt.\+fields.\+inc@{dirt.\+fields.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+get\+\_\+data\+\_\+entry\+\_\+user\+\_\+field\+\_\+names()}{dirt\_get\_data\_entry\_user\_field\_names()}}
+{\footnotesize\ttfamily dirt\+\_\+get\+\_\+data\+\_\+entry\+\_\+user\+\_\+field\+\_\+names (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Returns list of field (machine) names of user profile fields which are related to data entry.
+
+
+\begin{DoxyRetVals}{Return values}
+{\em Array} & of field names. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt_8fields_8inc_a681957a0f276662e3fce712e5e14c11f}\label{dirt_8fields_8inc_a681957a0f276662e3fce712e5e14c11f}} 
+\index{dirt.\+fields.\+inc@{dirt.\+fields.\+inc}!dirt\+\_\+get\+\_\+installed\+\_\+fields@{dirt\+\_\+get\+\_\+installed\+\_\+fields}}
+\index{dirt\+\_\+get\+\_\+installed\+\_\+fields@{dirt\+\_\+get\+\_\+installed\+\_\+fields}!dirt.\+fields.\+inc@{dirt.\+fields.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+get\+\_\+installed\+\_\+fields()}{dirt\_get\_installed\_fields()}}
+{\footnotesize\ttfamily dirt\+\_\+get\+\_\+installed\+\_\+fields (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Returns fields created by this module.
+
+
+\begin{DoxyRetVals}{Return values}
+{\em Array} & of field info keyed by field name. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt_8fields_8inc_ad3d38e927006f5a6e57dd0016ead4d49}\label{dirt_8fields_8inc_ad3d38e927006f5a6e57dd0016ead4d49}} 
+\index{dirt.\+fields.\+inc@{dirt.\+fields.\+inc}!dirt\+\_\+get\+\_\+installed\+\_\+instances@{dirt\+\_\+get\+\_\+installed\+\_\+instances}}
+\index{dirt\+\_\+get\+\_\+installed\+\_\+instances@{dirt\+\_\+get\+\_\+installed\+\_\+instances}!dirt.\+fields.\+inc@{dirt.\+fields.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+get\+\_\+installed\+\_\+instances()}{dirt\_get\_installed\_instances()}}
+{\footnotesize\ttfamily dirt\+\_\+get\+\_\+installed\+\_\+instances (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Returns field instances added by this module.
+
+
+\begin{DoxyRetVals}{Return values}
+{\em Array} & of field instances. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt_8fields_8inc_af0165a93ae54185d03d79d6a738fe204}\label{dirt_8fields_8inc_af0165a93ae54185d03d79d6a738fe204}} 
+\index{dirt.\+fields.\+inc@{dirt.\+fields.\+inc}!dirt\+\_\+get\+\_\+survey\+\_\+field\+\_\+instances@{dirt\+\_\+get\+\_\+survey\+\_\+field\+\_\+instances}}
+\index{dirt\+\_\+get\+\_\+survey\+\_\+field\+\_\+instances@{dirt\+\_\+get\+\_\+survey\+\_\+field\+\_\+instances}!dirt.\+fields.\+inc@{dirt.\+fields.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+get\+\_\+survey\+\_\+field\+\_\+instances()}{dirt\_get\_survey\_field\_instances()}}
+{\footnotesize\ttfamily dirt\+\_\+get\+\_\+survey\+\_\+field\+\_\+instances (\begin{DoxyParamCaption}\item[{}]{\$type }\end{DoxyParamCaption})}
+
+Returns survey field instances added to all survey types.
+
+These instances will be created whenever a survey type is added, and deleted whenever a survey type is deleted.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \$type} & Machine name of survey type to attach field instance to.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Array} & of field instances common to all survey types. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{dirt_8fields_8inc_ac3424e2d07f35121bba295a746a50fa5}\label{dirt_8fields_8inc_ac3424e2d07f35121bba295a746a50fa5}} 
+\index{dirt.\+fields.\+inc@{dirt.\+fields.\+inc}!dirt\+\_\+toggle\+\_\+data\+\_\+entry\+\_\+fields\+\_\+display@{dirt\+\_\+toggle\+\_\+data\+\_\+entry\+\_\+fields\+\_\+display}}
+\index{dirt\+\_\+toggle\+\_\+data\+\_\+entry\+\_\+fields\+\_\+display@{dirt\+\_\+toggle\+\_\+data\+\_\+entry\+\_\+fields\+\_\+display}!dirt.\+fields.\+inc@{dirt.\+fields.\+inc}}
+\subsubsection{\texorpdfstring{dirt\+\_\+toggle\+\_\+data\+\_\+entry\+\_\+fields\+\_\+display()}{dirt\_toggle\_data\_entry\_fields\_display()}}
+{\footnotesize\ttfamily dirt\+\_\+toggle\+\_\+data\+\_\+entry\+\_\+fields\+\_\+display (\begin{DoxyParamCaption}\item[{\&}]{\$account }\end{DoxyParamCaption})}
+
+Displays data entry fields for data entry accounts and hides for all other account types.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em \$account} & User object on which the operation is being performed. \\
+\hline
+\end{DoxyParams}
