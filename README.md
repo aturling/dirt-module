@@ -138,7 +138,7 @@ settings related to the Data Entry Portal:
   portal pages. Also sets the project start year (defaults to year that module 
   was installed).
 
-* *Site ID lookup* Provides a form to search for Site IDs matching a given 
+* *Site ID lookup*: Provides a form to search for Site IDs matching a given 
   habitat type and participant full name.
 
 If the DIRT DataTable module is installed, a third option will appear 
@@ -151,7 +151,7 @@ containing configuration settings for the Data Search Portal:
   portal page and related configuration settings (map center, initial zoom 
   level, etc.).
 
-* *Data Access* Choose whether to allow users to fill out a form to request 
+* *Data Access*: Choose whether to allow users to fill out a form to request 
   access to all data (including semi-private data) in the system. Accounts will 
   need to be approved manually by site admins before they are allowed to log in 
   and view data.
@@ -233,7 +233,7 @@ each survey, visible only to site administrators:
 * Include survey in data portal
 * Data curation notes
 
-These fields are automatically added to content types which are designated as  
+These fields are automatically added to content types which are designated as 
 survey types (see next section for more details) and removed when a content 
 type is no longer assigned as a survey type.
 
@@ -242,7 +242,7 @@ type is no longer assigned as a survey type.
 
 Content types may be designated as survey types, meaning that they contain data 
 collection fields and appear in the Data Entry Portal (and Data Search Portal, 
-if DIRT DataTable is installed). Refer to the Overview(#overview) section for a 
+if DIRT DataTable is installed). Refer to the[Overview](#overview) section for a 
 list of the core content types with their descriptions.
 
 Survey types may be added or removed via the admin config page at 
@@ -288,14 +288,13 @@ the changes via the Drupal UI, and reinstall the module.
 Uninstalling the DIRT DataTable module will NOT delete any existing surveys in 
 the system; it only removes the Data Search Portal page and deletes the 
 underlying database tables used in implementing the search portal 
-functionality. Likewise, the module must be uninstalled and reinstalled to 
-delete a survey type or field.
+functionality.
 
-Refer to the Supported Field Types(#supported-field-types) section for a list 
+Refer to the [Supported Field Types](#supported-field-types) section for a list 
 of field types that may be added to the Data Search Portal table.
 
 *WARNING:* Some DIRT Core fields are required for the site to function 
-propertly and therefore must not be deleted. In particular, the following 
+property and therefore must not be deleted. In particular, the following 
 fields should not be removed:
 
 User profile fields:
@@ -312,7 +311,7 @@ Survey fields:
 * Include survey in data portal
 * Data curation notes
 
-Note that markup fields (form header, form submission instructions) can be 
+Note that markup fields (form header, form submission instructions) may be 
 editied via the web UI to customize the markup. Also, any unused fields may 
 be hidden in both the form and display on the content type config page, and 
 set to hidden in the data search table via the admin config form at
