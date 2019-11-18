@@ -652,6 +652,7 @@ function dirt_set_collection_start_date($node) {
   $uid = $node->uid;
 
   $user_obj = user_load($uid);
+  $data_entry_user_rid = variable_get('dirt_data_entry_user_role');
   $is_data_entry_account = (!empty($user_obj) && user_has_role($data_entry_user_rid, $user_obj));
 
   if ($is_data_entry_account) {
