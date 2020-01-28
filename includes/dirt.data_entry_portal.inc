@@ -502,7 +502,7 @@ function dirt_get_all_possible_survey_dates($uid) {
 
   // If no start date set, use oldest survey date as start date
   // (note this could still be empty if no surveys in system)
-  if (empty($start_date)) $start_date = dirt_get_earliest_survey_date($uid);
+  if (empty($start_date)) $start_date = strtotime(dirt_get_earliest_survey_date($uid));
   
   // Re-check whether start date is set
   if (!empty($start_date)) {
